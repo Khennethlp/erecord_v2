@@ -7,6 +7,41 @@
     });
   });
 
+  $(document).ready(function() {
+    $("#category_cert").change(function() {
+      var category = document.getElementById("category_cert").value;
+      $.ajax({
+        url: '../../process/listReq/status.php',
+        type: 'POST',
+        cache: false,
+        data: {
+          method: 'fetch_pro_cert',
+          category: category
+        },
+        success: function(response) {
+          $('#processName_cert').html(response);
+        }
+      });
+    });
+
+    //cancell
+    $("#category_can").change(function() {
+      var category = document.getElementById("category_can").value;
+      $.ajax({
+        url: '../../process/can_request/status.php',
+        type: 'POST',
+        cache: false,
+        data: {
+          method: 'fetch_pro_can',
+          category: category
+        },
+        success: function(response) {
+          $('#processName_can').html(response);
+        }
+      });
+    });
+    
+  });
 
   document.getElementById("cert_list_pagination1").addEventListener("keyup", e => {
     var current_page = document.getElementById("cert_list_pagination1").value.trim();
@@ -44,6 +79,8 @@
     var fullname = document.getElementById('fullname_cert').value;
     var category = document.getElementById('category_cert').value;
     var i_status = document.getElementById('i_status_cert').value;
+    var processName_cert = document.getElementById('processName_cert').value;
+
     console.log(category)
     if (category == 'Category') {
       category = '';
@@ -65,6 +102,7 @@
         fullname: fullname,
         category: category,
         i_status: i_status,
+        processName_cert: processName_cert,
         current_page: current_page
 
       },
@@ -81,6 +119,8 @@
     var fullname = document.getElementById('fullname_cert').value;
     var category = document.getElementById('category_cert').value;
     var i_status = document.getElementById('i_status_cert').value;
+    var processName_cert = document.getElementById('processName_cert').value;
+
     console.log(category)
     if (category == 'Category') {
       category = '';
@@ -101,7 +141,8 @@
         emp_id: emp_id,
         fullname: fullname,
         category: category,
-        i_status: i_status
+        i_status: i_status,
+        processName_cert: processName_cert
       },
       success: function(response) {
         sessionStorage.setItem('count_rows1', response);
@@ -126,6 +167,7 @@
     var fullname = document.getElementById('fullname_cert').value;
     var category = document.getElementById('category_cert').value;
     var i_status = document.getElementById('i_status_cert').value;
+    var processName_cert = document.getElementById('processName_cert').value;
     var current_page = sessionStorage.getItem('cert_list_pagination');
 
     console.log(category)
@@ -148,7 +190,8 @@
         emp_id: emp_id,
         fullname: fullname,
         category: category,
-        i_status: i_status
+        i_status: i_status,
+        processName_cert: processName_cert
       },
       success: function(response) {
         $('#cert_list_paginations1').html(response);
@@ -353,6 +396,7 @@
     var fullname = document.getElementById('fullname_can').value;
     var category = document.getElementById('category_can').value;
     var r_status = document.getElementById('r_status_can').value;
+    var processName_can = document.getElementById('processName_can').value;
     console.log(category)
     if (category == 'Category') {
       category = '';
@@ -374,6 +418,7 @@
         fullname: fullname,
         category: category,
         r_status: r_status,
+        processName_can: processName_can,
         current_page: current_page
 
       },
@@ -390,6 +435,7 @@
     var fullname = document.getElementById('fullname_can').value;
     var category = document.getElementById('category_can').value;
     var r_status = document.getElementById('r_status_can').value;
+    var processName_can = document.getElementById('processName_can').value;
     console.log(category)
     if (category == 'Category') {
       category = '';
@@ -410,7 +456,8 @@
         emp_id: emp_id,
         fullname: fullname,
         category: category,
-        r_status: r_status
+        r_status: r_status,
+        processName_can: processName_can
 
       },
       success: function(response) {
@@ -437,6 +484,7 @@
     var fullname = document.getElementById('fullname_can').value;
     var category = document.getElementById('category_can').value;
     var r_status = document.getElementById('r_status_can').value;
+    var processName_can = document.getElementById('processName_can').value;
     var current_page = sessionStorage.getItem('process_details_pagination');
     console.log(category)
     if (category == 'Category') {
@@ -458,7 +506,8 @@
         emp_id: emp_id,
         fullname: fullname,
         category: category,
-        r_status: r_status
+        r_status: r_status,
+        processName_can: processName_can
 
       },
       success: function(response) {

@@ -11,7 +11,7 @@
         </div><!-- /.col -->
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="list_of_req.php">E-Record System</a></li>
+            <li class="breadcrumb-item"><a href="dashboard.php">E-Record System</a></li>
             <li class="breadcrumb-item active">View Data</li>
           </ol>
         </div><!-- /.col -->
@@ -19,14 +19,13 @@
     </div><!-- /.container-fluid -->
   </div>
   <!-- /.content-header -->
-  <!-- Main content -->
   <section class="content">
     <div class="col-md-12">
-      <div class="card card-light" style="background: #fff; border-top: 2px solid #1e96fc;">
+      <div class="card card-light" style="background: #fff; border-top: 2px solid #ffc300;">
         <div class="card-header">
           <h3 class="card-title"><img src="../../dist/img/view-list.png" style="height:28px;">&ensp;View Data Table</h3>
         </div>
-        <!-- /.card-header -->
+
         <div class="card-body">
           <div class="row">
             <div class="col-sm-2">
@@ -69,7 +68,7 @@
             </div>
           </div>
         </div>
-
+       
         <div class="col-12">
           <div class="card-body table-responsive p-0" style="height: 600px;">
             <table class="table table-head-fixed text-nowrap" id="employee_data">
@@ -109,12 +108,14 @@
               <button type="button" id="btnNextPage" class="btn bg-gray-dark btn-block" onclick="get_next_page()">Next</button>
             </div>
           </div>
+          <br>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- /.content -->
+</section>
+
+<!-- /.content -->
 </div>
 
 

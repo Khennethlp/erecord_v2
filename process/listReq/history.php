@@ -13,6 +13,9 @@ function count_history_admin_r($search_arr, $conn)
 		$category = $_POST['category'];
 		$date_authorized = $_POST['date_authorized'];
 		$expire_date = $_POST['expire_date'];
+		$review_date_f = $_POST['review_date_f'];
+		$review_date_t = $_POST['review_date_t'];
+		$processName_h = $_POST['processName_h'];
 
 		$query = "SELECT count(a.id) as total";
 
@@ -38,6 +41,12 @@ function count_history_admin_r($search_arr, $conn)
 		if (!empty($search_arr['date_authorized'])) {
 			$query = $query . " AND a.date_authorized = '" . $search_arr['date_authorized'] . "' ";
 		}
+		if (!empty($processName_h)) {
+			$query = $query . " AND c.process LIKE'" . $search_arr['processName_h'] . "%'";
+		}
+		if (!empty($search_arr['review_date_f']) && !empty($search_arr['review_date_t'])) {
+			$query = $query . " AND DATE(SUBSTRING_INDEX(a.i_review_by, '/', -1)) BETWEEN '$review_date_f' AND '$review_date_t' ";
+		}
 		$query = $query . " ORDER BY SUBSTRING_INDEX(a.i_review_by, '/', -1) DESC";
 
 		$stmt = $conn->prepare($query);
@@ -60,13 +69,19 @@ if ($method == 'count_history_admin') {
 	$category = $_POST['category'];
 	$date_authorized = $_POST['date_authorized'];
 	$expire_date = $_POST['expire_date'];
+	$review_date_f = $_POST['review_date_f'];
+	$review_date_t = $_POST['review_date_t'];
+	$processName_h = $_POST['processName_h'];
 
 	$search_arr = array(
 		"emp_id" => $emp_id,
 		"fullname" => $fullname,
 		"category" => $category,
 		"date_authorized" => $date_authorized,
-		"expire_date" => $expire_date
+		"expire_date" => $expire_date,
+		"review_date_f" => $review_date_f,
+		"review_date_t" => $review_date_t,
+		"processName_h" => $processName_h,
 	);
 
 	echo count_history_admin_r($search_arr, $conn);
@@ -78,13 +93,19 @@ if ($method == 'history_pagination_admin_r') {
 	$category = $_POST['category'];
 	$date_authorized = $_POST['date_authorized'];
 	$expire_date = $_POST['expire_date'];
+	$review_date_f = $_POST['review_date_f'];
+	$review_date_t = $_POST['review_date_t'];
+	$processName_h = $_POST['processName_h'];
 
 	$search_arr = array(
 		"emp_id" => $emp_id,
 		"fullname" => $fullname,
 		"category" => $category,
 		"date_authorized" => $date_authorized,
-		"expire_date" => $expire_date
+		"expire_date" => $expire_date,
+		"review_date_f" => $review_date_f,
+		"review_date_t" => $review_date_t,
+		"processName_h" => $processName_h,
 	);
 
 	$results_per_page = 100;
@@ -105,6 +126,10 @@ if ($method == 'history_admin_r') {
 	$category = $_POST['category'];
 	$date_authorized = $_POST['date_authorized'];
 	$expire_date = $_POST['expire_date'];
+	$review_date_f = $_POST['review_date_f'];
+	$review_date_t = $_POST['review_date_t'];
+	$processName_h = $_POST['processName_h'];
+
 	$current_page = intval($_POST['current_page']);
 	$c = 0;
 
@@ -141,6 +166,12 @@ if ($method == 'history_admin_r') {
 		}
 		if (!empty($date_authorized)) {
 			$query = $query . " AND a.date_authorized = '$date_authorized' ";
+		}
+		if (!empty($processName_h)) {
+			$query = $query . " AND c.process = '$processName_h' ";
+		}
+		if (!empty($review_date_f) && !empty($review_date_t)) {
+			$query = $query . " AND DATE(SUBSTRING_INDEX(a.i_review_by, '/', -1)) BETWEEN '$review_date_f' AND '$review_date_t' ";
 		}
 
 		$query = $query . " AND b.fullname LIKE '$fullname%'";
@@ -197,6 +228,9 @@ function count_history_approver($search_arr, $conn)
 		$category = $_POST['category'];
 		$date_authorized = $_POST['date_authorized'];
 		$expire_date = $_POST['expire_date'];
+		$approved_date_f = $_POST['approved_date_f'];
+		$approved_date_t = $_POST['approved_date_t'];
+		$processName_h = $_POST['processName_h'];
 
 		$query = "SELECT count(a.id) as total";
 
@@ -222,6 +256,12 @@ function count_history_approver($search_arr, $conn)
 		if (!empty($search_arr['date_authorized'])) {
 			$query = $query . " AND a.date_authorized = '" . $search_arr['date_authorized'] . "' ";
 		}
+		if (!empty($search_arr['processName_h'])) {
+			$query = $query . " AND c.process LIKE '" . $search_arr['processName_h'] . "%' ";
+		}
+		if (!empty($search_arr['approved_date_f']) && !empty($search_arr['approved_date_t'])) {
+			$query = $query . "AND DATE(SUBSTRING_INDEX(a.i_approve_by, '/', -1)) BETWEEN '$approved_date_f' AND '$approved_date_t' ";
+		}
 		$query = $query . " ORDER BY SUBSTRING_INDEX(a.i_approve_by , '/', -1) DESC";
 
 		$stmt = $conn->prepare($query);
@@ -244,13 +284,19 @@ if ($method == 'count_history_app') {
 	$category = $_POST['category'];
 	$date_authorized = $_POST['date_authorized'];
 	$expire_date = $_POST['expire_date'];
+	$approved_date_f = $_POST['approved_date_f'];
+	$approved_date_t = $_POST['approved_date_t'];
+	$processName_h = $_POST['processName_h'];
 
 	$search_arr = array(
 		"emp_id" => $emp_id,
 		"fullname" => $fullname,
 		"category" => $category,
 		"date_authorized" => $date_authorized,
-		"expire_date" => $expire_date
+		"expire_date" => $expire_date,
+		"approved_date_f" => $approved_date_f,
+		"approved_date_t" => $approved_date_t,
+		"processName_h" => $processName_h,
 	);
 
 	echo count_history_approver($search_arr, $conn);
@@ -262,13 +308,19 @@ if ($method == 'history_pagination_approver') {
 	$category = $_POST['category'];
 	$date_authorized = $_POST['date_authorized'];
 	$expire_date = $_POST['expire_date'];
+	$approved_date_f = $_POST['approved_date_f'];
+	$approved_date_t = $_POST['approved_date_t'];
+	$processName_h = $_POST['processName_h'];
 
 	$search_arr = array(
 		"emp_id" => $emp_id,
 		"fullname" => $fullname,
 		"category" => $category,
 		"date_authorized" => $date_authorized,
-		"expire_date" => $expire_date
+		"expire_date" => $expire_date,
+		"approved_date_f" => $approved_date_f,
+		"approved_date_t" => $approved_date_t,
+		"processName_h" => $processName_h,
 	);
 
 	$results_per_page = 100;
@@ -288,6 +340,10 @@ if ($method == 'history_approver') {
 	$category = $_POST['category'];
 	$date_authorized = $_POST['date_authorized'];
 	$expire_date = $_POST['expire_date'];
+	$approved_date_f = $_POST['approved_date_f'];
+	$approved_date_t = $_POST['approved_date_t'];
+	$processName_h = $_POST['processName_h'];
+
 	$current_page = intval($_POST['current_page']);
 	$c = 0;
 
@@ -324,6 +380,12 @@ if ($method == 'history_approver') {
 		}
 		if (!empty($date_authorized)) {
 			$query = $query . " AND a.date_authorized = '$date_authorized' ";
+		}
+		if (!empty($processName_h)) {
+			$query = $query . " AND c.process LIKE '$processName_h%' ";
+		}
+		if (!empty($approved_date_f) && !empty($approved_date_t)) {
+			$query = $query . "AND DATE(SUBSTRING_INDEX(a.i_approve_by, '/', -1)) BETWEEN '$approved_date_f' AND '$approved_date_t' ";
 		}
 
 		$query = $query . " AND b.fullname LIKE '$fullname%'";

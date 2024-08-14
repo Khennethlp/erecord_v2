@@ -62,6 +62,7 @@ if (isset($_SESSION['username'])) {
           <!-- /.col -->
           <div class="input-group mb-3">
             <button type="submit" class="btn btn-primary btn-block" name="login_btn" value="login">Sign In</button>
+            <a href="template/erecord_work_instructions.pdf"  class="btn btn-secondary btn-block" target="_blank">Work Instruction</a>
 
           </div>
    

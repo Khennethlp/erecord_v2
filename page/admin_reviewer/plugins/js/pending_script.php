@@ -44,6 +44,7 @@ const get_next_page1 = () => {
   var emp_id = document.getElementById('emp_id_p').value;
   var fullname = document.getElementById('fullname_p').value;
   var category = document.getElementById('category').value;
+  var processName = document.getElementById('processName').value;
 
    if (category == 'Category') {
     category = '';
@@ -57,6 +58,7 @@ const get_next_page1 = () => {
     emp_id:emp_id,
     fullname:fullname,
     category:category,
+    processName:processName,
     current_page:current_page
     
     },success:function(response){
@@ -70,6 +72,7 @@ const get_next_page1 = () => {
   var emp_id = document.getElementById('emp_id_p').value;
   var fullname = document.getElementById('fullname_p').value;
   var category = document.getElementById('category').value;
+  var processName = document.getElementById('processName').value;
 
    if (category == 'Category') {
     category = '';
@@ -82,7 +85,8 @@ const get_next_page1 = () => {
     method:'count_pending',
     emp_id:emp_id,
     fullname:fullname,
-    category:category
+    category:category,
+    processName:processName,
     
     },success:function(response){
             sessionStorage.setItem('count_rows1', response);
@@ -106,6 +110,7 @@ const search_pending_pagination = () => {
   var emp_id = document.getElementById('emp_id_p').value;
   var fullname = document.getElementById('fullname_p').value;
   var category = document.getElementById('category').value;
+  var processName = document.getElementById('processName').value;
   var current_page = sessionStorage.getItem('pending_list_pagination');
 
    if (category == 'Category') {
@@ -119,7 +124,8 @@ const search_pending_pagination = () => {
     method:'search_pending_pagination',
     emp_id:emp_id,
     fullname:fullname,
-    category:category
+    category:category,
+    processName:processName,
     
     },success:function(response){
             $('#pending_list_paginations1').html(response);

@@ -34,7 +34,7 @@ fputs($f, "\xEF\xBB\xBF");
 // Set column headers 
 $fields = array('#', 'Process Name', 'Authorization No.', 'Authorization Year', 'Date Authorized', 'Expire Date', 'Employee Name', 'Employee No.', 'Batch No.', 'Department', 'Remarks', 'Reason of Cancellation', 'Date of Cancellation');
 fputcsv($f, $fields, $delimiter);
-$query = "SELECT a.batch, a.process, a.auth_no, a.auth_year, a.date_authorized, a.expire_date, a.r_of_cancellation, a.d_of_cancellation, a.remarks, a.i_status, a.r_status, b.fullname, b.agency, a.dept, b.batch, b.emp_id, c.category";
+$query = "SELECT a.batch, a.process, a.auth_no, a.auth_year, a.date_authorized, a.expire_date, a.r_of_cancellation, a.d_of_cancellation, a.remarks, a.i_status, a.r_status, b.fullname, b.agency, a.dept, b.emp_id, c.category";
 
 if ($category == 'Final') {
     $query .= " FROM `t_f_process`";

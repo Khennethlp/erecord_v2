@@ -132,7 +132,7 @@ if ($method == 'fetch_category') {
 		// For row numbering
 		$c = $page_first_result;
 
-		$query = "SELECT a.batch, a.process,a.auth_no,a.auth_year,a.date_authorized,a.expire_date,a.r_of_cancellation,a.d_of_cancellation,a.remarks,a.i_status,a.r_status,b.fullname,b.agency,a.dept,b.batch,b.emp_id,c.category";
+		$query = "SELECT a.batch, a.process,a.auth_no,a.auth_year,a.date_authorized,a.expire_date,a.r_of_cancellation,a.d_of_cancellation,a.remarks,a.i_status,a.r_status,b.fullname,b.agency,a.dept,b.emp_id,c.category";
 
 		if ($category == 'Final') {
 			$query = $query . " FROM `t_f_process`";
@@ -186,12 +186,12 @@ if ($method == 'fetch_category') {
 					echo '<td>'.$j['dept'].'</td>';
 					echo '<td>'.$j['remarks'].'</td>';
 					if ($j['r_status'] == 'Approved') {
-					echo '<td>'.$j['r_of_cancellation'].'</td>';
-					echo '<td>'.$j['d_of_cancellation'].'</td>';
-				} else {
-					echo '<td></td>';
-					echo '<td></td>';
-				}
+						echo '<td>'.$j['r_of_cancellation'].'</td>';
+						echo '<td>'.$j['d_of_cancellation'].'</td>';
+					} else {
+						echo '<td></td>';
+						echo '<td></td>';
+					}
 					
 				echo '</tr>';
 			}

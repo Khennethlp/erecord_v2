@@ -101,6 +101,8 @@ const get_next_page = () => {
    var fullname = document.getElementById('fullname_search').value;
   var category = document.getElementById('category').value;
   var pro = document.getElementById('pro').value;
+  var date = document.getElementById('expire_date_search').value;
+  var date_authorized = document.getElementById('date_authorized_search').value;
   
   
   if (pro == 'Please select a process.....') {
@@ -118,8 +120,8 @@ const get_next_page = () => {
     emp_id:emp_id,
     category:category,
     pro:pro,
-    // date:date,
-    // date_authorized:date_authorized,
+    date:date,
+    date_authorized:date_authorized,
     fullname:fullname
     
     },success:function(response){
@@ -162,7 +164,6 @@ const search_data_pagination = () =>{
         data:{
             method:'fetch_category_pagination',
             emp_id:emp_id,
-            
             category:category,
             pro:pro,
             date:date,

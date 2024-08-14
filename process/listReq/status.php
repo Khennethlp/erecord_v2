@@ -4,6 +4,21 @@ include '../conn.php';
 
 $method = $_POST['method'];
 
+if ($method == 'fetch_pro_cert') {
+	$category = $_POST['category'];
+	$query = "SELECT `process` FROM `m_process` WHERE category = '$category' ORDER BY process ASC";
+	$stmt = $conn->prepare($query);
+	$stmt->execute();
+	if ($stmt->rowCount() > 0) {
+		echo '<option value="">Please select a process.....</option>';
+		foreach ($stmt->fetchAll() as $row) {
+			echo '<option>' . htmlspecialchars($row['process']) . '</option>';
+		}
+	} else {
+		echo '<option>Please select a process.....</option>';
+	}
+}
+
 function count_cert($search_arr, $conn)
 {
 	if (!empty($search_arr['category'])) {
@@ -11,6 +26,7 @@ function count_cert($search_arr, $conn)
 		$fullname = $_POST['fullname'];
 		$category = $_POST['category'];
 		$i_status = $_POST['i_status'];
+		$processName_cert = $_POST['processName_cert'];
 		$query = "SELECT count(a.id) as total";
 
 		if ($category == 'Final') {
@@ -26,7 +42,12 @@ function count_cert($search_arr, $conn)
 			$query = $query . " AND (b.emp_id = '" . $search_arr['emp_id'] . "' OR b.emp_id_old = '" . $search_arr['emp_id'] . "')";
 		}
 
-		$query = $query . " AND b.fullname LIKE '" . $search_arr['fullname'] . "%'";
+		if (!empty($search_arr['fullname'])) {
+			$query = $query . " AND b.fullname LIKE '" . $search_arr['fullname'] . "%'";
+		}
+		if (!empty($search_arr['processName_cert'])) {
+			$query = $query . " AND c.process LIKE '" . $search_arr['processName_cert'] . "%'";
+		}
 		$query = $query . " ORDER BY SUBSTRING_INDEX(a.up_date_time , '/', -1) DESC";
 
 		$stmt = $conn->prepare($query);
@@ -47,12 +68,14 @@ if ($method == 'count_cert') {
 	$fullname = $_POST['fullname'];
 	$category = $_POST['category'];
 	$i_status = $_POST['i_status'];
+	$processName_cert = $_POST['processName_cert'];
 
 	$search_arr = array(
 		"emp_id" => $emp_id,
 		"fullname" => $fullname,
 		"category" => $category,
-		"i_status" => $i_status
+		"i_status" => $i_status,
+		"processName_cert" => $processName_cert
 	);
 
 	echo count_cert($search_arr, $conn);
@@ -63,12 +86,14 @@ if ($method == 'fetch_cert_pagination') {
 	$fullname = $_POST['fullname'];
 	$category = $_POST['category'];
 	$i_status = $_POST['i_status'];
+	$processName_cert = $_POST['processName_cert'];
 
 	$search_arr = array(
 		"emp_id" => $emp_id,
 		"fullname" => $fullname,
 		"category" => $category,
-		"i_status" => $i_status
+		"i_status" => $i_status,
+		"processName_cert" => $processName_cert
 	);
 
 	$results_per_page = 100;
@@ -89,6 +114,7 @@ if ($method == 'fetch_status_cert') {
 	$fullname = $_POST['fullname'];
 	$category = $_POST['category'];
 	$i_status = $_POST['i_status'];
+	$processName_cert = $_POST['processName_cert'];
 	$current_page = intval($_POST['current_page']);
 	$c = 0;
 
@@ -112,7 +138,13 @@ if ($method == 'fetch_status_cert') {
 		if (!empty($emp_id)) {
 			$query = $query . " AND (b.emp_id = '$emp_id' OR b.emp_id_old = '$emp_id')";
 		}
-		$query = $query . " AND b.fullname LIKE '$fullname%' ";
+		if (!empty($fullname)) {
+			$query = $query . " AND b.fullname LIKE '$fullname%' ";
+		}
+		if (!empty($processName_cert)) {
+			$query = $query . " AND c.process LIKE '$processName_cert%' ";
+		}
+		
 		$query = $query . "  ORDER BY SUBSTRING_INDEX(a.up_date_time , '/', -1) DESC LIMIT " . $page_first_result . ", " . $results_per_page;
 		$stmt = $conn->prepare($query);
 		$stmt->execute();

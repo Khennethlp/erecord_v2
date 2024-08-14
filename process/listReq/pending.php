@@ -4,12 +4,44 @@ include '../conn.php';
 
 $method = $_POST['method'];
 
+if ($method == 'fetch_pro') {
+	$category = $_POST['category'];
+	$query = "SELECT `process` FROM `m_process` WHERE category = '$category' ORDER BY process ASC";
+	$stmt = $conn->prepare($query);
+	$stmt->execute();
+	if ($stmt->rowCount() > 0) {
+		echo '<option value="">Please select a process.....</option>';
+		foreach ($stmt->fetchAll() as $row) {
+			echo '<option>' . htmlspecialchars($row['process']) . '</option>';
+		}
+	} else {
+		echo '<option>Please select a process.....</option>';
+	}
+}
+
+// history
+if ($method == 'fetch_pro_h') {
+	$category = $_POST['category'];
+	$query = "SELECT `process` FROM `m_process` WHERE category = '$category' ORDER BY process ASC";
+	$stmt = $conn->prepare($query);
+	$stmt->execute();
+	if ($stmt->rowCount() > 0) {
+		echo '<option value="">Please select a process.....</option>';
+		foreach ($stmt->fetchAll() as $row) {
+			echo '<option>' . htmlspecialchars($row['process']) . '</option>';
+		}
+	} else {
+		echo '<option>Please select a process.....</option>';
+	}
+}
+
 function count_pending($search_arr, $conn)
 {
 	if (!empty($search_arr['category'])) {
 		$emp_id = $_POST['emp_id'];
 		$fullname = $_POST['fullname'];
 		$category = $_POST['category'];
+		$processName = $_POST['processName'];
 
 		$query = "SELECT count(a.id) as total";
 
@@ -19,7 +51,7 @@ function count_pending($search_arr, $conn)
 			$query = $query . " FROM `t_i_process`";
 		}
 		$query = $query . " a
-							LEFT JOIN t_employee_m b  ON a.emp_id = b.emp_id 
+							LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id 
 							JOIN `m_process` c ON a.process = c.process
 							where a.i_status = 'Pending' ";
 		if (!empty($search_arr['emp_id'])) {
@@ -29,7 +61,11 @@ function count_pending($search_arr, $conn)
 		if (!empty($fullname)) {
 			$query = $query . " AND b.fullname LIKE'" . $search_arr['fullname'] . "%'";
 		}
-		$query = $query . "ORDER BY SUBSTRING_INDEX(a.up_date_time, '/', -1) DESC";
+		if (!empty($processName)) {
+			$query = $query . " AND c.process LIKE'" . $search_arr['processName'] . "%'";
+		}
+		// $query = $query . "ORDER BY a.date_authorized DESC, SUBSTRING_INDEX(a.up_date_time, '/', -1) DESC, c.process, b.fullname ";
+		$query = $query . "ORDER BY SUBSTRING_INDEX(a.up_date_time, '/', -1) DESC ";
 
 		$stmt = $conn->prepare($query);
 		$stmt->execute();
@@ -48,11 +84,13 @@ if ($method == 'count_pending') {
 	$emp_id = $_POST['emp_id'];
 	$fullname = $_POST['fullname'];
 	$category = $_POST['category'];
+	$processName = $_POST['processName'];
 
 	$search_arr = array(
 		"emp_id" => $emp_id,
 		"fullname" => $fullname,
-		"category" => $category
+		"category" => $category,
+		"processName" => $processName,
 	);
 
 	echo count_pending($search_arr, $conn);
@@ -62,11 +100,13 @@ if ($method == 'search_pending_pagination') {
 	$emp_id = $_POST['emp_id'];
 	$fullname = $_POST['fullname'];
 	$category = $_POST['category'];
+	$processName = $_POST['processName'];
 
 	$search_arr = array(
 		"emp_id" => $emp_id,
 		"fullname" => $fullname,
-		"category" => $category
+		"category" => $category,
+		"processName" => $processName,
 	);
 
 	$results_per_page = 100;
@@ -84,7 +124,9 @@ if ($method == 'search_pending_pagination') {
 if ($method == 'fetch_category') {
 	$emp_id = $_POST['emp_id'];
 	$fullname = $_POST['fullname'];
-	$category = $_POST['category'];
+	$category = $_POST['category']; 
+	$processName = $_POST['processName']; 
+
 	$current_page = intval($_POST['current_page']);
 	$c = 0;
 
@@ -113,8 +155,15 @@ if ($method == 'fetch_category') {
 			$query = $query . " AND (b.emp_id = '$emp_id' OR b.emp_id_old = '$emp_id')";
 		}
 
-		$query = $query . " AND b.fullname LIKE '$fullname%'";
+		if (!empty($fullname)) {
+			$query = $query . " AND b.fullname LIKE '$fullname%'";
+		}
+		if (!empty($processName)) {
+			$query = $query . " AND c.process LIKE '$processName%'";
+		}
 		$query = $query . " ORDER BY SUBSTRING_INDEX(a.up_date_time, '/', -1) DESC LIMIT " . $page_first_result . ", " . $results_per_page;
+		// $query = $query . " SUBSTRING_INDEX(a.up_date_time, '/', -1) DESC LIMIT " . $page_first_result . ", " . $results_per_page;
+		
 		$stmt = $conn->prepare($query);
 		$stmt->execute();
 		if ($stmt->rowCount() > 0) {

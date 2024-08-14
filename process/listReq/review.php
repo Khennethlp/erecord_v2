@@ -4,13 +4,42 @@ include '../conn.php';
 
 $method = $_POST['method'];
 
+if ($method == 'fetch_pro') {
+	$category = $_POST['category'];
+	$query = "SELECT `process` FROM `m_process` WHERE category = '$category' ORDER BY process ASC";
+	$stmt = $conn->prepare($query);
+	$stmt->execute();
+	if ($stmt->rowCount() > 0) {
+		echo '<option value="">Please select a process.....</option>';
+		foreach ($stmt->fetchAll() as $row) {
+			echo '<option>' . htmlspecialchars($row['process']) . '</option>';
+		}
+	} else {
+		echo '<option>Please select a process.....</option>';
+	}
+}
 
+if ($method == 'fetch_pro_h') {
+	$category = $_POST['category'];
+	$query = "SELECT `process` FROM `m_process` WHERE category = '$category' ORDER BY process ASC";
+	$stmt = $conn->prepare($query);
+	$stmt->execute();
+	if ($stmt->rowCount() > 0) {
+		echo '<option value="">Please select a process.....</option>';
+		foreach ($stmt->fetchAll() as $row) {
+			echo '<option>' . htmlspecialchars($row['process']) . '</option>';
+		}
+	} else {
+		echo '<option>Please select a process.....</option>';
+	}
+}
 
 function count_rev($search_arr, $conn) {
 	if (!empty($search_arr['category'] )) {
 	$emp_id = $_POST['emp_id'];
 	$fullname = $_POST['fullname'];
 	$category = $_POST['category'];
+	$processName = $_POST['processName'];
 
 	$query = "SELECT count(a.id) as total";
 
@@ -29,6 +58,9 @@ function count_rev($search_arr, $conn) {
 			}
 		if (!empty($fullname)) {
 			$query = $query . " AND b.fullname LIKE'".$search_arr['fullname']."%'";
+		}
+		if (!empty($processName)) {
+			$query = $query . " AND c.process LIKE'".$search_arr['processName']."%'";
 		}
 		$query = $query ." ORDER BY SUBSTRING_INDEX(a.up_date_time, '/', -1) Desc";
 
@@ -49,11 +81,13 @@ if ($method == 'count_rev') {
 	$emp_id = $_POST['emp_id'];
 	$fullname = $_POST['fullname'];
 	$category = $_POST['category'];
+	$processName = $_POST['processName'];
 
 	$search_arr = array(
 		"emp_id" => $emp_id, 
 		"fullname" => $fullname, 
-		"category" => $category
+		"category" => $category,
+		"processName" => $processName
 	);
 
 	echo count_rev($search_arr, $conn);
@@ -63,11 +97,13 @@ if ($method == 'rev_pagination') {
 	$emp_id = $_POST['emp_id'];
 	$fullname = $_POST['fullname'];
 	$category = $_POST['category'];
+	$processName = $_POST['processName'];
 
 	$search_arr = array(
 		"emp_id" => $emp_id, 
 		"fullname" => $fullname, 
-		"category" => $category
+		"category" => $category,
+		"processName" => $processName
 	);
 
 	$results_per_page = 100;
@@ -87,6 +123,7 @@ if ($method == 'fetch_rev') {
 	$emp_id = $_POST['emp_id'];
 	$fullname = $_POST['fullname'];
 	$category = $_POST['category']; 
+	$processName = $_POST['processName']; 
 	$current_page = isset($_POST['current_page']) ? intval($_POST['current_page']) : 1;
 	$c = 0;
 
@@ -118,6 +155,9 @@ if ($method == 'fetch_rev') {
 		if (!empty($fullname)) {
 			$query = $query . " AND b.fullname LIKE'$fullname%'";
 		}
+		if (!empty($processName)) {
+			$query = $query . " AND c.process LIKE'$processName%'";
+		}
 		$query = $query ."ORDER BY SUBSTRING_INDEX(a.up_date_time, '/', -1) DESC LIMIT ".$page_first_result.", ".$results_per_page;
 		echo $query;
 		$stmt = $conn->prepare($query);
@@ -127,8 +167,6 @@ if ($method == 'fetch_rev') {
 				$c++;
 			
 					echo '<tr>';
-					
-
 					echo '<td>';
 	                echo '<p>
 	                        <label>

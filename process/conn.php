@@ -9,8 +9,14 @@
     $server_date_day = date('d');
     $server_date_month_time = date('Y-m-01 H:i:s');
     $server_time = date('H:i:s');
+
+    //get the 7 days before
+    $date = new DateTime($server_date_only);
+    $date_month_delay = (clone $date)->modify('-1 month');
+    $date_month_before = $date_month_delay->format('Y-m-d');
+    
     try {
-        $conn = new PDO ("mysql:host=$servername;dbname=qualif",$username,$pass);
+        $conn = new PDO ("mysql:host=$servername;dbname=qualifv2",$username,$pass);
 
          $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   // echo "Connected successfully";
