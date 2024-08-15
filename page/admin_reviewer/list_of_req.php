@@ -108,7 +108,7 @@
                     </tbody>
                   </table>
                 </div>
-                <div class="row">
+                <div class="row mt-3">
                   <div class="col-sm-12 col-md-9 col-9">
                     <div class="dataTables_info" id="count_rows_display1" role="status1" aria-live="polite"></div>
                     <input type="hidden" id="count_rows1">
@@ -202,7 +202,7 @@
                     </tbody>
                   </table>
                 </div>
-                <div class="row">
+                <div class="row mt-3">
                   <div class="col-sm-12 col-md-9 col-9">
                     <div class="dataTables_info" id="count_rows_display2" role="status" aria-live="polite"></div>
                     <input type="hidden" id="count_rows2">
