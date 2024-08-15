@@ -161,7 +161,7 @@
                 <div class="col-sm-2  ml-auto mt-2">
                   <label for="">Review Date From:</label>
                 <!-- <label for="">Date From (Review)</label> -->
-                  <input class="form-control" type="date" placeholder="Review Date From" value="<?php echo $server_date_only; ?>" id="review_date_f">
+                  <input class="form-control" type="date" placeholder="Review Date From" value="<?php echo $date_month_before; ?>" id="review_date_f">
                 </div>
                 <div class="col-sm-2 mt-2">
                   <!-- <label for="">Date To (Review)</label> -->

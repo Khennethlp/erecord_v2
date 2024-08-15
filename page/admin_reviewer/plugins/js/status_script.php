@@ -9,6 +9,26 @@
   });
 });
 
+$(document).ready(function() {
+
+$("#category_cert").change(function() {
+  var category = document.getElementById("category_cert").value;
+  $.ajax({
+    url: '../../process/listReq/status.php',
+    type: 'POST',
+    cache: false,
+    data: {
+      method: 'fetch_pro_cert',
+      category: category
+    },
+    success: function(response) {
+      $('#processName_cert').html(response);
+    }
+  });
+});
+
+});
+
 
 document.getElementById("cert_list_pagination1").addEventListener("keyup", e => {
   var current_page = document.getElementById("cert_list_pagination1").value.trim();
@@ -46,6 +66,7 @@ const get_next_page1 = () => {
   var fullname = document.getElementById('fullname_cert').value;
   var category = document.getElementById('category_cert').value;
   var i_status = document.getElementById('i_status_cert').value;
+  var processName_cert = document.getElementById('processName_cert').value;
   console.log(category)
    if (category == 'Category') {
     category = '';
@@ -67,6 +88,7 @@ const get_next_page1 = () => {
     fullname:fullname,
     category:category,
     i_status:i_status,
+    processName_cert:processName_cert,
     current_page:current_page
     
     },success:function(response){
@@ -82,6 +104,7 @@ const count_data_cert = () => {
   var fullname = document.getElementById('fullname_cert').value;
   var category = document.getElementById('category_cert').value;
   var i_status = document.getElementById('i_status_cert').value;
+  var processName_cert = document.getElementById('processName_cert').value;
   console.log(category)
    if (category == 'Category') {
     category = '';
@@ -102,6 +125,7 @@ const count_data_cert = () => {
     emp_id:emp_id,
     fullname:fullname,
     category:category,
+    processName_cert:processName_cert,
     i_status:i_status
         }, 
         success:function(response){
@@ -127,6 +151,7 @@ const search_cert_pagination = () => {
   var fullname = document.getElementById('fullname_cert').value;
   var category = document.getElementById('category_cert').value;
   var i_status = document.getElementById('i_status_cert').value;
+  var processName_cert = document.getElementById('processName_cert').value;
   var current_page = sessionStorage.getItem('cert_list_pagination');
 
   console.log(category)
@@ -149,6 +174,7 @@ const search_cert_pagination = () => {
     emp_id:emp_id,
     fullname:fullname,
     category:category,
+    processName_cert:processName_cert,
     i_status:i_status
         }, 
         success:function(response){
