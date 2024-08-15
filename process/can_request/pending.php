@@ -4,11 +4,27 @@ include '../conn.php';
 
 $method = $_POST['method'];
 
+if ($method == 'fetch_pro_can') {
+	$category = $_POST['category'];
+	$query = "SELECT `process` FROM `m_process` WHERE category = '$category' ORDER BY process ASC";
+	$stmt = $conn->prepare($query);
+	$stmt->execute();
+	if ($stmt->rowCount() > 0) {
+		echo '<option value="">Please select a process.....</option>';
+		foreach ($stmt->fetchAll() as $row) {
+			echo '<option>' . htmlspecialchars($row['process']) . '</option>';
+		}
+	} else {
+		echo '<option>Please select a process.....</option>';
+	}
+}
+
 function count_pending($search_arr, $conn) {
 	if (!empty($search_arr['category'] )) {
 	$emp_id = $_POST['emp_id'];
 	$fullname = $_POST['fullname'];
 	$category = $_POST['category'];
+	$processName = $_POST['processName'];
 
 	$query = "SELECT count(auth_no) AS total FROM (";
 
@@ -29,6 +45,9 @@ function count_pending($search_arr, $conn) {
 			}
 	if (!empty($search_arr['fullname'])) {
 		$query = $query . " AND b.fullname LIKE'".$search_arr['fullname']."%'";
+	}
+	if (!empty($search_arr['processName'])) {
+		$query = $query . " AND c.process LIKE'".$search_arr['processName']."%'";
 	}
 
 	
@@ -53,11 +72,13 @@ if ($method == 'count_pending') {
 	$emp_id = $_POST['emp_id'];
 	$fullname = $_POST['fullname'];
 	$category = $_POST['category'];
+	$processName = $_POST['processName'];
 
 	$search_arr = array(
 		"emp_id" => $emp_id, 
 		"fullname" => $fullname, 
-		"category" => $category
+		"category" => $category,
+		"processName" => $processName
 	);
 
 	echo count_pending($search_arr, $conn);
@@ -67,11 +88,13 @@ if ($method == 'search_pending_pagination') {
 	$emp_id = $_POST['emp_id'];
 	$fullname = $_POST['fullname'];
 	$category = $_POST['category'];
+	$processName = $_POST['processName'];
 
 	$search_arr = array(
 		"emp_id" => $emp_id, 
 		"fullname" => $fullname, 
-		"category" => $category
+		"category" => $category,
+		"processName" => $processName
 	);
 
 	$results_per_page = 100;
@@ -93,6 +116,7 @@ if ($method == 'fetch_category') {
 	$emp_id = $_POST['emp_id']; 
 	$fullname = $_POST['fullname'];
 	$category = $_POST['category'];
+	$processName = $_POST['processName'];
 	$current_page = intval($_POST['current_page']);
 	$c = 0;
 
@@ -123,6 +147,9 @@ if ($method == 'fetch_category') {
 
 		if (!empty($fullname)) {
 			$query = $query . " AND b.fullname LIKE'$fullname%'";
+		}
+		if (!empty($processName)) {
+			$query = $query . " AND c.process LIKE'$processName%'";
 		}
 		$query = $query . "GROUP BY a.auth_no ASC ORDER BY SUBSTRING_INDEX(a.up_date_time, '/', -1) DESC LIMIT ".$page_first_result.", ".$results_per_page;
 		$stmt = $conn->prepare($query);

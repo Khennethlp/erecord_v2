@@ -50,9 +50,15 @@
                     <option>Final</option>
                   </select>
                 </div>
+                <div class="col-sm-2">
+                <!-- <label for="">Process Name:</label> -->
+                  <select class=" form-control" name="processName" id="processName">
+                    <option value="">Select Process </option>
+                  </select>
+                </div>
                 <div class="col-sm-2"><input placeholder="Employee Name" type="text" id="fullname_p" class="form-control" autocomplete="off"></div>
                 <div class="col-sm-2"><input placeholder="Employee ID" type="text" id="emp_id_p" class="form-control" autocomplete="off"></div>
-                <div class="col-sm-2">
+                <div class="col-sm-2 ml-auto mt-2">
                   <!-- search button -->
                   <button class="btn btn-block d-flex justify-content-left" id="search_btn" onclick="search_pending(1)" style="color:#fff;height:37px;border-radius:.25rem;background: #20c997;font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
                 </div>
@@ -110,6 +116,7 @@
                     <option>Final</option>
                   </select>
                 </div>
+                
                 <div class="col-sm-2"><input placeholder="Employee Name" type="text" id="fullname_h" class="form-control" autocomplete="off"></div>
                 <div class="col-sm-2"><input placeholder="Employee ID" type="text" id="emp_id_h" class="form-control" autocomplete="off"></div>
                 <div class="col-sm-2">

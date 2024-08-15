@@ -8,6 +8,26 @@ document.querySelectorAll('#fullname_p, #emp_id_p').forEach(input => {
   });
 });
 
+$(document).ready(function() {
+
+$("#category").change(function() {
+  var category = document.getElementById("category").value;
+  $.ajax({
+    url: '../../process/can_request/pending.php',
+    type: 'POST',
+    cache: false,
+    data: {
+      method: 'fetch_pro_can',
+      category: category
+    },
+    success: function(response) {
+      $('#processName').html(response);
+    }
+  });
+});
+
+});
+
 document.getElementById("pending_list_pagination1").addEventListener("keyup", e => {
   var current_page = document.getElementById("pending_list_pagination1").value.trim();
   let total = sessionStorage.getItem('count_rows1');
