@@ -27,6 +27,22 @@ $("#category_cert").change(function() {
   });
 });
 
+$("#category_can").change(function() {
+  var category = document.getElementById("category_can").value;
+  $.ajax({
+    url: '../../process/can_request/status.php',
+    type: 'POST',
+    cache: false,
+    data: {
+      method: 'fetch_pro_can',
+      category: category
+    },
+    success: function(response) {
+      $('#processName_can').html(response);
+    }
+  });
+});
+
 });
 
 
@@ -376,6 +392,7 @@ const get_next_page = () => {
   var emp_id = document.getElementById('emp_id_can').value;
   var fullname = document.getElementById('fullname_can').value;
   var category = document.getElementById('category_can').value;
+  var processName_can = document.getElementById('processName_can').value;
   var r_status = document.getElementById('r_status_can').value;
   console.log(category)
    if (category == 'Category') {
@@ -398,6 +415,7 @@ const get_next_page = () => {
     fullname:fullname,
     category:category,
     r_status:r_status,
+    processName_can:processName_can,
     current_page:current_page 
     
     },success:function(response){
@@ -412,6 +430,7 @@ const get_next_page = () => {
   var emp_id = document.getElementById('emp_id_can').value;
   var fullname = document.getElementById('fullname_can').value;
   var category = document.getElementById('category_can').value;
+  var processName_can = document.getElementById('processName_can').value;
   var r_status = document.getElementById('r_status_can').value;
   console.log(category)
    if (category == 'Category') {
@@ -433,6 +452,7 @@ const get_next_page = () => {
     emp_id:emp_id,
     fullname:fullname,
     category:category,
+    processName_can:processName_can,
     r_status:r_status
     
     },success:function(response){
@@ -458,6 +478,7 @@ const search_can_pagination =()=>{
   var emp_id = document.getElementById('emp_id_can').value;
   var fullname = document.getElementById('fullname_can').value;
   var category = document.getElementById('category_can').value;
+  var processName_can = document.getElementById('processName_can').value;
   var r_status = document.getElementById('r_status_can').value;
   var current_page = sessionStorage.getItem('process_details_pagination');
   console.log(category)

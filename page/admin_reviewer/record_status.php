@@ -140,13 +140,19 @@
                         <option value="Disapproved">Disapproved</option>
                       </select>
                     </div>
+                    <div class="col-sm-2 ">
+                      <!-- <label for="">Process Name:</label> -->
+                      <select class=" form-control" name="processName" id="processName_can">
+                        <option value="">Select Process </option>
+                      </select>
+                    </div>
                     <div class="col-sm-2">
                       <input class="form-control" placeholder="Employee ID" type="text" id="emp_id_can">
                     </div>
                     <div class="col-sm-2">
                       <input class="form-control" placeholder="Employee Name" type="text" id="fullname_can">
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-2 mt-2 ml-auto">
                       <!-- search button -->
                       <button class="btn btn-block d-flex justify-content-left" id="search_btn" onclick="search_can(1)" style="color:#fff;height:38px;border-radius:.25rem;background: #20c997;font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
                     </div>
