@@ -79,6 +79,7 @@
     var fullname = document.getElementById('fullname_cert').value;
     var category = document.getElementById('category_cert').value;
     var i_status = document.getElementById('i_status_cert').value;
+    var date_authorized_cert = document.getElementById('date_authorized_cert').value;
     var processName_cert = document.getElementById('processName_cert').value;
 
     console.log(category)
@@ -103,6 +104,7 @@
         category: category,
         i_status: i_status,
         processName_cert: processName_cert,
+        date_authorized_cert: date_authorized_cert,
         current_page: current_page
 
       },
@@ -119,6 +121,7 @@
     var fullname = document.getElementById('fullname_cert').value;
     var category = document.getElementById('category_cert').value;
     var i_status = document.getElementById('i_status_cert').value;
+    var date_authorized_cert = document.getElementById('date_authorized_cert').value;
     var processName_cert = document.getElementById('processName_cert').value;
 
     console.log(category)
@@ -142,7 +145,8 @@
         fullname: fullname,
         category: category,
         i_status: i_status,
-        processName_cert: processName_cert
+        processName_cert: processName_cert,
+        date_authorized_cert: date_authorized_cert
       },
       success: function(response) {
         sessionStorage.setItem('count_rows1', response);
@@ -168,6 +172,7 @@
     var category = document.getElementById('category_cert').value;
     var i_status = document.getElementById('i_status_cert').value;
     var processName_cert = document.getElementById('processName_cert').value;
+    var date_authorized_cert = document.getElementById('date_authorized_cert').value;
     var current_page = sessionStorage.getItem('cert_list_pagination');
 
     console.log(category)
@@ -191,7 +196,8 @@
         fullname: fullname,
         category: category,
         i_status: i_status,
-        processName_cert: processName_cert
+        processName_cert: processName_cert,
+        date_authorized_cert: date_authorized_cert,
       },
       success: function(response) {
         $('#cert_list_paginations1').html(response);
@@ -396,6 +402,7 @@
     var fullname = document.getElementById('fullname_can').value;
     var category = document.getElementById('category_can').value;
     var r_status = document.getElementById('r_status_can').value;
+    var date_authorized_can = document.getElementById('date_authorized_can').value;
     var processName_can = document.getElementById('processName_can').value;
     console.log(category)
     if (category == 'Category') {
@@ -419,6 +426,7 @@
         category: category,
         r_status: r_status,
         processName_can: processName_can,
+        date_authorized_can: date_authorized_can,
         current_page: current_page
 
       },
@@ -435,6 +443,7 @@
     var fullname = document.getElementById('fullname_can').value;
     var category = document.getElementById('category_can').value;
     var r_status = document.getElementById('r_status_can').value;
+    var date_authorized_can = document.getElementById('date_authorized_can').value;
     var processName_can = document.getElementById('processName_can').value;
     console.log(category)
     if (category == 'Category') {
@@ -457,7 +466,8 @@
         fullname: fullname,
         category: category,
         r_status: r_status,
-        processName_can: processName_can
+        processName_can: processName_can,
+        date_authorized_can: date_authorized_can,
 
       },
       success: function(response) {
@@ -485,6 +495,7 @@
     var category = document.getElementById('category_can').value;
     var r_status = document.getElementById('r_status_can').value;
     var processName_can = document.getElementById('processName_can').value;
+    var date_authorized_can = document.getElementById('date_authorized_can').value;
     var current_page = sessionStorage.getItem('process_details_pagination');
     console.log(category)
     if (category == 'Category') {
@@ -507,7 +518,8 @@
         fullname: fullname,
         category: category,
         r_status: r_status,
-        processName_can: processName_can
+        processName_can: processName_can,
+        date_authorized_can: date_authorized_can,
 
       },
       success: function(response) {

@@ -40,6 +40,7 @@ function count_rev($search_arr, $conn) {
 	$fullname = $_POST['fullname'];
 	$category = $_POST['category'];
 	$processName = $_POST['processName'];
+	$date_authorized = $_POST['date_authorized'];
 
 	$query = "SELECT count(a.id) as total";
 
@@ -62,6 +63,9 @@ function count_rev($search_arr, $conn) {
 		if (!empty($processName)) {
 			$query = $query . " AND c.process LIKE'".$search_arr['processName']."%'";
 		}
+		if (!empty($search_arr['date_authorized'])) {
+			$query = $query . " AND a.date_authorized = '" . $search_arr['date_authorized'] . "'";
+		}
 		$query = $query ." ORDER BY SUBSTRING_INDEX(a.up_date_time, '/', -1) Desc";
 
 	$stmt = $conn->prepare($query);
@@ -82,11 +86,13 @@ if ($method == 'count_rev') {
 	$fullname = $_POST['fullname'];
 	$category = $_POST['category'];
 	$processName = $_POST['processName'];
+	$date_authorized = $_POST['date_authorized'];
 
 	$search_arr = array(
 		"emp_id" => $emp_id, 
 		"fullname" => $fullname, 
 		"category" => $category,
+		"date_authorized" => $date_authorized,
 		"processName" => $processName
 	);
 
@@ -98,11 +104,13 @@ if ($method == 'rev_pagination') {
 	$fullname = $_POST['fullname'];
 	$category = $_POST['category'];
 	$processName = $_POST['processName'];
+	$date_authorized = $_POST['date_authorized'];
 
 	$search_arr = array(
 		"emp_id" => $emp_id, 
 		"fullname" => $fullname, 
 		"category" => $category,
+		"date_authorized" => $date_authorized,
 		"processName" => $processName
 	);
 
@@ -124,6 +132,7 @@ if ($method == 'fetch_rev') {
 	$fullname = $_POST['fullname'];
 	$category = $_POST['category']; 
 	$processName = $_POST['processName']; 
+	$date_authorized = $_POST['date_authorized']; 
 	$current_page = isset($_POST['current_page']) ? intval($_POST['current_page']) : 1;
 	$c = 0;
 
@@ -157,6 +166,9 @@ if ($method == 'fetch_rev') {
 		}
 		if (!empty($processName)) {
 			$query = $query . " AND c.process LIKE'$processName%'";
+		}
+		if (!empty($date_authorized)) {
+			$query = $query . " AND a.date_authorized = '$date_authorized' ";
 		}
 		$query = $query ."ORDER BY SUBSTRING_INDEX(a.up_date_time, '/', -1) DESC LIMIT ".$page_first_result.", ".$results_per_page;
 		echo $query;

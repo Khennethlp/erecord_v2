@@ -27,6 +27,7 @@ function count_can($search_arr, $conn)
 		$category = $_POST['category'];
 		$i_status = $_POST['r_status'];
 		$processName_can = $_POST['processName_can'];
+		$date_authorized_can = $_POST['date_authorized_can'];
 		$query = "SELECT  COUNT(DISTINCT a.auth_no) as total";
 
 		if ($category == 'Final') {
@@ -43,6 +44,9 @@ function count_can($search_arr, $conn)
 		}
 		if (!empty($search_arr['processName_can'])) {
 			$query = $query . " AND c.process = '" . $search_arr['processName_can'] . "'";
+		}
+		if (!empty($search_arr['date_authorized_can'])) {
+			$query = $query . " AND a.date_authorized = '" . $search_arr['date_authorized_can'] . "'";
 		}
 
 		$query = $query . " AND b.fullname LIKE '" . $search_arr['fullname'] . "%'";
@@ -67,13 +71,15 @@ if ($method == 'count_can') {
 	$category = $_POST['category'];
 	$r_status = $_POST['r_status'];
 	$processName_can = $_POST['processName_can'];
+	$date_authorized_can = $_POST['date_authorized_can'];
 
 	$search_arr = array(
 		"emp_id" => $emp_id,
 		"fullname" => $fullname,
 		"category" => $category,
 		"r_status" => $r_status,
-		"processName_can" => $processName_can
+		"processName_can" => $processName_can,
+		"date_authorized_can" => $date_authorized_can,
 	);
 
 	echo count_can($search_arr, $conn);
@@ -84,13 +90,15 @@ if ($method == 'fetch_can_pagination') {
 	$category = $_POST['category'];
 	$r_status = $_POST['r_status'];
 	$processName_can = $_POST['processName_can'];
+	$date_authorized_can = $_POST['date_authorized_can'];
 
 	$search_arr = array(
 		"emp_id" => $emp_id,
 		"fullname" => $fullname,
 		"category" => $category,
 		"r_status" => $r_status,
-		"processName_can" => $processName_can
+		"processName_can" => $processName_can,
+		"date_authorized_can" => $date_authorized_can,
 	);
 
 	$results_per_page = 100;
@@ -112,6 +120,7 @@ if ($method == 'fetch_status_can') {
 	$category = $_POST['category'];
 	$r_status = $_POST['r_status'];
 	$processName_can = $_POST['processName_can'];
+	$date_authorized_can = $_POST['date_authorized_can'];
 	$current_page = intval($_POST['current_page']);
 	$c = 0;
 
@@ -139,6 +148,9 @@ if ($method == 'fetch_status_can') {
 		}
 		if (!empty($processName_can)) {
 			$query = $query . " AND c.process LIKE'$processName_can%'";
+		}
+		if (!empty($date_authorized_can)) {
+			$query = $query . " AND DATE(a.date_authorized) = '$date_authorized_can' ";
 		}
 		$query = $query . "GROUP BY a.auth_no ASC ORDER BY SUBSTRING_INDEX(a.up_date_time , '/', -1) DESC LIMIT " . $page_first_result . ", " . $results_per_page;
 		$stmt = $conn->prepare($query);

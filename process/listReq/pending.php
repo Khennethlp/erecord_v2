@@ -42,6 +42,7 @@ function count_pending($search_arr, $conn)
 		$fullname = $_POST['fullname'];
 		$category = $_POST['category'];
 		$processName = $_POST['processName'];
+		$date_authorized = $_POST['date_authorized'];
 
 		$query = "SELECT count(a.id) as total";
 
@@ -64,6 +65,9 @@ function count_pending($search_arr, $conn)
 		if (!empty($processName)) {
 			$query = $query . " AND c.process LIKE'" . $search_arr['processName'] . "%'";
 		}
+		if (!empty($search_arr['date_authorized'])) {
+			$query = $query . " AND a.date_authorized = '" . $search_arr['date_authorized'] . "' ";
+		}
 		// $query = $query . "ORDER BY a.date_authorized DESC, SUBSTRING_INDEX(a.up_date_time, '/', -1) DESC, c.process, b.fullname ";
 		$query = $query . "ORDER BY SUBSTRING_INDEX(a.up_date_time, '/', -1) DESC ";
 
@@ -85,12 +89,14 @@ if ($method == 'count_pending') {
 	$fullname = $_POST['fullname'];
 	$category = $_POST['category'];
 	$processName = $_POST['processName'];
+	$date_authorized = $_POST['date_authorized'];
 
 	$search_arr = array(
 		"emp_id" => $emp_id,
 		"fullname" => $fullname,
 		"category" => $category,
 		"processName" => $processName,
+		"date_authorized" => $date_authorized,
 	);
 
 	echo count_pending($search_arr, $conn);
@@ -101,12 +107,14 @@ if ($method == 'search_pending_pagination') {
 	$fullname = $_POST['fullname'];
 	$category = $_POST['category'];
 	$processName = $_POST['processName'];
+	$date_authorized = $_POST['date_authorized'];
 
 	$search_arr = array(
 		"emp_id" => $emp_id,
 		"fullname" => $fullname,
 		"category" => $category,
 		"processName" => $processName,
+		"date_authorized" => $date_authorized,
 	);
 
 	$results_per_page = 100;
@@ -126,6 +134,7 @@ if ($method == 'fetch_category') {
 	$fullname = $_POST['fullname'];
 	$category = $_POST['category']; 
 	$processName = $_POST['processName']; 
+	$date_authorized = $_POST['date_authorized']; 
 
 	$current_page = intval($_POST['current_page']);
 	$c = 0;
@@ -160,6 +169,9 @@ if ($method == 'fetch_category') {
 		}
 		if (!empty($processName)) {
 			$query = $query . " AND c.process LIKE '$processName%'";
+		}
+		if (!empty($date_authorized)) {
+			$query = $query . " AND a.date_authorized = '$date_authorized' ";
 		}
 		$query = $query . " ORDER BY SUBSTRING_INDEX(a.up_date_time, '/', -1) DESC LIMIT " . $page_first_result . ", " . $results_per_page;
 		// $query = $query . " SUBSTRING_INDEX(a.up_date_time, '/', -1) DESC LIMIT " . $page_first_result . ", " . $results_per_page;

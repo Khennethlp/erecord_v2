@@ -82,6 +82,7 @@
     var fullname = document.getElementById('fullname_r').value;
     var category = document.getElementById('categoryy').value;
     var processName = document.getElementById('processName').value;
+    var date_authorized = document.getElementById('date_authorized').value;
 
     console.log(category)
     if (category == 'Category') {
@@ -97,6 +98,7 @@
         fullname: fullname,
         category: category,
         processName: processName,
+        date_authorized: date_authorized,
         current_page: current_page
 
       },
@@ -112,6 +114,7 @@
     var fullname = document.getElementById('fullname_r').value;
     var category = document.getElementById('categoryy').value;
     var processName = document.getElementById('processName').value;
+    var date_authorized = document.getElementById('date_authorized').value;
 
     if (category == 'Category') {
       category = '';
@@ -125,6 +128,7 @@
         emp_id: emp_id,
         fullname: fullname,
         category: category,
+        date_authorized: date_authorized,
         processName: processName
 
       },
@@ -151,6 +155,7 @@
     var fullname = document.getElementById('fullname_r').value;
     var category = document.getElementById('categoryy').value;
     var processName = document.getElementById('processName').value;
+    var date_authorized = document.getElementById('date_authorized').value;
     var current_page = sessionStorage.getItem('rev_list_pagination1');
 
     if (category == 'Category') {
@@ -165,6 +170,7 @@
         emp_id: emp_id,
         fullname: fullname,
         category: category,
+        date_authorized: date_authorized,
         processName: processName
 
       },

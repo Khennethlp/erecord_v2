@@ -54,7 +54,7 @@
                         <label for="">&nbsp;</label>
                         <button class="btn btn-block form-control  d-flex justify-content-left" data-toggle="modal" data-target="#i_approve" style="color:#fff;height:34px;border-radius:.25rem;background: #28a745;font-size:15px;font-weight:normal;"><img src="../../dist/img/check (1).png" style="height:19px;">&nbsp;&nbsp;Approve</button>
                       </div>
-                      <div class="col-sm-2"></div>
+                      <div class="col-sm-1"></div>
                       <!-- category -->
                       <div class="col-sm-2">
                         <label for="">Category:</label>
@@ -71,6 +71,10 @@
                         </select>
                       </div>
                       <div class="col-sm-2">
+                        <label for="">Date Authorized:</label>
+                        <input class="form-control" type="date" id="date_authorized">
+                      </div>
+                      <div class="col-sm-2">
                         <label for="">Employee ID:</label>
                         <input class="form-control" placeholder="" type="text" id="emp_id_r">
                       </div>
@@ -78,7 +82,7 @@
                         <label for="">Employee Name:</label>
                         <input class="form-control" placeholder="" type="text" id="fullname_r">
                       </div>
-                      <div class="col-sm-1">
+                      <div class="col-sm-2 ml-auto">
                         <!-- search button -->
                         <label for="">&nbsp;</label>
                         <button class="btn btn-block d-flex justify-content-left" id="search_btn" onclick="search_rev(1)" style="color:#fff;height:37px;border-radius:.25rem;background: #20c997;font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>

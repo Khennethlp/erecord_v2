@@ -44,10 +44,10 @@
               <div class="row">
                 <div class="col-sm-1">
                   <!-- approve button -->
-                   <label for="">&nbsp;</label>
+                  <label for="">&nbsp;</label>
                   <button class="btn btn-block form-control  d-flex justify-content-left" data-toggle="modal" data-target="#i_review" style="color:#fff;height:34px;border-radius:.25rem;background: #28a745;font-size:15px;font-weight:normal;"><img src="../../dist/img/check (1).png" style="height:19px;">&nbsp;&nbsp;Review</button>
                 </div>
-                <div class="col-sm-2"></div>
+                <div class="col-sm-1"></div>
                 <!-- onchange="search_pending(1)" -->
                 <div class="col-sm-2">
                   <label for="">Category:</label>
@@ -63,6 +63,10 @@
                     <option value="">Select Process </option>
                   </select>
                 </div>
+                <div class="col-sm-2">
+                  <label for="">Date Authorized:</label>
+                  <input class="form-control" type="date" id="date_authorized">
+                </div>
                 <!-- <div class="col-sm-2"><input placeholder="Process Name" type="text" id="processName_p" class="form-control" autocomplete="off"></div> -->
                 <div class="col-sm-2">
                   <label for="">Employee Name:</label>
@@ -73,9 +77,9 @@
                   <input placeholder="" type="text" id="emp_id_p" class="form-control" autocomplete="off">
                 </div>
                 <!-- <div class="col-sm-2"><input type="date" id="dateTime_p" class="form-control"></div> -->
-                <div class="col-sm-1">
+                <div class="col-sm-2 ml-auto">
                   <!-- search button -->
-                   <label for="">&nbsp;</label>
+                  <label for="">&nbsp;</label>
                   <button class="btn btn-block d-flex justify-content-left" id="search_btn" onclick="search_pending(1)" style="color:#fff;height:37px;border-radius:.25rem;background: #20c997;font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
                 </div>
               </div>
@@ -130,37 +134,39 @@
             <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
               <div class="row">
                 <!-- <div class="col-sm-1"></div> -->
-                <div class="col-sm-2 mt-2"> 
+                <div class="col-sm-2 mt-2">
                   <label for="">Category:</label>
-                  <select class="form-control  btn bg-teal" name="category" id="categoryyy" required >
+                  <select class="form-control  btn bg-teal" name="category" id="categoryyy" required>
                     <option value="">Select Category</option>
                     <option>Initial</option>
                     <option>Final</option>
                   </select>
                 </div>
                 <div class="col-sm-2 mt-2">
-                <label for="">Process Name:</label>
+                  <label for="">Process Name:</label>
                   <select class=" form-control" name="processName" id="processName_h">
                     <option value="">Select Process </option>
                   </select>
                 </div>
                 <div class="col-sm-2 mt-2">
                   <label for="">Employee Name:</label>
-                  <input placeholder="" type="text" id="fullname_h" class="form-control" autocomplete="off"></div>
+                  <input placeholder="" type="text" id="fullname_h" class="form-control" autocomplete="off">
+                </div>
                 <div class="col-sm-2 mt-2">
-                <label for="">Employee ID:</label>  
-                <input placeholder="" type="text" id="emp_id_h" class="form-control" autocomplete="off"></div>
+                  <label for="">Employee ID:</label>
+                  <input placeholder="" type="text" id="emp_id_h" class="form-control" autocomplete="off">
+                </div>
                 <div class="col-sm-2 mt-2">
                   <label for="">Date Authorized:</label>
                   <input class="form-control" type="date" placeholder="Date Authorized" onfocus="(this.type='date')" onblur="(this.type='text')" id="date_authorized_h">
                 </div>
-                <div class="col-sm-2 mt-2">
+                <div class="col-sm-2 mt-2  ">
                   <label for="">Expire Date:</label>
                   <input class="form-control" type="date" placeholder="Expire Date" onfocus="(this.type='date')" onblur="(this.type='text')" id="expire_date_h">
                 </div>
-                <div class="col-sm-2  ml-auto mt-2">
+                <div class="col-sm-2 mt-2 ml-auto">
                   <label for="">Review Date From:</label>
-                <!-- <label for="">Date From (Review)</label> -->
+                  <!-- <label for="">Date From (Review)</label> -->
                   <input class="form-control" type="date" placeholder="Review Date From" value="<?php echo $date_month_before; ?>" id="review_date_f">
                 </div>
                 <div class="col-sm-2 mt-2">
@@ -168,9 +174,9 @@
                   <label for="">Review Date To:</label>
                   <input class="form-control" type="date" placeholder="Review Date To" value="<?php echo $server_date_only; ?>" id="review_date_t">
                 </div>
-                <div class="col-sm-2  mt-2">
+                <div class="col-sm-2 mt-2">
                   <!-- search button -->
-                   <label for="">&nbsp;</label>
+                  <label for="">&nbsp;</label>
                   <button class="btn btn-block d-flex justify-content-center" id="search_btn" onclick="search_history(1)" style="color:#fff;height:37px;border-radius:.25rem;background: #20c997;font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
                 </div>
               </div>

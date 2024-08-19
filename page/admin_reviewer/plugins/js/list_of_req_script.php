@@ -81,6 +81,7 @@
     var fullname = document.getElementById('fullname_p').value;
     var category = document.getElementById('category').value;
     var processName = document.getElementById('processName').value;
+    var date_authorized = document.getElementById('date_authorized').value;
 
 
     if (category == 'Category') {
@@ -96,6 +97,7 @@
         fullname: fullname,
         category: category,
         processName: processName,
+        date_authorized: date_authorized,
         current_page: current_page
 
       },
@@ -111,6 +113,7 @@
     var fullname = document.getElementById('fullname_p').value;
     var category = document.getElementById('category').value;
     var processName = document.getElementById('processName').value;
+    var date_authorized = document.getElementById('date_authorized').value;
 
 
     if (category == 'Category') {
@@ -125,6 +128,7 @@
         emp_id: emp_id,
         fullname: fullname,
         processName: processName,
+        date_authorized: date_authorized,
         category: category
 
       },
@@ -151,6 +155,7 @@
     var fullname = document.getElementById('fullname_p').value;
     var category = document.getElementById('category').value;
     var processName = document.getElementById('processName').value;
+    var date_authorized = document.getElementById('date_authorized').value;
 
     var current_page = sessionStorage.getItem('pending_list_pagination');
 
@@ -166,6 +171,7 @@
         emp_id: emp_id,
         fullname: fullname,
         processName: processName,
+        date_authorized: date_authorized,
         category: category
 
       },

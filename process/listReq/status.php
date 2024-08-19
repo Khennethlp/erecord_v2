@@ -27,6 +27,7 @@ function count_cert($search_arr, $conn)
 		$category = $_POST['category'];
 		$i_status = $_POST['i_status'];
 		$processName_cert = $_POST['processName_cert'];
+		$date_authorized_cert = $_POST['date_authorized_cert'];
 		$query = "SELECT count(a.id) as total";
 
 		if ($category == 'Final') {
@@ -47,6 +48,9 @@ function count_cert($search_arr, $conn)
 		}
 		if (!empty($search_arr['processName_cert'])) {
 			$query = $query . " AND c.process LIKE '" . $search_arr['processName_cert'] . "%'";
+		}
+		if (!empty($search_arr['date_authorized_cert'])) {
+			$query = $query . " AND a.date_authorized = '" . $search_arr['date_authorized_cert'] . "'";
 		}
 		$query = $query . " ORDER BY SUBSTRING_INDEX(a.up_date_time , '/', -1) DESC";
 
@@ -69,13 +73,15 @@ if ($method == 'count_cert') {
 	$category = $_POST['category'];
 	$i_status = $_POST['i_status'];
 	$processName_cert = $_POST['processName_cert'];
+	$date_authorized_cert = $_POST['date_authorized_cert'];
 
 	$search_arr = array(
 		"emp_id" => $emp_id,
 		"fullname" => $fullname,
 		"category" => $category,
 		"i_status" => $i_status,
-		"processName_cert" => $processName_cert
+		"processName_cert" => $processName_cert,
+		"date_authorized_cert" => $date_authorized_cert,
 	);
 
 	echo count_cert($search_arr, $conn);
@@ -87,13 +93,15 @@ if ($method == 'fetch_cert_pagination') {
 	$category = $_POST['category'];
 	$i_status = $_POST['i_status'];
 	$processName_cert = $_POST['processName_cert'];
+	$date_authorized_cert = $_POST['date_authorized_cert'];
 
 	$search_arr = array(
 		"emp_id" => $emp_id,
 		"fullname" => $fullname,
 		"category" => $category,
 		"i_status" => $i_status,
-		"processName_cert" => $processName_cert
+		"processName_cert" => $processName_cert,
+		"date_authorized_cert" => $date_authorized_cert
 	);
 
 	$results_per_page = 100;
@@ -115,6 +123,7 @@ if ($method == 'fetch_status_cert') {
 	$category = $_POST['category'];
 	$i_status = $_POST['i_status'];
 	$processName_cert = $_POST['processName_cert'];
+	$date_authorized_cert = $_POST['date_authorized_cert'];
 	$current_page = intval($_POST['current_page']);
 	$c = 0;
 
@@ -143,6 +152,9 @@ if ($method == 'fetch_status_cert') {
 		}
 		if (!empty($processName_cert)) {
 			$query = $query . " AND c.process LIKE '$processName_cert%' ";
+		}
+		if (!empty($date_authorized_cert)) {
+			$query = $query . " AND DATE(a.date_authorized) = '$date_authorized_cert' ";
 		}
 		
 		$query = $query . "  ORDER BY SUBSTRING_INDEX(a.up_date_time , '/', -1) DESC LIMIT " . $page_first_result . ", " . $results_per_page;
