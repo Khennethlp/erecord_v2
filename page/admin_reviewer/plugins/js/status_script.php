@@ -82,6 +82,7 @@ const get_next_page1 = () => {
   var fullname = document.getElementById('fullname_cert').value;
   var category = document.getElementById('category_cert').value;
   var i_status = document.getElementById('i_status_cert').value;
+  var date_authorized_cert = document.getElementById('date_authorized_cert').value;
   var processName_cert = document.getElementById('processName_cert').value;
   console.log(category)
    if (category == 'Category') {
@@ -105,6 +106,7 @@ const get_next_page1 = () => {
     category:category,
     i_status:i_status,
     processName_cert:processName_cert,
+    date_authorized_cert:date_authorized_cert,
     current_page:current_page
     
     },success:function(response){
@@ -120,6 +122,7 @@ const count_data_cert = () => {
   var fullname = document.getElementById('fullname_cert').value;
   var category = document.getElementById('category_cert').value;
   var i_status = document.getElementById('i_status_cert').value;
+  var date_authorized_cert = document.getElementById('date_authorized_cert').value;
   var processName_cert = document.getElementById('processName_cert').value;
   console.log(category)
    if (category == 'Category') {
@@ -142,6 +145,7 @@ const count_data_cert = () => {
     fullname:fullname,
     category:category,
     processName_cert:processName_cert,
+    date_authorized_cert:date_authorized_cert,
     i_status:i_status
         }, 
         success:function(response){
@@ -168,6 +172,7 @@ const search_cert_pagination = () => {
   var category = document.getElementById('category_cert').value;
   var i_status = document.getElementById('i_status_cert').value;
   var processName_cert = document.getElementById('processName_cert').value;
+  var date_authorized_cert = document.getElementById('date_authorized_cert').value;
   var current_page = sessionStorage.getItem('cert_list_pagination');
 
   console.log(category)
@@ -191,6 +196,7 @@ const search_cert_pagination = () => {
     fullname:fullname,
     category:category,
     processName_cert:processName_cert,
+    date_authorized_cert:date_authorized_cert,
     i_status:i_status
         }, 
         success:function(response){
@@ -393,6 +399,7 @@ const get_next_page = () => {
   var fullname = document.getElementById('fullname_can').value;
   var category = document.getElementById('category_can').value;
   var processName_can = document.getElementById('processName_can').value;
+  var date_authorized_can = document.getElementById('date_authorized_can').value;
   var r_status = document.getElementById('r_status_can').value;
   console.log(category)
    if (category == 'Category') {
@@ -416,6 +423,7 @@ const get_next_page = () => {
     category:category,
     r_status:r_status,
     processName_can:processName_can,
+    date_authorized_can:date_authorized_can,
     current_page:current_page 
     
     },success:function(response){
@@ -431,6 +439,7 @@ const get_next_page = () => {
   var fullname = document.getElementById('fullname_can').value;
   var category = document.getElementById('category_can').value;
   var processName_can = document.getElementById('processName_can').value;
+  var date_authorized_can = document.getElementById('date_authorized_can').value;
   var r_status = document.getElementById('r_status_can').value;
   console.log(category)
    if (category == 'Category') {
@@ -453,6 +462,7 @@ const get_next_page = () => {
     fullname:fullname,
     category:category,
     processName_can:processName_can,
+    date_authorized_can:date_authorized_can,
     r_status:r_status
     
     },success:function(response){
@@ -480,6 +490,7 @@ const search_can_pagination =()=>{
   var category = document.getElementById('category_can').value;
   var processName_can = document.getElementById('processName_can').value;
   var r_status = document.getElementById('r_status_can').value;
+  var date_authorized_can = document.getElementById('date_authorized_can').value;
   var current_page = sessionStorage.getItem('process_details_pagination');
   console.log(category)
    if (category == 'Category') {
@@ -501,6 +512,7 @@ const search_can_pagination =()=>{
     emp_id:emp_id,
     fullname:fullname,
     category:category,
+    date_authorized_can:date_authorized_can,
     r_status:r_status
     
     },success:function(response){

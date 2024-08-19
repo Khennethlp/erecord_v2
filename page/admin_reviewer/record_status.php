@@ -43,15 +43,17 @@
               <div class=" tab-content" id="custom-tabs-one-tabContent">
                 <div class="tab-pane fade active show" id="custom-tabs-one-Certification" role="tabpanel" aria-labelledby="custom-tabs-one-Certification-tab">
                   <div class=" row">
-                    <div class="col-sm-2"></div>
+                    <!-- <div class="col-sm-2"></div> -->
                     <div class="col-sm-2">
+                    <label for="">Category:</label>
                       <select class="form-control  btn bg-teal" name="category" id="category_cert" required onchange="search_cert(1)">
-                        <option value="">Category</option>
+                        <option value="">Select Category</option>
                         <option>Initial</option>
                         <option>Final</option>
                       </select>
                     </div>
                     <div class="col-sm-2">
+                    <label for="">Status:</label>
                       <select class="form-control  btn bg-teal" name="stat" id="i_status_cert" required onchange="search_cert(1)">
                         <option value="Pending">Pending</option>
                         <option value="Reviewed">Reviewed</option>
@@ -59,16 +61,22 @@
                       </select>
                     </div>
                     <div class="col-sm-2 ">
-                      <!-- <label for="">Process Name:</label> -->
+                      <label for="">Process Name:</label>
                       <select class=" form-control" name="processName" id="processName_cert">
                         <option value="">Select Process </option>
                       </select>
                     </div>
                     <div class="col-sm-2">
-                      <input placeholder="Employee Name" type="text" id="fullname_cert" class="form-control" autocomplete="off">
+                  <label for="">Date Authorized:</label>
+                  <input class="form-control" type="date" id="date_authorized_cert">
+                </div>
+                    <div class="col-sm-2">
+                    <label for="">Employee Name:</label>
+                      <input placeholder="" type="text" id="fullname_cert" class="form-control" autocomplete="off">
                     </div>
                     <div class="col-sm-2">
-                      <input placeholder="Employee ID" type="text" id="emp_id_cert" class="form-control" autocomplete="off">
+                    <label for="">Employee ID:</label>
+                      <input placeholder="" type="text" id="emp_id_cert" class="form-control" autocomplete="off">
                     </div>
                     <div class="col-sm-2 ml-auto mt-2">
                       <!-- search button -->
@@ -124,33 +132,41 @@
                 </div>
                 <div class="tab-pane fade" id="custom-tabs-one-Cancellation" role="tabpanel" aria-labelledby="custom-tabs-one-Cancellation-tab">
                   <div class="row">
-                    <div class="col-sm-2"></div>
+                    <!-- <div class="col-sm-2"></div> -->
                     <div class="col-sm-2">
+                      <label for="">Category:</label>
                       <select class="form-control btn bg-teal" recquired name="category" id="category_can" onchange="search_can(1)">
-                        <option value="">Category</option>
+                        <option value="">Select Category</option>
                         <option>Initial</option>
                         <option>Final</option>
                       </select>
                     </div>
                     <div class="col-sm-2">
+                    <label for="">Status:</label>
                       <select class="form-control btn bg-teal" name="stat" id="r_status_can" required onchange="search_can(1)">
-                        <option>Status</option>
+                        <option>Select Status</option>
                         <option value="Pending">Pending</option>
                         <option value="Reviewed">Reviewed</option>
                         <option value="Disapproved">Disapproved</option>
                       </select>
                     </div>
                     <div class="col-sm-2 ">
-                      <!-- <label for="">Process Name:</label> -->
+                      <label for="">Process Name:</label>
                       <select class=" form-control" name="processName" id="processName_can">
                         <option value="">Select Process </option>
                       </select>
                     </div>
                     <div class="col-sm-2">
-                      <input class="form-control" placeholder="Employee ID" type="text" id="emp_id_can">
+                      <label for="">Date Authorized:</label>
+                      <input class="form-control" type="date" id="date_authorized_can">
                     </div>
                     <div class="col-sm-2">
-                      <input class="form-control" placeholder="Employee Name" type="text" id="fullname_can">
+                    <label for="">Employee ID:</label>
+                      <input class="form-control" placeholder="" type="text" id="emp_id_can">
+                    </div>
+                    <div class="col-sm-2">
+                    <label for="">Employee Name:</label>
+                      <input class="form-control" placeholder="" type="text" id="fullname_can">
                     </div>
                     <div class="col-sm-2 mt-2 ml-auto">
                       <!-- search button -->
