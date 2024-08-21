@@ -4,6 +4,21 @@ include '../conn.php';
 
 $method = $_POST['method'];
 
+if ($method == 'fetch_pro') {
+	$category = $_POST['category'];
+	$query = "SELECT `process` FROM `m_process` WHERE category = '$category' ORDER BY process ASC";
+	$stmt = $conn->prepare($query);
+	$stmt->execute();
+	if ($stmt->rowCount() > 0) {
+		echo '<option value="">Please select a process.....</option>';
+		foreach ($stmt->fetchAll() as $row) {
+			echo '<option>' . htmlspecialchars($row['process']) . '</option>';
+		}
+	} else {
+		echo '<option>Please select a process.....</option>';
+	}
+}
+
 if ($method == 'fetch_pro_can') {
 	$category = $_POST['category'];
 	$query = "SELECT `process` FROM `m_process` WHERE category = '$category' ORDER BY process ASC";

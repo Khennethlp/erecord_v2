@@ -1,4 +1,24 @@
 <script>
+   $(document).ready(function() {
+
+//history
+$("#category_can").change(function() {
+  var category = document.getElementById("category_can").value;
+  $.ajax({
+    url: '../../process/can_request/status.php',
+    type: 'POST',
+    cache: false,
+    data: {
+      method: 'fetch_pro',
+      category: category
+    },
+    success: function(response) {
+      $('#processName_can').html(response);
+    }
+  });
+});
+
+});
   document.getElementById("can_list_pagination").addEventListener("keyup", e => {
   var current_page = document.getElementById("can_list_pagination").value.trim();
   let total = sessionStorage.getItem('count_rows');
@@ -37,6 +57,9 @@ const search_can =current_page=>{
   var fullname = document.getElementById('fullname_can').value;
   var category = document.getElementById('category_can').value;
   var r_status = document.getElementById('r_status_can').value;
+  var processName_can = document.getElementById('processName_can').value;
+  var date_authorized_can = document.getElementById('date_authorized_can').value;
+
   console.log(category)
    if (category == 'Category') {
     category = '';
@@ -58,6 +81,8 @@ const search_can =current_page=>{
     fullname:fullname,
     category:category,
     r_status:r_status,
+    processName_can:processName_can,
+    date_authorized_can:date_authorized_can,
     current_page:current_page 
     
     },success:function(response){
@@ -73,6 +98,9 @@ const search_can =current_page=>{
   var fullname = document.getElementById('fullname_can').value;
   var category = document.getElementById('category_can').value;
   var r_status = document.getElementById('r_status_can').value;
+  var processName_can = document.getElementById('processName_can').value;
+  var date_authorized_can = document.getElementById('date_authorized_can').value;
+
   console.log(category)
    if (category == 'Category') {
     category = '';
@@ -93,6 +121,8 @@ const search_can =current_page=>{
     emp_id:emp_id,
     fullname:fullname,
     category:category,
+    processName_can:processName_can,
+    date_authorized_can:date_authorized_can,
     r_status:r_status
     
     },success:function(response){
@@ -119,6 +149,8 @@ const search_can_pagination =()=>{
   var fullname = document.getElementById('fullname_can').value;
   var category = document.getElementById('category_can').value;
   var r_status = document.getElementById('r_status_can').value;
+  var processName_can = document.getElementById('processName_can').value;
+  var date_authorized_can = document.getElementById('date_authorized_can').value;
   var current_page = sessionStorage.getItem('process_details_pagination');
   console.log(category)
    if (category == 'Category') {
@@ -140,6 +172,8 @@ const search_can_pagination =()=>{
     emp_id:emp_id,
     fullname:fullname,
     category:category,
+    processName_can:processName_can,
+    date_authorized_can:date_authorized_can,
     r_status:r_status
     
     },success:function(response){
