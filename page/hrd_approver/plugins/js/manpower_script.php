@@ -1,7 +1,7 @@
 <script type="text/javascript" >
 $(function() {
   agency_data();
-   search_data(1);
+  //  search_data(1);
 
 });
 

@@ -103,7 +103,7 @@
           <div class="row">
             <div class="col-sm-2">Resigned:🟪 Retired:🟦 Dismiss:🟧</div>
             <div class="col-sm-1">
-              <select class="form-control btn btn-outline-secondary" id="emp_status" onchange="search_data(1)">
+              <select class="form-control btn btn-outline-secondary" id="emp_status">
                 <option>STATUS:</option>
                 <option value="Resigned">Resigned</option>
                 <option value="Retired">Retired</option>
@@ -111,7 +111,7 @@
               </select>
             </div>
             <div class="col-sm-1">
-              <select class="form-control btn btn-outline-secondary" name="agency" id="agency" onchange="search_data(1)">
+              <select class="form-control btn btn-outline-secondary" name="agency" id="agency">
                 <option>Provider</option>
                 <option></option>
               </select>
