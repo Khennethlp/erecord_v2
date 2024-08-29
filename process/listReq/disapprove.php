@@ -18,7 +18,7 @@ function count_dis($search_arr, $conn) {
 			$query = $query . " FROM `t_i_process`";
 		}
 		$query = $query . " a
-							LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id 
+							LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id AND a.batch = b.batch
 							JOIN `m_process` c ON a.process = c.process
 							where a.i_status = 'Disapproved'";
 		if (!empty($search_arr['emp_id'])) {
@@ -107,7 +107,7 @@ if ($method == 'fetch_dis') {
 			$query = $query . " FROM `t_i_process`";
 		}
 		$query = $query . " a
-							LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id 
+							LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id AND a.batch = b.batch
 							JOIN `m_process` c ON a.process = c.process
 							where a.i_status = 'Disapproved'";
 		if (!empty($emp_id)) {

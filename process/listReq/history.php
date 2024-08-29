@@ -25,7 +25,7 @@ function count_history_admin_r($search_arr, $conn)
 			$query = $query . " FROM `t_i_process`";
 		}
 		$query = $query . " a
-							LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id 
+							LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id AND a.batch = b.batch
 							JOIN `m_process` c ON a.process = c.process
 							WHERE (a.i_status = 'Approved' OR a.i_status = 'Reviewed' OR a.i_status = 'Disapproved')";
 
@@ -151,7 +151,7 @@ if ($method == 'history_admin_r') {
 			$query = $query . " FROM `t_i_process`";
 		}
 		$query = $query . " a
-							LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id 
+							LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id AND a.batch = b.batch
 							JOIN `m_process` c ON a.process = c.process 
 							WHERE (a.i_status = 'Approved' OR a.i_status = 'Reviewed' OR a.i_status = 'Disapproved')";
 
@@ -240,7 +240,7 @@ function count_history_approver($search_arr, $conn)
 			$query = $query . " FROM `t_i_process`";
 		}
 		$query = $query . " a
-							LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id 
+							LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id AND a.batch = b.batch
 							JOIN `m_process` c ON a.process = c.process
 							WHERE (a.i_status = 'Approved' OR a.i_status = 'Disapproved')";
 
@@ -365,7 +365,7 @@ if ($method == 'history_approver') {
 			$query = $query . " FROM `t_i_process`";
 		}
 		$query = $query . " a
-							LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id 
+							LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id AND a.batch = b.batch
 							JOIN `m_process` c ON a.process = c.process
 							WHERE (a.i_status = 'Approved' OR a.i_status = 'Disapproved')";
 

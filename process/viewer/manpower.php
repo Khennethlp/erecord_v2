@@ -116,21 +116,21 @@ if ($method == 'fetch_data') {
 	$page_first_result = ($current_page - 1) * $results_per_page;
 	$c = $page_first_result;
 
-	$query = "SELECT  * FROM t_employee_m WHERE (emp_id LIKE '$emp_id%' OR emp_id_old LIKE '$emp_id%') ";
+	$query = "SELECT a.*, b.batch FROM t_employee_m a LEFT JOIN t_f_process b ON a.emp_id = b.emp_id AND a.batch = b.batch WHERE (a.emp_id LIKE '$emp_id%' OR a.emp_id_old LIKE '$emp_id%') ";
 	if (!empty($emp_status)) {
-		$query .= "AND emp_status = '$emp_status' ";
+		$query .= "AND a.emp_status = '$emp_status' ";
 	}
 	if (!empty($fullname)) {
-		$query .= "AND  fullname LIKE '$fullname%'";
+		$query .= "AND  a.fullname LIKE '$fullname%'";
 	}
 	if (!empty($agency)) {
-		$query .= "AND  agency = '$agency'";
+		$query .= "AND  a.agency = '$agency'";
 	}
 	if (!empty($batch)) {
-		$query .= "AND batch ='$batch' ";
+		$query .= "AND a.batch ='$batch' ";
 	}
 
-	$query .= " ORDER BY fullname ASC  LIMIT " . $page_first_result . ", " . $results_per_page;
+	$query .= "GROUP BY a.emp_id ORDER BY a.fullname ASC  LIMIT " . $page_first_result . ", " . $results_per_page;
 
 	$stmt = $conn->prepare($query);
 	$stmt->execute();
@@ -271,21 +271,21 @@ if ($method == 'fetch_data_m') {
 	// For row numbering
 	$c = $page_first_result;
 
-	$query = "SELECT  * FROM t_employee_m WHERE (emp_id LIKE '$emp_id%' OR emp_id_old LIKE '$emp_id%') ";
+	$query = "SELECT DISTINCT a.*, b.batch FROM t_employee_m a LEFT JOIN t_f_process b ON a.emp_id = b.emp_id AND a.batch = b.batch WHERE (a.emp_id LIKE '$emp_id%' OR a.emp_id_old LIKE '$emp_id%') ";
 	if (!empty($emp_status)) {
-		$query = $query . "AND emp_status = '$emp_status' ";
+		$query = $query . "AND a.emp_status = '$emp_status' ";
 	}
 	if (!empty($fullname)) {
-		$query = $query . "AND  fullname LIKE '$fullname%'";
+		$query = $query . "AND  a.fullname LIKE '$fullname%'";
 	}
 	if (!empty($agency)) {
-		$query = $query . "AND  agency = '$agency'";
+		$query = $query . "AND  a.agency = '$agency'";
 	}
 	if (!empty($batch)) {
-		$query = $query . "AND batch ='$batch' ";
+		$query = $query . "AND a.batch ='$batch' ";
 	}
 
-	$query = $query . " ORDER BY fullname ASC  LIMIT " . $page_first_result . ", " . $results_per_page;
+	$query = $query . " GROUP BY a.emp_id ORDER BY a.fullname ASC  LIMIT " . $page_first_result . ", " . $results_per_page;
 
 	$stmt = $conn->prepare($query);
 	$stmt->execute();

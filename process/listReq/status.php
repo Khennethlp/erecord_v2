@@ -36,7 +36,7 @@ function count_cert($search_arr, $conn)
 			$query = $query . " FROM `t_i_process`";
 		}
 		$query = $query . " a
-							LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id 
+							LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id AND a.batch = b.batch
 							JOIN `m_process` c ON a.process = c.process
 							where a.i_status ='" . $search_arr['i_status'] . "' AND a.up_date_time LIKE '%" . $_SESSION['fname'] . "%'";
 		if (!empty($search_arr['emp_id'])) {
@@ -141,7 +141,7 @@ if ($method == 'fetch_status_cert') {
 			$query = $query . " FROM `t_i_process`";
 		}
 		$query = $query . " a
-							LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id 
+							LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id AND a.batch = b.batch
 							JOIN `m_process` c ON a.process = c.process
 							WHERE a.i_status = '$i_status' AND a.up_date_time LIKE '%" . $_SESSION['fname'] . "%'";
 		if (!empty($emp_id)) {
