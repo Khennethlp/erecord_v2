@@ -225,6 +225,8 @@
     var fullname = data[7];
     var auth_no = data[8];
     var category = data[9];
+    var emp_id = data[11];
+    var batch = data[12];
 
     $('#id_d').val(id);
     $('#auth_year_d').val(auth_year);
@@ -236,6 +238,8 @@
     $('#employee_name_d').val(fullname);
     $('#auth_no_d').val(auth_no);
     $('#category_d').val(category);
+    $('#emp_id_d').val(emp_id);
+    $('#batch_d').val(batch);
     console.log(param)
   }
 
@@ -250,6 +254,8 @@
     var id = document.getElementById('id_d').value;
     var fullname = document.getElementById('employee_name_d').value;
     var category = document.getElementById('category_d').value;
+    var emp_id = document.getElementById('emp_id_d').value;
+    var batch = document.getElementById('batch_d').value;
 
 
     if (auth_no == '') {
@@ -284,6 +290,22 @@
         showConfirmButton: false,
         timer: 1000
       });
+    } else if (emp_id == '') {
+      Swal.fire({
+        icon: 'info',
+        title: 'Please Input Employee ID !!!',
+        text: 'Information',
+        showConfirmButton: false,
+        timer: 1000
+      });
+    } else if (batch == '') {
+      Swal.fire({
+        icon: 'info',
+        title: 'Please Input Batch No. !!!',
+        text: 'Information',
+        showConfirmButton: false,
+        timer: 1000
+      });
     } else {
       $.ajax({
         url: '../../process/listReq/status.php',
@@ -300,7 +322,9 @@
           updated_by: updated_by,
           id: id,
           fullname: fullname,
-          category: category
+          category: category,
+          emp_id: emp_id,
+          batch: batch
         },
         success: function(response) {
           console.log(response)
@@ -322,8 +346,10 @@
             $('id_d').val('');
             $('employee_name_d').val('');
             $('category_d').val('');
-            search_cert(1);
+            $('emp_id_d').val('');
+            $('batch_d').val('');
             $('#disapproved').modal('hide');
+            search_cert(1);
 
           } else if (response == 'existing') {
             Swal.fire({
@@ -340,6 +366,8 @@
             $("#remarks").val('');
             $("#dept").val('');
             $("#updated_by").val('');
+            $("#emp_id_d").val('');
+            $("#batch_d").val('');
             $('#disapproved').modal('hide');
 
           } else {
@@ -357,6 +385,8 @@
             $("#remarks").val('');
             $("#dept").val('');
             $("#updated_by").val('');
+            $("#emp_id_d").val('');
+            $("#batch_d").val('');
             $('#disapproved').modal('hide');
           }
         }

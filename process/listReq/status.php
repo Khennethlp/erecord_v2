@@ -164,7 +164,7 @@ if ($method == 'fetch_status_cert') {
 			foreach ($stmt->fetchAll() as $j) {
 				$c++;
 				$i_status = $j['i_status'];
-				echo '<tr style="cursor:pointer;" class="modal-trigger" data-toggle="modal" data-target="#disapproved" onclick="rec_disapproved(&quot;' . $j['id'] . '~!~' . $j['auth_year'] . '~!~' . $j['date_authorized'] . '~!~' . $j['expire_date'] . '~!~' . $j['remarks'] . '~!~' . $j['dept'] . '~!~' . $j['up_date_time'] . '~!~' . $j['fullname'] . '~!~' . $j['auth_no'] . '~!~' . $j['category'] .'~!~' . $j['i_status'].  '&quot;)">';
+				echo '<tr style="cursor:pointer;" class="modal-trigger" data-toggle="modal" data-target="#disapproved" onclick="rec_disapproved(&quot;' . $j['id'] . '~!~' . $j['auth_year'] . '~!~' . $j['date_authorized'] . '~!~' . $j['expire_date'] . '~!~' . $j['remarks'] . '~!~' . $j['dept'] . '~!~' . $j['up_date_time'] . '~!~' . $j['fullname'] . '~!~' . $j['auth_no'] . '~!~' . $j['category'] .'~!~' . $j['i_status']. '~!~' . $j['emp_id']. '~!~' . $j['batch'].  '&quot;)">';
 				echo '<td>' . $c . '</td>';
 				echo '<td>' . $j['process'] . '</td>';
 				echo '<td>' . $j['auth_no'] . '</td>';
@@ -202,9 +202,11 @@ if ($method == 'ds_update') {
 	$expire_date = $_POST['expire_date'];
 	$remarks = $_POST['remarks'];
 	$dept = $_POST['dept'];
-	$up_date_time = $_POST['up_date_time'];
+	// $up_date_time = $_POST['up_date_time'];
 	$id = $_POST['id'];
 	$category = $_POST['category'];
+	$emp_id = $_POST['emp_id'];
+	$batch = $_POST['batch'];
 	$c = 0;
 
 	$error = 0;
@@ -215,7 +217,7 @@ if ($method == 'ds_update') {
 	} else if ($category == 'Initial') {
 		$query .= "`t_i_process`";
 	}
-	$query .= " WHERE id = '$id' AND  auth_no='$auth_no'  AND auth_year = '$auth_year' AND date_authorized = '$date_authorized' AND expire_date = '$expire_date' AND remarks = '$remarks' AND dept = '$dept'";
+	$query .= " WHERE id = '$id' AND emp_id = '$emp_id' AND batch = '$batch' AND  auth_no='$auth_no'  AND auth_year = '$auth_year' AND date_authorized = '$date_authorized' AND expire_date = '$expire_date' AND remarks = '$remarks' AND dept = '$dept'";
 
 	$stmt = $conn->prepare($query);
 	$stmt->execute();
@@ -227,7 +229,7 @@ if ($method == 'ds_update') {
 		} else if ($category == 'Initial') {
 			$query .= "`t_i_process`";
 		}
-		$query .= " SET remarks = '$remarks', auth_year = '$auth_year', date_authorized = '$date_authorized', expire_date = '$expire_date', dept = '$dept', i_status = 'Pending', up_date_time = '" . $_SESSION['fname'] . "/ " . $server_date_time . "' WHERE id = '$id'";
+		$query .= " SET emp_id = '$emp_id', batch = '$batch', remarks = '$remarks', auth_year = '$auth_year', date_authorized = '$date_authorized', expire_date = '$expire_date', dept = '$dept', i_status = 'Pending', up_date_time = '" . $_SESSION['fname'] . "/ " . $server_date_time . "' WHERE id = '$id'";
 		$stmt = $conn->prepare($query);
 		if (!$stmt->execute()) {
 			$error++;

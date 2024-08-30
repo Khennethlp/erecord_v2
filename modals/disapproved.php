@@ -13,20 +13,26 @@
                 <div class="row">
                 <input type="hidden" id="category_d" class="form-control" style="height:35px; border: 1px solid black; font-size: 15px;" autocomplete="off">
                     <input type="hidden" id="id_d" class="form-control" style="height:35px; border: 1px solid black; font-size: 15px;" autocomplete="off">
-                    <div class="col-0 mt-1">
-                        <span><b>&nbsp;&nbsp;Employee Name :</b></span>
-                    </div>
-                    <div class="col-3">
+                 
+                        <div class="col-3">
+                        <span><b>Employee Name :</b></span>
                         <input type="text" id="employee_name_d" class="form-control" style="height:35px; border: 1px solid black; font-size: 15px;" autocomplete="off" disabled>
                     </div>
-                    <div class="col-0 mt-1">
+                 
+                        <div class="col-3">
                         <span><b>Authorization No. :</b></span>
-                    </div>
-                    <div class="col-3">
                         <input type="text" id="auth_no_d" class="form-control" style="height:35px; border: 1px solid black; font-size: 15px;" autocomplete="off" disabled>
                     </div>
                 </div>
                 <div class="row mt-3">
+                    <div class="col-3">
+                        <span><b>Employee ID:</b></span>
+                        <input type="text" id="emp_id_d" class="form-control" style="height:35px; border: 1px solid black; font-size: 15px;" autocomplete="off" >
+                    </div>
+                    <div class="col-3">
+                        <span><b>Batch No:</b></span>
+                        <input type="text" id="batch_d" class="form-control" style="height:35px; border: 1px solid black; font-size: 15px;" autocomplete="off" >
+                    </div>
                     <div class="col-3">
                         <span><b>Authorization Year:</b></span>
                         <input type="text" id="auth_year_d" class="form-control" style="height:35px; border: 1px solid black; font-size: 15px;" autocomplete="off" >
