@@ -116,24 +116,44 @@ if ($method == 'fetch_data') {
 	$page_first_result = ($current_page - 1) * $results_per_page;
 	$c = $page_first_result;
 
-	$query = "SELECT a.*, COALESCE(b.batch, a.batch) AS batch FROM t_employee_m a LEFT JOIN t_f_process b ON a.emp_id = b.emp_id AND a.batch = b.batch WHERE (a.emp_id LIKE '$emp_id%' OR a.emp_id_old LIKE '$emp_id%') ";
-	// $query = "SELECT * FROM t_employee_m WHERE (emp_id LIKE '$emp_id%' OR emp_id_old LIKE '$emp_id%') ";
+	// $query = "SELECT a.*, 
+	// CASE
+	// 	WHEN a.batch THEN a.batch
+	// 	WHEN b.batch THEN b.batch
+		
+	// END AS batch
+	//   FROM t_employee_m a LEFT JOIN t_f_process b ON a.emp_id = b.emp_id AND a.batch = b.batch WHERE (a.emp_id LIKE '$emp_id%' OR a.emp_id_old LIKE '$emp_id%') ";
+	// // $query = "SELECT * FROM t_employee_m WHERE (emp_id LIKE '$emp_id%' OR emp_id_old LIKE '$emp_id%') ";
+	// if (!empty($emp_status)) {
+	// 	$query .= "AND emp_status = '$emp_status' ";
+	// }
+	// if (!empty($fullname)) {
+	// 	$query .= "AND  fullname LIKE '$fullname%'";
+	// }
+	// if (!empty($agency)) {
+	// 	$query .= "AND  agency = '$agency'";
+	// }
+	// if (!empty($batch)) {
+	// 	$query .= "AND COALESCE(b.batch, a.batch) ='$batch' ";
+	// }
+
+	// $query .= " GROUP BY a.emp_id ORDER BY a.fullname ASC  LIMIT " . $page_first_result . ", " . $results_per_page;
+	//  $query .= " ORDER BY fullname ASC  LIMIT " . $page_first_result . ", " . $results_per_page;
+	$query = "SELECT  * FROM t_employee_m WHERE (emp_id LIKE '$emp_id%' OR emp_id_old LIKE '$emp_id%') ";
 	if (!empty($emp_status)) {
-		$query .= "AND emp_status = '$emp_status' ";
+		$query = $query . "AND emp_status = '$emp_status' ";
 	}
 	if (!empty($fullname)) {
-		$query .= "AND  fullname LIKE '$fullname%'";
+		$query = $query . "AND  fullname LIKE '$fullname%'";
 	}
 	if (!empty($agency)) {
-		$query .= "AND  agency = '$agency'";
+		$query = $query . "AND  agency = '$agency'";
 	}
 	if (!empty($batch)) {
-		$query .= "AND COALESCE(b.batch, a.batch) ='$batch' ";
+		$query = $query . "AND batch ='$batch' ";
 	}
 
-	$query .= " GROUP BY a.emp_id ORDER BY a.fullname ASC  LIMIT " . $page_first_result . ", " . $results_per_page;
-	//  $query .= " ORDER BY fullname ASC  LIMIT " . $page_first_result . ", " . $results_per_page;
-
+	$query = $query . " ORDER BY fullname ASC  LIMIT " . $page_first_result . ", " . $results_per_page;
 	$stmt = $conn->prepare($query);
 	$stmt->execute();
 	if ($stmt->rowCount() > 0) {
@@ -168,36 +188,36 @@ if ($method == 'fetch_data') {
 }
 
 if ($method == 'save_acc') {
-    $fullname = $_POST['fullname'];
-    $emp_id = $_POST['emp_id'];
-    $agency = $_POST['agency'];
-    $batch = $_POST['batch'];
-    $m_name = $_POST['m_name'];
+	$fullname = $_POST['fullname'];
+	$emp_id = $_POST['emp_id'];
+	$agency = $_POST['agency'];
+	$batch = $_POST['batch'];
+	$m_name = $_POST['m_name'];
 
-    $check_duplicate = "SELECT COUNT(*) FROM t_employee_m WHERE emp_id = :emp_id";
-    $stmt_duplicate = $conn->prepare($check_duplicate);
-    $stmt_duplicate->bindParam(':emp_id', $emp_id);
-    $stmt_duplicate->execute();
-    $count = $stmt_duplicate->fetchColumn();
+	$check_duplicate = "SELECT COUNT(*) FROM t_employee_m WHERE emp_id = :emp_id";
+	$stmt_duplicate = $conn->prepare($check_duplicate);
+	$stmt_duplicate->bindParam(':emp_id', $emp_id);
+	$stmt_duplicate->execute();
+	$count = $stmt_duplicate->fetchColumn();
 
-    if ($count > 0) {
-        echo 'duplicate'; 
-    } else {
-        try {
-            $insert = "INSERT INTO t_employee_m (`fullname`, `emp_id`, `agency`,`batch`,`m_name`) VALUES (:fullname,:emp_id,:agency,:batch,:m_name)";
-            $stmt = $conn->prepare($insert);
-            $stmt->execute(array(
-                ':fullname' => $fullname,
-                ':emp_id' => $emp_id,
-                ':agency' => $agency,
-                ':batch' => $batch,
-                ':m_name' => $m_name
-            ));
-            echo 'success';
-        } catch (Exception $e) {
-            echo 'fail'; // Return fail message if insertion fails
-        }
-    }
+	if ($count > 0) {
+		echo 'duplicate';
+	} else {
+		try {
+			$insert = "INSERT INTO t_employee_m (`fullname`, `emp_id`, `agency`,`batch`,`m_name`) VALUES (:fullname,:emp_id,:agency,:batch,:m_name)";
+			$stmt = $conn->prepare($insert);
+			$stmt->execute(array(
+				':fullname' => $fullname,
+				':emp_id' => $emp_id,
+				':agency' => $agency,
+				':batch' => $batch,
+				':m_name' => $m_name
+			));
+			echo 'success';
+		} catch (Exception $e) {
+			echo 'fail'; // Return fail message if insertion fails
+		}
+	}
 }
 
 if ($method == 'save_up') {
@@ -273,7 +293,28 @@ if ($method == 'fetch_data_m') {
 	// For row numbering
 	$c = $page_first_result;
 
-	$query = "SELECT DISTINCT a.*, COALESCE(b.batch, a.batch) AS batch  FROM t_employee_m a LEFT JOIN t_f_process b ON a.emp_id = b.emp_id AND a.batch = b.batch WHERE (a.emp_id LIKE '$emp_id%' OR a.emp_id_old LIKE '$emp_id%') ";
+	// $query = "SELECT DISTINCT a.*,
+	// CASE
+	// 	WHEN a.batch THEN a.batch
+	// 	WHEN b.batch THEN b.batch
+	// END AS batch  
+	// FROM t_employee_m a LEFT JOIN t_f_process b ON a.emp_id = b.emp_id AND a.batch = b.batch WHERE (a.emp_id LIKE '$emp_id%' OR a.emp_id_old LIKE '$emp_id%') ";
+	// if (!empty($emp_status)) {
+	// 	$query = $query . "AND emp_status = '$emp_status' ";
+	// }
+	// if (!empty($fullname)) {
+	// 	$query = $query . "AND  fullname LIKE '$fullname%'";
+	// }
+	// if (!empty($agency)) {
+	// 	$query = $query . "AND  agency = '$agency'";
+	// }
+	// if (!empty($batch)) {
+	// 	$query = $query . "AND COALESCE(b.batch, a.batch) ='$batch' ";
+	// }
+
+	// $query = $query . " GROUP BY a.emp_id ORDER BY a.fullname ASC  LIMIT " . $page_first_result . ", " . $results_per_page;
+
+	$query = "SELECT  * FROM t_employee_m WHERE (emp_id LIKE '$emp_id%' OR emp_id_old LIKE '$emp_id%') ";
 	if (!empty($emp_status)) {
 		$query = $query . "AND emp_status = '$emp_status' ";
 	}
@@ -284,10 +325,10 @@ if ($method == 'fetch_data_m') {
 		$query = $query . "AND  agency = '$agency'";
 	}
 	if (!empty($batch)) {
-		$query = $query . "AND COALESCE(b.batch, a.batch) ='$batch' ";
+		$query = $query . "AND batch ='$batch' ";
 	}
 
-	$query = $query . " GROUP BY a.emp_id ORDER BY a.fullname ASC  LIMIT " . $page_first_result . ", " . $results_per_page;
+	$query = $query . " ORDER BY fullname ASC  LIMIT " . $page_first_result . ", " . $results_per_page;
 
 	$stmt = $conn->prepare($query);
 	$stmt->execute();
