@@ -130,7 +130,7 @@ else if ($_SESSION['role'] =='qc'){
     </div>
 
     <!-- Navbar -->
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="background: #6c757d;">
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="background: #275DAD;">
       <!-- Left navbar links -->
       <ul class="navbar-nav">
         <li class="nav-item">

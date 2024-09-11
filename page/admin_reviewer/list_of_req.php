@@ -1,5 +1,5 @@
 <?php include 'plugins/navbar.php'; ?>
-<?php include 'plugins/sidebar/list_of_reqbar.php'; ?>
+<?php include 'plugins/sidebar/sidebar.php'; ?>
 <?php include '../../process/conn.php'; ?>
 <div class="content-wrapper" style="background: #FFF;">
   <div class="content-header">
@@ -51,7 +51,7 @@
                 <!-- onchange="search_pending(1)" -->
                 <div class="col-sm-2">
                   <label for="">Category:</label>
-                  <select class=" form-control btn bg-teal" name="category" id="category" required>
+                  <select class=" form-control btn bg-info" name="category" id="category" required>
                     <option value="">Select Category</option>
                     <option>Initial</option>
                     <option>Final</option>
@@ -80,7 +80,7 @@
                 <div class="col-sm-2 ml-auto">
                   <!-- search button -->
                   <label for="">&nbsp;</label>
-                  <button class="btn btn-block d-flex justify-content-left" id="search_btn" onclick="search_pending(1)" style="color:#fff;height:37px;border-radius:.25rem;background: #20c997;font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
+                  <button class="btn btn-block d-flex justify-content-left" id="search_btn" onclick="search_pending(1)" style="color:#fff;height:37px;border-radius:.25rem;background: var(--info);font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
                 </div>
               </div>
               <br>
@@ -136,7 +136,7 @@
                 <!-- <div class="col-sm-1"></div> -->
                 <div class="col-sm-2 mt-2">
                   <label for="">Category:</label>
-                  <select class="form-control  btn bg-teal" name="category" id="categoryyy" required>
+                  <select class="form-control  btn bg-info" name="category" id="categoryyy" required>
                     <option value="">Select Category</option>
                     <option>Initial</option>
                     <option>Final</option>
@@ -177,7 +177,7 @@
                 <div class="col-sm-2 mt-2">
                   <!-- search button -->
                   <label for="">&nbsp;</label>
-                  <button class="btn btn-block d-flex justify-content-center" id="search_btn" onclick="search_history(1)" style="color:#fff;height:37px;border-radius:.25rem;background: #20c997;font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
+                  <button class="btn btn-block d-flex justify-content-center" id="search_btn" onclick="search_history(1)" style="color:#fff;height:37px;border-radius:.25rem;background: var(--info);font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
                 </div>
               </div>
               <br>

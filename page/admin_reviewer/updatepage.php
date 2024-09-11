@@ -1,5 +1,5 @@
  <?php include 'plugins/navbar.php'; ?>
- <?php include 'plugins/sidebar/updatebar.php'; ?>
+ <?php include 'plugins/sidebar/sidebar.php'; ?>
  <div class="content-wrapper" style="background: #FFF;">
    <!-- Content Header (Page header) -->
    <div class="content-header">
@@ -24,31 +24,35 @@
          <div class="card-header">
            <h3 class="card-title"><img src="../../dist/img/update.png" style="height:28px;">&ensp;Update Process Table</h3>
          </div>
-         <div class="card-body"">
+         <div class="card-body">
       <div class=" row">
-        <div class="col-sm-2"></div>
-           <div class="col0-sm-1">
-             <select class="form-control btn-block bg-teal" recquired name="category" id="category" onchange="search_data(1)">
+           <div class="col-sm-2 ml-auto">
+            <label for="">Category</label>
+             <select class="form-control btn-block bg-info" required name="category" id="category">
                <option value="">Category</option>
                <option>Initial</option>
                <option>Final</option>
              </select>
            </div>
            <div class="col-sm-3">
-             <select class="form-control btn" name="pro" recquired id="pro" onchange="search_data(1)" style="width: 100%; border: 2px solid black;background-color: white;color: black;font-size: 16px;cursor: pointer; border-color: #7ADFB5;">
+            <label for="">Process Name</label>
+             <select class="form-control btn" name="pro" recquired id="pro" style="width: 100%; border: 2px solid black;background-color: white;color: black;font-size: 16px;cursor: pointer; border-color: var(--info);">
                <option>Please select a process.....</option>
                <option></option>
              </select>
            </div>
            <div class="col-sm-2">
-             <input class="form-control" placeholder="Employee Name" type="text" id="fullname_search">
+            <label for="">Employee Name</label>
+             <input class="form-control" placeholder="Type here..." type="text" id="fullname_search">
            </div>
            <div class="col-sm-2">
-             <input class="form-control" placeholder="Employee ID" type="text" id="emp_id_search">
+            <label for="">Employee ID</label>
+             <input class="form-control" placeholder="Type here..." type="text" id="emp_id_search">
            </div>
            <div class="col-sm-2">
              <!-- search button -->
-             <button class="btn btn-block d-flex justify-content-left" id="search_btn" onclick="search_data(1)" style="color:#fff;height:38px;border-radius:.25rem;background: #20c997;font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
+              <label for="">&nbsp;</label>
+             <button class="btn btn-block d-flex justify-content-left" id="search_btn" onclick="search_data(1)" style="color:#fff;height:38px;border-radius:.25rem;background: var(--info);font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
          </div>
        </div>
        <br>
@@ -72,7 +76,7 @@
              </table>
              <br>
            </div>
-           <div class="row">
+           <div class="row mt-3">
              <div class="col-sm-12 col-md-9 col-9">
                <div class="dataTables_info" id="count_rows_display" role="status" aria-live="polite"></div>
                <input type="hidden" id="count_rows">

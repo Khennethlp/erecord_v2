@@ -1,5 +1,5 @@
 <?php include 'plugins/navbar.php'; ?>
-<?php include 'plugins/sidebar/record_status_bar.php'; ?>
+<?php include 'plugins/sidebar/sidebar.php'; ?>
 <?php include '../../process/conn.php'; ?>
 <div class="content-wrapper" style="background: #FFF;">
   <!-- Content Header (Page header) -->
@@ -46,7 +46,7 @@
                     <!-- <div class="col-sm-2"></div> -->
                     <div class="col-sm-2">
                     <label for="">Category:</label>
-                      <select class="form-control  btn bg-teal" name="category" id="category_cert" required onchange="search_cert(1)">
+                      <select class="form-control  btn bg-info" name="category" id="category_cert" required onchange="search_cert(1)">
                         <option value="">Select Category</option>
                         <option>Initial</option>
                         <option>Final</option>
@@ -54,7 +54,7 @@
                     </div>
                     <div class="col-sm-2">
                     <label for="">Status:</label>
-                      <select class="form-control  btn bg-teal" name="stat" id="i_status_cert" required onchange="search_cert(1)">
+                      <select class="form-control  btn bg-info" name="stat" id="i_status_cert" required onchange="search_cert(1)">
                         <option value="Pending">Pending</option>
                         <option value="Reviewed">Reviewed</option>
                         <option value="Disapproved">Disapproved</option>
@@ -80,7 +80,7 @@
                     </div>
                     <div class="col-sm-2 ml-auto mt-2">
                       <!-- search button -->
-                      <button class="form-control  btn btn-block d-flex justify-content-left" id="search_btn" onclick="search_cert(1)" style="color:#fff;height:38px;border-radius:.25rem;background: #20c997;font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
+                      <button class="form-control  btn btn-block d-flex justify-content-left" id="search_btn" onclick="search_cert(1)" style="color:#fff;height:38px;border-radius:.25rem;background: var(--info);font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
                     </div>
                   </div>
                   <br>
@@ -135,7 +135,7 @@
                     <!-- <div class="col-sm-2"></div> -->
                     <div class="col-sm-2">
                       <label for="">Category:</label>
-                      <select class="form-control btn bg-teal" recquired name="category" id="category_can" onchange="search_can(1)">
+                      <select class="form-control btn bg-info" recquired name="category" id="category_can" onchange="search_can(1)">
                         <option value="">Select Category</option>
                         <option>Initial</option>
                         <option>Final</option>
@@ -143,7 +143,7 @@
                     </div>
                     <div class="col-sm-2">
                     <label for="">Status:</label>
-                      <select class="form-control btn bg-teal" name="stat" id="r_status_can" required onchange="search_can(1)">
+                      <select class="form-control btn bg-info" name="stat" id="r_status_can" required onchange="search_can(1)">
                         <option>Select Status</option>
                         <option value="Pending">Pending</option>
                         <option value="Reviewed">Reviewed</option>
@@ -170,7 +170,7 @@
                     </div>
                     <div class="col-sm-2 mt-2 ml-auto">
                       <!-- search button -->
-                      <button class="btn btn-block d-flex justify-content-left" id="search_btn" onclick="search_can(1)" style="color:#fff;height:38px;border-radius:.25rem;background: #20c997;font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
+                      <button class="btn btn-block d-flex justify-content-left" id="search_btn" onclick="search_can(1)" style="color:#fff;height:38px;border-radius:.25rem;background: var(--info);font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
                     </div>
                   </div>
                   <br>
