@@ -1,5 +1,5 @@
 <?php include 'plugins/navbar.php'; ?>
-<?php include 'plugins/sidebar/importbar.php'; ?>
+<?php include 'plugins/sidebar/sidebar.php'; ?>
 <div class="content-wrapper" style="background: #FFF;">
   <!-- Content Header (Page header) -->
   <div class="content-header">
@@ -174,7 +174,7 @@
                 </table>
                 <br>
               </div>
-              <div class="row">
+              <div class="row mt-3">
                 <div class="col-sm-12 col-md-9 col-9">
                   <div class="dataTables_info" id="count_rows_display" role="status" aria-live="polite"></div>
                   <input type="hidden" id="count_rows">

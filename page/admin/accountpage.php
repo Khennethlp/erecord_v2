@@ -1,5 +1,5 @@
 <?php include 'plugins/navbar.php'; ?>
-<?php include 'plugins/sidebar/addaccbar.php'; ?>
+<?php include 'plugins/sidebar/sidebar.php'; ?>
 
 <div class="content-wrapper" style="background: #FFF;">
     <!-- Content Header (Page header) -->

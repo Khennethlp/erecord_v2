@@ -1,5 +1,5 @@
 <?php include 'plugins/navbar.php'; ?>
-<?php include 'plugins/sidebar/dashboardbar.php'; ?>
+<?php include 'plugins/sidebar/sidebar.php'; ?>
 <?php include '../../process/conn.php'; ?>
 <div class="content-wrapper" style="background: #FFF;">
   <!-- Content Header (Page header) -->
@@ -72,11 +72,11 @@
                       </div>
                       <div class="col-sm-2">
                         <label for="">Employee ID</label>
-                        <input class="form-control" placeholder="" type="text" id="emp_id_cert">
+                        <input class="form-control" placeholder="Type here..." type="text" id="emp_id_cert">
                       </div>
                       <div class="col-sm-2">
                         <label for="">Employee Name</label>
-                        <input placeholder="" type="text" id="fullname_cert" class="form-control" autocomplete="off">
+                        <input placeholder="Type here..." type="text" id="fullname_cert" class="form-control" autocomplete="off">
                       </div>
                      
                       <div class="col-sm-2 ml-auto">
@@ -114,7 +114,7 @@
                         </table>
                       </div>
                       <br>
-                      <div class="row">
+                      <div class="row mt-3">
                         <div class="col-sm-12 col-md-9 col-9">
                           <div class="dataTables_info" id="count_rows_display1" role="status1" aria-live="polite"></div>
                           <input type="hidden" id="count_rows1">
@@ -164,11 +164,11 @@
                       </div>
                       <div class="col-sm-2">
                         <label for="">Employee ID</label>
-                        <input class="form-control" placeholder="" type="text" id="emp_id_can">
+                        <input class="form-control" placeholder="Type here..." type="text" id="emp_id_can">
                       </div>
                       <div class="col-sm-2">
                         <label for="">Employee Name</label>
-                        <input class="form-control" placeholder="" type="text" id="fullname_can">
+                        <input class="form-control" placeholder="Type here..." type="text" id="fullname_can">
                       </div>
                       <div class="col-sm-2 ml-auto">
                         <!-- search button -->
@@ -208,7 +208,7 @@
                           </table>
                         </div>
                         <br>
-                        <div class="row">
+                        <div class="row mt-3">
                           <div class="col-sm-12 col-md-9 col-9">
                             <div class="dataTables_info" id="count_rows_display" role="status" aria-live="polite"></div>
                             <input type="hidden" id="count_rows">
