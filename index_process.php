@@ -5,8 +5,8 @@ $method = $_POST['method'];
 
 if ($method == 'fetch_pro') {
 	$category = $_POST['category'];
-	$query = "SELECT `process` FROM `m_process` WHERE category = '$category' ORDER BY process ASC";
-	$stmt = $conn->prepare($query);
+	$query = "SELECT process FROM m_process WHERE category = '$category' ORDER BY process ASC";
+	$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 	$stmt->execute();
 	if ($stmt->rowCount() > 0) {
 		echo '<option value="">Please select a process.....</option>';
@@ -23,15 +23,16 @@ function count_category($search_arr, $conn)
 	$query = "SELECT count(a.id) as total";
 
 	if ($search_arr['category'] == 'Final') {
-		$query = $query . " FROM `t_f_process`";
+		$query = $query . " FROM t_f_process";
 	} else if ($search_arr['category'] == 'Initial') {
-		$query = $query . " FROM `t_i_process`";
+		$query = $query . " FROM t_i_process";
 	}
 
 	$query = $query . " a
 						LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id AND a.batch = b.batch
-						JOIN `m_process` c ON a.process = c.process
+						JOIN m_process c ON a.process = c.process
 						where a.i_status = 'Approved' ";
+
 	if (!empty($search_arr['emp_id'])) {
 		$query = $query . " AND (b.emp_id = '" . $search_arr['emp_id'] . "' OR b.emp_id_old = '" . $search_arr['emp_id'] . "')";
 	}
@@ -49,9 +50,7 @@ function count_category($search_arr, $conn)
 		$query = $query . " AND a.date_authorized = '" . $search_arr['date_authorized'] . "' ";
 	}
 
-	$query = $query . " ORDER BY a.process ASC, b.fullname ASC, a.auth_year DESC";
-
-	$stmt = $conn->prepare($query);
+	$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 	$stmt->execute();
 	if ($stmt->rowCount() > 0) {
 		foreach ($stmt->fetchALL() as $j) {
@@ -113,95 +112,103 @@ if ($method == 'fetch_category_pagination') {
 }
 
 if ($method == 'fetch_category') {
-	$emp_id = $_POST['emp_id'];
-	$pro = $_POST['pro'];
-	$category = $_POST['category'];
-	$date = $_POST['date'];
-	$date_authorized = $_POST['date_authorized'];
-	$fullname = $_POST['fullname'];
-	$current_page = intval($_POST['current_page']);
-	$c = 0;
+    $emp_id = $_POST['emp_id'];
+    $pro = $_POST['pro'];
+    $category = $_POST['category'];
+    $date = $_POST['date'];
+    $date_authorized = $_POST['date_authorized'];
+    $fullname = $_POST['fullname'];
+    $current_page = intval($_POST['current_page']);
+    $c = 0;
 
-	if (!empty($category)) {
+    if (!empty($category)) {
 
-		$results_per_page = 100;
+        $results_per_page = 100;
+        $page_first_result = ($current_page - 1) * $results_per_page;
 
-		//determine the sql LIMIT starting number for the results on the displaying page
-		$page_first_result = ($current_page-1) * $results_per_page;
+        $c = $page_first_result;
 
-		// For row numbering
-		$c = $page_first_result;
+        $query = "SELECT a.batch, a.process, a.auth_no, a.auth_year, a.date_authorized, a.expire_date, 
+                         a.r_of_cancellation, a.d_of_cancellation, a.remarks, a.i_status, a.r_status, 
+                         b.fullname, b.agency, a.dept, b.emp_id, c.category";
 
-		$query = "SELECT a.batch, a.process,a.auth_no,a.auth_year,a.date_authorized,a.expire_date,a.r_of_cancellation,a.d_of_cancellation,a.remarks,a.i_status,a.r_status,b.fullname,b.agency,a.dept,b.emp_id,c.category";
+        if ($category == 'Final') {
+            $query .= " FROM t_f_process a";
+        } else if ($category == 'Initial') {
+            $query .= " FROM t_i_process a";
+        }
 
-		if ($category == 'Final') {
-			$query = $query . " FROM `t_f_process`";
-		}else if ($category == 'Initial') {
-			$query = $query . " FROM `t_i_process`";
-		}
+        $query .= " LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id AND a.batch = b.batch
+                    JOIN m_process c ON a.process = c.process
+                    WHERE a.i_status = 'Approved'";
 
-		$query = $query . " a
-		LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id AND a.batch = b.batch
-							JOIN `m_process` c ON a.process = c.process
-							where a.i_status = 'Approved'";
-		if (!empty($emp_id)) {
-		$query = $query . " AND (b.emp_id = '$emp_id' OR b.emp_id_old = '$emp_id')";
-	}
+        $params = [];
 
-		if (!empty($fullname)) {
-			$query = $query . " AND b.fullname LIKE'$fullname%'";
-		}
+        if (!empty($emp_id)) {
+            $query .= " AND (b.emp_id = '$emp_id' OR b.emp_id_old = '$emp_id')";
+        }
 
-		if (!empty($pro)) {
-			$query = $query . " AND a.process LIKE '$pro'";
-		}
-		if (!empty($date)) {
-			$query = $query . " AND a.expire_date = '$date' ";
-		}
-		if (!empty($date_authorized)) {
-			$query = $query . " AND a.date_authorized = '$date_authorized' ";
-		}
-		
-		$query = $query ." ORDER BY a.process ASC, b.fullname ASC, a.auth_year DESC LIMIT ".$page_first_result.", ".$results_per_page;
+        if (!empty($fullname)) {
+            $query .= " AND b.fullname LIKE '$fullname%'";
+        }
 
-		$stmt = $conn->prepare($query);
-		$stmt->execute();
-		if ($stmt->rowCount() > 0) {
-			foreach($stmt->fetchAll() as $j){
-				$c++;
-				$row_class = "";
-			if ($j['r_status'] == 'Approved') {
-				$row_class = " bg-danger";
-			}
-				echo '<tr style="cursor:pointer;" class="modal-trigger'.$row_class.'">';
-					echo '<td>'.$c.'</td>';
-					echo '<td>'.$j['process'].'</td>';
-					echo '<td>'.$j['auth_no'].'</td>';
-					echo '<td>'.$j['auth_year'].'</td>';
-					echo '<td>'.$j['date_authorized'].'</td>';
-					echo '<td>'.$j['expire_date'].'</td>';
-					echo '<td>'.$j['fullname'].'</td>';
-					echo '<td>'.$j['emp_id'].'</td>';
-					echo '<td>'.$j['batch'].'</td>';
-					echo '<td>'.$j['dept'].'</td>';
-					echo '<td>'.$j['remarks'].'</td>';
-					if ($j['r_status'] == 'Approved') {
-					echo '<td>'.$j['r_of_cancellation'].'</td>';
-					echo '<td>'.$j['d_of_cancellation'].'</td>';
-				} else {
-					echo '<td></td>';
-					echo '<td></td>';
-				}
-					
-				echo '</tr>';
-			}
-		}else{
-			echo '<tr>';
-				echo '<td style="text-align:center;" colspan="4">No Result</td>';
-			echo '</tr>';
-		}
-	} else {
-		echo '<script>alert("Please select category and process");</script>';
-	}
+        if (!empty($pro)) {
+            $query .= " AND a.process LIKE '$pro%'";
+        }
 
+        if (!empty($date)) {
+            $query .= " AND a.expire_date = '$date'";
+        }
+
+        if (!empty($date_authorized)) {
+            $query .= " AND a.date_authorized = '$date_authorized'";
+        }
+
+        $query .= " ORDER BY a.process ASC, b.fullname ASC, a.auth_year DESC 
+                    OFFSET :page_first_result ROWS 
+                    FETCH NEXT :results_per_page ROWS ONLY";
+
+        $stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+
+        $stmt->bindValue(':page_first_result', $page_first_result, PDO::PARAM_INT);
+        $stmt->bindValue(':results_per_page', $results_per_page, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        // Check if rows are returned
+        if ($stmt->rowCount() > 0) {
+            foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $j) {
+                $c++;
+                $row_class = ($j['r_status'] == 'Approved') ? " bg-danger" : "";
+
+                echo '<tr style="cursor:pointer;" class="modal-trigger' . $row_class . '">';
+                echo '<td>' . $c . '</td>';
+                echo '<td>' . htmlspecialchars($j['process']) . '</td>';
+                echo '<td>' . htmlspecialchars($j['auth_no']) . '</td>';
+                echo '<td>' . htmlspecialchars($j['auth_year']) . '</td>';
+                echo '<td>' . htmlspecialchars($j['date_authorized']) . '</td>';
+                echo '<td>' . htmlspecialchars($j['expire_date']) . '</td>';
+                echo '<td>' . htmlspecialchars($j['fullname']) . '</td>';
+                echo '<td>' . htmlspecialchars($j['emp_id']) . '</td>';
+                echo '<td>' . htmlspecialchars($j['batch']) . '</td>';
+                echo '<td>' . htmlspecialchars($j['dept']) . '</td>';
+                echo '<td>' . htmlspecialchars($j['remarks']) . '</td>';
+                if ($j['r_status'] == 'Approved') {
+                    echo '<td>' . htmlspecialchars($j['r_of_cancellation']) . '</td>';
+                    echo '<td>' . htmlspecialchars($j['d_of_cancellation']) . '</td>';
+                } else {
+                    echo '<td></td>';
+                    echo '<td></td>';
+                }
+                echo '</tr>';
+            }
+        } else {
+            echo '<tr>';
+            echo '<td style="text-align:center;" colspan="4">No Result</td>';
+            echo '</tr>';
+        }
+    } else {
+        echo '<script>alert("Please select category and process");</script>';
+    }
 }
+
