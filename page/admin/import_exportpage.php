@@ -43,7 +43,7 @@
         <div class="col-lg-3 col-6">
           <!-- small card -->
           <a href="#" data-toggle="modal" data-target="#add_emp_pro">
-            <div class="small-box bg-danger">
+            <div class="small-box bg-warning">
               <div class="inner">
                 <h4>ADD RENEW</h4>
                 <br>
@@ -121,27 +121,32 @@
             <div class="row">
               <div class="col-sm-1"></div>
               <div class="col-sm-2">
-                <select class="form-control  btn bg-teal" name="category" id="category" required onchange="search_data(1)">
-                  <option value="">Category</option>
+                <label for="">Category</label>
+                <select class="form-control btn bg-info" name="category" id="category" required onchange="search_data(1)">
+                  <option value="">Select Category</option>
                   <option>Initial</option>
                   <option>Final</option>
                 </select>
               </div>
               <div class="col-sm-3">
-                <select class="form-control btn" name="pro" required id="pro" onchange="search_data(1)" style="width: 100%; border: 2px solid black;background-color: white;color: black;font-size: 16px;cursor: pointer; border-color: #7ADFB5;">
+                <label for="">Process Name</label>
+                <select class="form-control btn" name="pro" required id="pro" onchange="search_data(1)" style="width: 100%; border: 2px solid black;background-color: white;color: black;font-size: 16px;cursor: pointer; border-color:var(--info);">
                   <option>Please select a process.....</option>
                   <option></option>
                 </select>
               </div>
               <div class="col-sm-2">
-                <input class="form-control" placeholder="Employee ID" type="text" id="emp_id_search">
+                <label for="">Employee ID</label>
+                <input class="form-control" placeholder="Type here..." type="text" id="emp_id_search">
               </div>
               <div class="col-sm-2">
-                <input class="form-control" type="text" placeholder="Expire Date" onfocus="(this.type='date')" onblur="(this.type='text')" id="expire_date_search">
+                <label for="">Expire Date</label>
+                <input class="form-control" type="text" placeholder="Select date..." onfocus="(this.type='date')" onblur="(this.type='text')" id="expire_date_search">
               </div>
               <div class="col-sm-2">
                 <!-- search button -->
-                <button class="btn btn-block d-flex justify-content-left" id="search_btn" onclick="search_data(1)" style="color:#fff;height:38px;border-radius:.25rem;background: #20c997;font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
+                 <label for="">&nbsp;</label>
+                <button class="btn btn-block d-flex justify-content-left" id="search_btn" onclick="search_data(1)" style="color:#fff;height:38px;border-radius:.25rem;background: var(--info);font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
               </div>
             </div>
             <br>

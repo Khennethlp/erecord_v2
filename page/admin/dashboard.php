@@ -45,44 +45,44 @@
                     <div class=" row">
                       <!-- <div class="col-sm-2"></div> -->
                       <div class="col-sm-2">
-                        <label for="">Category:</label>
-                        <select class="form-control  btn bg-teal" name="category" id="category_cert" required>
+                        <label for="">Category</label>
+                        <select class="form-control btn bg-info" name="category" id="category_cert" required>
                           <option value="">Select Category</option>
                           <option>Initial</option>
                           <option>Final</option>
                         </select>
                       </div>
                       <div class="col-sm-2">
-                        <label for="">Status:</label>
-                        <select class="form-control btn bg-teal" name="stat" id="i_status_cert" required>
+                        <label for="">Status</label>
+                        <select class="form-control btn bg-info" name="stat" id="i_status_cert" required>
                           <option value="Pending">Pending</option>
                           <option value="Reviewed">Reviewed</option>
                           <option value="Disapproved">Disapproved</option>
                         </select>
                       </div>
                       <div class="col-sm-2">
-                        <label for="">Process Name:</label>
+                        <label for="">Process Name</label>
                         <select class="form-control " name="processName_cert" id="processName_cert">
                           <option value="">Select Process</option>
                         </select>
                       </div>
                       <div class="col-sm-2">
-                        <label for="">Date Authorized:</label>
+                        <label for="">Date Authorized</label>
                         <input class="form-control" type="date" id="date_authorized_cert">
                       </div>
                       <div class="col-sm-2">
-                        <label for="">Employee ID:</label>
+                        <label for="">Employee ID</label>
                         <input class="form-control" placeholder="" type="text" id="emp_id_cert">
                       </div>
                       <div class="col-sm-2">
-                        <label for="">Employee Name:</label>
+                        <label for="">Employee Name</label>
                         <input placeholder="" type="text" id="fullname_cert" class="form-control" autocomplete="off">
                       </div>
                      
                       <div class="col-sm-2 ml-auto">
                         <!-- search button -->
                         <label for="">&nbsp;</label>
-                        <button class="form-control  btn btn-block d-flex justify-content-left" id="search_btn" onclick="search_cert(1)" style="color:#fff;height:38px;border-radius:.25rem;background: #20c997;font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
+                        <button class="form-control  btn btn-block d-flex justify-content-left" id="search_btn" onclick="search_cert(1)" style="color:#fff;height:38px;border-radius:.25rem;background: var(--info);font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
                       </div>
                     </div>
                     <br>
@@ -136,16 +136,16 @@
                     <div class="row">
                       <!-- <div class="col-sm-2"></div> -->
                       <div class="col-sm-2">
-                        <label for="">Category:</label>
-                        <select class="form-control btn bg-teal" recquired name="category" id="category_can">
+                        <label for="">Category</label>
+                        <select class="form-control btn bg-info" required name="category" id="category_can">
                           <option value="">Select Category</option>
                           <option>Initial</option>
                           <option>Final</option>
                         </select>
                       </div>
                       <div class="col-sm-2">
-                        <label for="">Status:</label>
-                        <select class="form-control btn bg-teal" name="stat" id="r_status_can" required>
+                        <label for="">Status</label>
+                        <select class="form-control btn bg-info" name="stat" id="r_status_can" required>
                           <option>Select Status</option>
                           <option value="Pending">Pending</option>
                           <option value="Reviewed">Reviewed</option>
@@ -153,27 +153,27 @@
                         </select>
                       </div>
                       <div class="col-sm-2">
-                        <label for="">Process Name:</label>
+                        <label for="">Process Name</label>
                         <select class="form-control " name="processName_can" id="processName_can">
                           <option value="">Select Process</option>
                         </select>
                       </div>
                       <div class="col-sm-2">
-                        <label for="">Date Authorized:</label>
+                        <label for="">Date Authorized</label>
                         <input class="form-control" type="date" id="date_authorized_can">
                       </div>
                       <div class="col-sm-2">
-                        <label for="">Employee ID:</label>
+                        <label for="">Employee ID</label>
                         <input class="form-control" placeholder="" type="text" id="emp_id_can">
                       </div>
                       <div class="col-sm-2">
-                        <label for="">Employee Name:</label>
+                        <label for="">Employee Name</label>
                         <input class="form-control" placeholder="" type="text" id="fullname_can">
                       </div>
                       <div class="col-sm-2 ml-auto">
                         <!-- search button -->
                         <label for="">&nbsp;</label>
-                        <button class="btn btn-block d-flex justify-content-left" id="search_btn" onclick="search_can(1)" style="color:#fff;height:38px;border-radius:.25rem;background: #20c997;font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
+                        <button class="btn btn-block d-flex justify-content-left" id="search_btn" onclick="search_can(1)" style="color:#fff;height:38px;border-radius:.25rem;background: var(--info);font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
                       </div>
                     </div>
                     <br>
