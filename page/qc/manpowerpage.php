@@ -1,5 +1,6 @@
 <?php include 'plugins/navbar.php'; ?>
-<?php include 'plugins/sidebar/manpowerbar.php'; ?>
+<?php include 'plugins/sidebar/sidebar.php'; ?>
+<?php //include 'plugins/sidebar/manpowerbar.php'; ?>
 <div class="content-wrapper" style="background: #FFF;">
   <!-- Content Header (Page header) -->
   <div class="content-header">
@@ -21,39 +22,47 @@
   <!-- Main content -->
   <section class="content">
     <div class="col-md-12">
-      <div class="card card-light" style="background: #fff; border-top: 2px solid #6c757d;">
+      <div class="card card-light" style="background: #fff; border-top: 2px solid #275DAD;">
         <div class="card-header">
           <h3 class="card-title"><img src="../../dist/img/files.png" style="height:28px;">&ensp;Masterlist Table</h3>
         </div>
         <div class="card-body">
-          <div class="row">
-            <div class="col-sm-2">Resigned:🟪 Retired:🟦 Dismiss:🟧</div>
-            <div class="col-sm-1">
-              <select class="form-control btn btn-outline-secondary" id="emp_status" onchange="search_data(1)">
-                <option>STATUS:</option>
+          <div class="row mb-3">
+            <div class="col-sm-4">Resigned:🟪 &nbsp;&nbsp;Retired:🟦 &nbsp;&nbsp;Dismiss:🟧</div>
+          </div>
+            <div class="row">  
+            <div class="col-sm-2">
+              <label for="">Status</label>
+              <select class="form-control btn btn-outline-secondary" id="emp_status">
+                <option>Select status</option>
                 <option value="Resigned">Resigned</option>
                 <option value="Retired">Retired</option>
                 <option value="Dismiss">Dismiss</option>
               </select>
             </div>
-            <div class="col-sm-1">
-              <select class="form-control btn btn-outline-secondary" name="agency" id="agency" onchange="search_data(1)">
-                <option>Provider</option>
+            <div class="col-sm-2">
+              <label for="">Provider</label>
+              <select class="form-control btn btn-outline-secondary" name="agency" id="agency">
+                <option>Select Provider</option>
                 <option></option>
               </select>
             </div>
             <div class="col-sm-2">
-              <input class="form-control" placeholder="Employee ID" type="text" id="emp_id_search">
+              <label for="">Employee ID</label>
+              <input class="form-control" placeholder="Type here..." type="text" id="emp_id_search">
             </div>
             <div class="col-sm-2">
-              <input class="form-control" placeholder="Batch No." type="number" id="batch">
+              <label for="">Batch No.</label>
+              <input class="form-control" placeholder="Type here..." type="number" id="batch">
             </div>
             <div div class="col-sm-2">
-              <input class="form-control" placeholder="Employee Name" type="text" id="fullname_search">
+              <label for="">Employee Name</label>
+              <input class="form-control" placeholder="Type here..." type="text" id="fullname_search">
             </div>
             <div class="col-sm-2">
               <!-- search button -->
-              <button class="btn btn-block d-flex justify-content-left" id="search_btn" onclick="search_data(1)" style="color:#fff;height:38px;border-radius:.25rem;background: #20c997;font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
+               <label for="">&nbsp;</label>
+              <button class="btn btn-block d-flex justify-content-left" id="search_btn" onclick="search_data(1)" style="color:#fff;height:38px;border-radius:.25rem;background: var(--info);font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
             </div>
           </div>
           <br>

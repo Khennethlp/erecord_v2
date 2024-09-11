@@ -10,8 +10,8 @@
       <div class="modal-body" >
         
         <!-- <input type="hidden" id="category" disabled> -->
-<label>Name:<input type="text" id="employee_name_view" disabled></label>
-<label>Authorization No.<input type="text" id="auth_no_view" disabled></label>
+<label>Name:<input class="form-control" type="text" id="employee_name_view" disabled></label>
+<label>Authorization No.<input class="form-control" type="text" id="auth_no_view" disabled></label>
 <div class="card-body table-responsive p-0" style="height: 420px;">
 
                 <table class="table table-head-fixed text-nowrap table-hover" id="view_master">

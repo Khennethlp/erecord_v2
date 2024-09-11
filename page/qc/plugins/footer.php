@@ -1,8 +1,8 @@
   <footer class="main-footer">
-  <strong>Copyright &copy; 2023. EJ Montañano & Jane Irish Bautista </strong>
+  <strong>Copyright &copy; 2023. EJ Montañano & JI Bautista & KL Puerto </strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 1.0.1
+      <b>Version</b> 2.0.0
     </div>
   </footer>
 <?php

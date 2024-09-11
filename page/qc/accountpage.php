@@ -1,5 +1,6 @@
 <?php include 'plugins/navbar.php'; ?>
-<?php include 'plugins/sidebar/addpagebar.php'; ?>
+<?php include 'plugins/sidebar/sidebar.php'; ?>
+<?php //include 'plugins/sidebar/addpagebar.php'; ?>
 
 <div class="content-wrapper" style="background: #FFF;">
     <!-- Content Header (Page header) -->
@@ -23,25 +24,26 @@
     <!-- Main content -->
     <section class="content">
         <div class="col-md-12">
-            <div class="card card-light" style="background: #fff; border-top: 2px solid #ffc300;">
+            <div class="card card-light" style="background: #fff; border-top: 2px solid #275DAD;">
                 <div class="card-header">
                     <h3 class="card-title"><img src="../../dist/img/acct-user.png" style="height:28px;">&ensp;Account Management Table</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-3">
-                        </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-3 ml-auto">
                             <!-- search full name -->
-                            <input type="text" name="username_search" id="username_search" class="form-control" placeholder="Username" autocomplete="off" style="color: #525252;font-size: 15px;border-radius: .25rem;border: 1px solid #525252;background: #FFF;height:34px; width:100%;" class="pl-3">
+                             <label for="">Username</label>
+                            <input type="text" name="username_search" id="username_search" class="form-control" placeholder="Type here..." autocomplete="off" style="color: #525252;font-size: 15px;border-radius: .25rem;border: 1px solid #525252;background: #FFF;height:34px; width:100%;" class="pl-3">
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-2">
                             <!-- search button -->
-                            <button class="btn btn-block d-flex justify-content-left" id="username_search" onclick="search_account()" style="color:#fff;height:34px;border-radius:.25rem;background: #20c997;font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
+                             <label for="">&nbsp;</label>
+                            <button class="btn btn-block d-flex justify-content-left" id="username_search" onclick="search_account()" style="color:#fff;height:34px;border-radius:.25rem;background: var(--info);font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-2">
                             <!-- add account button -->
+                             <label for="">&nbsp;</label>
                             <a class="btn btn-block d-flex justify-content-left" data-toggle="modal" data-target="#addqc" style="color:#000;height:34px;border-radius:.25rem;background: #F29A35;font-size:15px;font-weight:normal;"><img src="../../dist/img/add-user.png" style="height:19px;">&nbsp;&nbsp;Add Account</a>
 
                         </div>

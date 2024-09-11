@@ -1,5 +1,6 @@
 <?php include 'plugins/navbar.php'; ?>
-<?php include 'plugins/sidebar/dashboardbar.php'; ?>
+<?php include 'plugins/sidebar/sidebar.php'; ?>
+<?php //include 'plugins/sidebar/dashboardbar.php'; ?>
 <?php include '../../process/conn.php'; ?>
 <div class="content-wrapper" style="background: #FFF;">
   <!-- Content Header (Page header) -->
@@ -21,7 +22,7 @@
 
   <section class="content">
     <div class="col-md-12">
-      <div class="card card-light" style="background: #fff; border-top: 2px solid #ffc300;">
+      <div class="card card-light" style="background: #fff; border-top: 2px solid #275DAD;">
         <div class="card-header">
           <h3 class="card-title"><img src="../../dist/img/check-list.png" style="height:28px;">&ensp; Cancellation Process Table</h3>
         </div>
@@ -30,7 +31,7 @@
             <!-- <div class="col-sm-2"></div> -->
             <div class="col-sm-2">
             <label for="">Category:</label>
-              <select class="form-control btn bg-teal" recquired name="category" id="category_can" onchange="search_can(1)">
+              <select class="form-control btn bg-info" recquired name="category" id="category_can">
                 <option value="">Select Category</option>
                 <option>Initial</option>
                 <option>Final</option>
@@ -38,7 +39,7 @@
             </div>
             <div class="col-sm-2">
             <label for="">Status:</label>
-              <select class="form-control btn bg-teal" name="stat" id="r_status_can" required onchange="search_can(1)">
+              <select class="form-control btn bg-info" name="stat" id="r_status_can" required>
                 <option value="Pending">Pending</option>
                 <option value="Reviewed">Reviewed</option>
                 <option value="Disapproved">Disapproved</option>
@@ -56,15 +57,15 @@
             </div>
             <div class="col-sm-2">
             <label for="">Employee ID:</label>
-              <input class="form-control" placeholder="" type="text" id="emp_id_can">
+              <input class="form-control" placeholder="Type here..." type="text" id="emp_id_can">
             </div>
             <div class="col-sm-2 ">
             <label for="">Employee Name:</label>
-              <input class="form-control" placeholder="" type="text" id="fullname_can">
+              <input class="form-control" placeholder="Type here..." type="text" id="fullname_can">
             </div>
             <div class="col-sm-2 ml-auto mt-2">
               <!-- search button -->
-              <button class="btn btn-block d-flex justify-content-left" id="search_btn" onclick="search_can(1)" style="color:#fff;height:38px;border-radius:.25rem;background: #20c997;font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
+              <button class="btn btn-block d-flex justify-content-left" id="search_btn" onclick="search_can(1)" style="color:#fff;height:38px;border-radius:.25rem;background: var(--info);font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
             </div>
           </div>
           <br>

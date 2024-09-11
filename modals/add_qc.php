@@ -1,7 +1,7 @@
 <div class="modal fade bd-example-modal-xl" id="addqc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content" style="background:#fff;">
-      <div class="modal-header" style="background:#ffc300;">
+      <div class="modal-header" style="background:#fff;">
         <h5 class="modal-title" id="exampleModalLabel" style="font-weight: normal;color: #000;">
           Add New Account
         </h5>
@@ -38,7 +38,7 @@
           <button class="btn btn-block" data-dismiss="modal" style="color:#fff;height:34px;border-radius:.25rem;background: #CA3F3F;font-size:15px;font-weight:normal;">Cancel</button>
         </div>
         <div class="col-sm-3">
-          <button class="btn btn-block" onclick="save_acc_qc()" style="color:#fff;height:34px;border-radius:.25rem;background: #425B2C;font-size:15px;font-weight:normal;">Add Account</button>
+          <button class="btn btn-block" onclick="save_acc_qc()" style="color:#fff;height:34px;border-radius:.25rem;background: #275DAD;font-size:15px;font-weight:normal;">Add Account</button>
         </div>
       </div>
       <!-- end -->
