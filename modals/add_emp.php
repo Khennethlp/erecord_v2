@@ -1,7 +1,7 @@
 <div class="modal fade bd-example-modal-xl" id="add_emp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
-      <div class="modal-header" style="background:#6c757d;">
+      <div class="modal-header" style="background:#fff;">
         <h5 class="modal-title" id="exampleModalLabel">
           <b>Add Masterlist</b>
         </h5>
@@ -47,7 +47,7 @@
       </div>
       <div class="modal-footer" style="background:#fff;">
         <div class="col-sm-3">
-          <button class="btn btn-block" onclick="save_emp_data()" style="color:#fff;height:34px;border-radius:.25rem;background: #425B2C;font-size:15px;font-weight:normal;">Add Masterlist</button>
+          <button class="btn btn-block" onclick="save_emp_data()" style="color:#fff;height:34px;border-radius:.25rem;background: #275DAD;font-size:15px;font-weight:normal;">Add Masterlist</button>
         </div>
       </div>
     </div>

@@ -33,7 +33,7 @@
           </div>
           <div class="col-1">
             <div class="float-right">
-              <a href="login.php" class="btn btn-info">LOGIN</a>
+              <a href="login.php" class="btn btn-info" style="background: #275DAD;">LOGIN</a>
             </div>
           </div>
         </div>
@@ -51,15 +51,15 @@
             <div class="row">
               <div class="col-sm-1">
                 <label for="">Category</label>
-                <select class="form-control btn bg-info" required name="category" id="category" onchange="search_data(1)">
+                <select class="form-control btn bg-info" required name="category" id="category">
                   <option value="">Select</option>
                   <option>Initial</option>
                   <option>Final</option>
                 </select>
               </div>
               <div class="col-sm-3">
-                <label for="">Process</label>
-                <select class="form-control btn" name="pro" required id="pro" style="width: 100%; border: 2px solid black;background-color: white;color: black;font-size: 16px;cursor: pointer; border-color: var(--info);" onchange="search_data(1)">
+                <label for="">Process Name</label>
+                <select class="form-control btn" name="pro" required id="pro" style="width: 100%; border: 2px solid black;background-color: white;color: black;font-size: 16px;cursor: pointer; border-color: var(--info);" >
                   <option>Please select a process.....</option>
                   <option></option>
                 </select>
@@ -74,11 +74,11 @@
               </div>
               <div class="col-sm-2">
               <label for="">Date Authorized</label>
-                <input class="form-control" type="text" placeholder="Select date..." onfocus="(this.type='date')" onblur="(this.type='text')" id="date_authorized_search">
+                <input class="form-control" type="date" placeholder="Select date..." onfocus="(this.type='date')" onblur="(this.type='text')" id="date_authorized_search">
               </div>
               <div class="col-sm-2">
               <label for="">Expire Date</label>
-                <input class="form-control" type="text" placeholder="Select date..." onfocus="(this.type='date')" onblur="(this.type='text')" id="expire_date_search">
+                <input class="form-control" type="date" placeholder="Select date..." onfocus="(this.type='date')" onblur="(this.type='text')" id="expire_date_search">
               </div>
             </div>
             <br>

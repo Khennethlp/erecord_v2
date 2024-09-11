@@ -123,12 +123,12 @@ if (!isset($_SESSION['username'])) {
   <div class="wrapper">
 
     <!-- Preloader -->
-    <div class="preloader flex-column justify-content-center align-items-center" style="background:#1e96fc;">
+    <div class="preloader flex-column justify-content-center align-items-center" style="background:#fff;">
       <img class="animation__shake" src="../../dist/img/logo.png" alt="logo" height="100" width="100">
     </div>
 
     <!-- Navbar -->
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="background: #1e96fc;">
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="background: #275DAD;">
       <!-- Left navbar links -->
       <ul class="navbar-nav">
         <li class="nav-item">

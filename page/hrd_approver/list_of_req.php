@@ -1,5 +1,5 @@
 <?php include 'plugins/navbar.php'; ?>
-<?php include 'plugins/sidebar/list_of_reqbar.php'; ?>
+<?php include 'plugins/sidebar/sidebar.php'; ?>
 <?php include '../../process/conn.php'; ?>
 <div class="content-wrapper" style="background: #FFF;">
   <!-- Content Header (Page header) -->
@@ -58,7 +58,7 @@
                       <!-- category -->
                       <div class="col-sm-2">
                         <label for="">Category:</label>
-                        <select class="form-control btn bg-teal" recquired name="category" id="categoryy">
+                        <select class="form-control btn bg-info" recquired name="category" id="categoryy">
                           <option value="">Select Category</option>
                           <option>Initial</option>
                           <option>Final</option>
@@ -76,16 +76,16 @@
                       </div>
                       <div class="col-sm-2">
                         <label for="">Employee ID:</label>
-                        <input class="form-control" placeholder="" type="text" id="emp_id_r">
+                        <input class="form-control" placeholder="Type here..." type="text" id="emp_id_r">
                       </div>
                       <div class="col-sm-2">
                         <label for="">Employee Name:</label>
-                        <input class="form-control" placeholder="" type="text" id="fullname_r">
+                        <input class="form-control" placeholder="Type here..." type="text" id="fullname_r">
                       </div>
                       <div class="col-sm-2 ml-auto">
                         <!-- search button -->
                         <label for="">&nbsp;</label>
-                        <button class="btn btn-block d-flex justify-content-left" id="search_btn" onclick="search_rev(1)" style="color:#fff;height:37px;border-radius:.25rem;background: #20c997;font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
+                        <button class="btn btn-block d-flex justify-content-left" id="search_btn" onclick="search_rev(1)" style="color:#fff;height:37px;border-radius:.25rem;background: var(--info);font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
                       </div>
                     </div>
                     <br>
@@ -143,7 +143,7 @@
                       <!-- category -->
                       <div class="col-sm-2 mt-2">
                         <label for="">Category:</label>
-                        <select class="form-control btn bg-teal" rname="category" id="categoryyy" required>
+                        <select class="form-control btn bg-info" rname="category" id="categoryyy" required>
                           <option value="">Select Category</option>
                           <option>Initial</option>
                           <option>Final</option>
@@ -157,11 +157,11 @@
                       </div>
                       <div class="col-sm-2 mt-2">
                         <label for="">Employee ID:</label>
-                        <input class="form-control" placeholder="" type="text" id="emp_id_h" autocomplete="off">
+                        <input class="form-control" placeholder="Type here..." type="text" id="emp_id_h" autocomplete="off">
                       </div>
                       <div class="col-sm-2 mt-2">
                         <label for="">Employee Name:</label>
-                        <input class="form-control" placeholder="" type="text" id="fullname_h" autocomplete="off">
+                        <input class="form-control" placeholder="Type here..." type="text" id="fullname_h" autocomplete="off">
                       </div>
                       <div class="col-sm-2 mt-2">
                         <label for="">Date Authorized:</label>
@@ -182,7 +182,7 @@
                       <div class="col-sm-2 mt-2">
                         <!-- search button -->
                         <label for="">&nbsp;</label>
-                        <button class="btn btn-block d-flex justify-content-center" id="search_btn" onclick="search_history(1)" style="color:#fff;height:37px;border-radius:.25rem;background: #20c997;font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
+                        <button class="btn btn-block d-flex justify-content-center" id="search_btn" onclick="search_history(1)" style="color:#fff;height:37px;border-radius:.25rem;background: var(--info);font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
                       </div>
                     </div>
                     <br>

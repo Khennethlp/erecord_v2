@@ -1,5 +1,5 @@
 <?php include 'plugins/navbar.php'; ?>
-<?php include 'plugins/sidebar/viewbar.php'; ?>
+<?php include 'plugins/sidebar/sidebar.php'; ?>
 
 <div class="content-wrapper" style="background: #FFF;">
   <!-- Content Header (Page header) -->
@@ -29,41 +29,46 @@
         <div class="card-body">
           <div class="row">
             <div class="col-sm-2">
-              <select class="form-control btn bg-teal" recquired name="category" id="category" onchange="search_data(1)">
-                <option value="">Category</option>
+              <label for="">Category</label>
+              <select class="form-control btn bg-info" required name="category" id="category">
+                <option value="">Select Category</option>
                 <option>Initial</option>
                 <option>Final</option>
               </select>
             </div>
             <div class="col-sm-2">
-              <select class="form-control btn" name="pro" recquired id="pro" style="width: 100%; border: 2px solid black;background-color: white;color: black;font-size: 16px;cursor: pointer; border-color: #7ADFB5;" onchange="search_data(1)">
+            <label for="">Process Name</label>
+              <select class="form-control btn" name="pro" recquired id="pro" style="width: 100%; border: 2px solid black;background-color: white;color: black;font-size: 16px;cursor: pointer; border-color: var(--info);" >
                 <option>Please select a process.....</option>
                 <option></option>
               </select>
             </div>
             <div class="col-sm-2">
-              <input class="form-control" placeholder="Employee ID" type="text" id="emp_id_search">
+            <label for="">Employee ID</label>
+              <input class="form-control" placeholder="Type here..." type="text" id="emp_id_search">
             </div>
             <div class="col-sm-2">
-              <input class="form-control" placeholder="Employee Name" type="text" id="fullname_search">
+            <label for="">Employee Name</label>
+              <input class="form-control" placeholder="Type here..." type="text" id="fullname_search">
             </div>
             <div class="col-sm-2">
-              <input class="form-control" type="text" placeholder="Date Authorized" onfocus="(this.type='date')" onblur="(this.type='text')" id="date_authorized_search">
+            <label for="">Date Authorized</label>
+              <input class="form-control" type="text" placeholder="Select date..." onfocus="(this.type='date')" onblur="(this.type='text')" id="date_authorized_search">
             </div>
             <div class="col-sm-2">
-              <input class="form-control" type="text" placeholder="Expire Date" onfocus="(this.type='date')" onblur="(this.type='text')" id="expire_date_search">
+            <label for="">Expire Date</label>
+              <input class="form-control" type="text" placeholder="Select date..." onfocus="(this.type='date')" onblur="(this.type='text')" id="expire_date_search">
             </div>
           </div>
-          <br>
           <div class="row">
-            <div class="col-sm-8">
-            </div>
-            <div class="col-sm-2">
+            <div class="col-sm-2 ml-auto">
               <!-- search button -->
-              <button class="btn btn-block d-flex justify-content-left" id="search_btn" onclick="search_data(1)" style="color:#fff;height:34px;border-radius:.25rem;background: #20c997;font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
+               <label for="">&nbsp;</label>
+              <button class="btn btn-block d-flex justify-content-left" id="search_btn" onclick="search_data(1)" style="color:#fff;height:34px;border-radius:.25rem;background: var(--info);font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
             </div>
             <div class="col-sm-2">
               <!-- exportt button -->
+              <label for="">&nbsp;</label>
               <a class="btn btn-block d-flex justify-content-left" onclick="export_data()" style="color:#fff;height:34px;border-radius:.25rem;background: #F29A35;font-size:15px;font-weight:normal;"><img src="../../dist/img/export.png" style="height:19px;">&nbsp;&nbsp;Export</a>
             </div>
           </div>
@@ -92,7 +97,7 @@
               <tbody id="process_details"></tbody>
             </table>
           </div>
-          <div class="row">
+          <div class="row mt-3">
             <div class="col-sm-12 col-md-9 col-9">
               <div class="dataTables_info" id="count_rows_display" role="status" aria-live="polite"></div>
               <input type="hidden" id="count_rows">

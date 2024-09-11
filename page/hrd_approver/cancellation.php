@@ -1,5 +1,5 @@
 <?php include 'plugins/navbar.php'; ?>
-<?php include 'plugins/sidebar/dashboardbar.php'; ?>
+<?php include 'plugins/sidebar/sidebar.php'; ?>
 <?php include '../../process/conn.php'; ?>
 
 <div class="content-wrapper" style="background: #FFF;">
@@ -47,21 +47,25 @@
                 <div class="col-sm-4"></div>
                 <!-- category -->
                 <div class="col-sm-2">
-                  <select class="form-control btn bg-teal" recquired name="category" id="categoryy" onchange="search_rev(1)">
-                    <option value="">Category</option>
+                  <label for="">Category</label>
+                  <select class="form-control btn bg-info" recquired name="category" id="categoryy" onchange="search_rev(1)">
+                    <option value="">Select Category</option>
                     <option>Initial</option>
                     <option>Final</option>
                   </select>
                 </div>
                 <div class="col-sm-2">
-                  <input class="form-control" placeholder="Employee ID" type="text" id="emp_id_r">
+                  <label for="">Employee ID</label>
+                  <input class="form-control" placeholder="Type here..." type="text" id="emp_id_r">
                 </div>
                 <div class="col-sm-2">
-                  <input class="form-control" placeholder="Employee Name" type="text" id="fullname_r">
+                  <label for="">Employee Name</label>
+                  <input class="form-control" placeholder="Type here..." type="text" id="fullname_r">
                 </div>
                 <div class="col-sm-1">
                   <!-- search button -->
-                  <button class="btn btn-block d-flex justify-content-left" id="search_btn" onclick="search_rev(1)" style="color:#fff;height:37px;border-radius:.25rem;background: #20c997;font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
+                   <label for="">&nbsp;</label>
+                  <button class="btn btn-block d-flex justify-content-left" id="search_btn" onclick="search_rev(1)" style="color:#fff;height:37px;border-radius:.25rem;background: var(--info);font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
                 </div>
               </div>
               <br>
@@ -99,7 +103,7 @@
 
                     </table>
                   </div>
-                  <div class="row">
+                  <div class="row mt-3">
                     <div class="col-sm-12 col-md-9 col-9">
                       <div class="dataTables_info" id="count_rows_display1" role="status1" aria-live="polite"></div>
                       <input type="hidden" id="count_rows1">
@@ -125,27 +129,33 @@
                 <!-- <div class="col-sm-5"></div> -->
                 <!-- category -->
                 <div class="col-sm-2">
-                  <select class="form-control btn bg-teal" rname="category" id="categoryyy" required onchange="search_history(1)">
-                    <option value="">Category</option>
+                  <label for="">Category</label>
+                  <select class="form-control btn bg-info" rname="category" id="categoryyy" required onchange="search_history(1)">
+                    <option value="">Select Category</option>
                     <option>Initial</option>
                     <option>Final</option>
                   </select>
                 </div>
                 <div class="col-sm-2">
-                  <input class="form-control" placeholder="Employee ID" type="text" id="emp_id_h" autocomplete="off">
+                  <label for="">Employee ID</label>
+                  <input class="form-control" placeholder="Type here..." type="text" id="emp_id_h" autocomplete="off">
                 </div>
                 <div class="col-sm-2">
-                  <input class="form-control" placeholder="Employee Name" type="text" id="fullname_h" autocomplete="off">
+                  <label for="">Employee Name</label>
+                  <input class="form-control" placeholder="Type here..." type="text" id="fullname_h" autocomplete="off">
                 </div>
                 <div class="col-sm-2">
-                  <input class="form-control" type="text" placeholder="Date Authorized" onfocus="(this.type='date')" onblur="(this.type='text')" id="date_authorized_h">
+                  <label for="">Date Authorized</label>
+                  <input class="form-control" type="text" placeholder="Select date..." onfocus="(this.type='date')" onblur="(this.type='text')" id="date_authorized_h">
                 </div>
                 <div class="col-sm-2">
-                  <input class="form-control" type="text" placeholder="Expire Date" onfocus="(this.type='date')" onblur="(this.type='text')" id="expire_date_h">
+                  <label for="">Expire Date</label>
+                  <input class="form-control" type="text" placeholder="Select date..." onfocus="(this.type='date')" onblur="(this.type='text')" id="expire_date_h">
                 </div>
                 <div class="col-sm-2">
                   <!-- search button -->
-                  <button class="btn btn-block d-flex justify-content-left" id="search_btn" onclick="search_history(1)" style="color:#fff;height:37px;border-radius:.25rem;background: #20c997;font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
+                   <label for="">&nbsp;</label>
+                  <button class="btn btn-block d-flex justify-content-left" id="search_btn" onclick="search_history(1)" style="color:#fff;height:37px;border-radius:.25rem;background: var(--info);font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
                 </div>
               </div>
               <br>
