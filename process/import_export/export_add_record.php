@@ -30,14 +30,16 @@ fputs($f, "\xEF\xBB\xBF");
 // Set column headers 
 $fields = array('#', 'Code', 'Process Name', 'Expired Date', 'Authorization No.', 'Employee Name', 'Employee No.', 'Batch No.', 'Status', 'Remarks');
 fputcsv($f, $fields, $delimiter);
+
 $query = "SELECT a.batch, a.process,a.auth_no,a.expire_date,a.r_of_cancellation,a.d_of_cancellation,a.remarks,a.code,a.status,a.r_status,a.i_status,b.fullname,b.m_name,b.agency,a.dept,b.batch,b.emp_id,c.category";
 
 if ($category == 'Final') {
-    $query = $query . " FROM `t_f_process`";
+    $query = $query . " FROM t_f_process";
 } else if ($category == 'Initial') {
-    $query = $query . " FROM `t_i_process`";
+    $query = $query . " FROM t_i_process";
 }
-$query = $query . " a LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id  JOIN `m_process` c ON a.process = c.process WHERE a.i_status = 'Approved'";
+
+$query = $query . " a LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id  JOIN m_process c ON a.process = c.process WHERE a.i_status = 'Approved'";
 
 if (!empty($emp_id)) {
     $query = $query . " AND (b.emp_id = '$emp_id' OR b.emp_id_old = '$emp_id')";
@@ -50,7 +52,7 @@ if (!empty($date)) {
     $query = $query . " AND a.expire_date = '$date'";
 }
 $query = $query . " ORDER BY process ASC, fullname ASC, auth_year DESC";
-$stmt = $conn->prepare($query);
+$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 $stmt->execute();
 if ($stmt->rowCount() > 0) {
 

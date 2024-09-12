@@ -42,7 +42,7 @@ if (isset($_POST['upload'])) {
                 }
 
                 $prevQuery = "SELECT id, emp_id, emp_id_old FROM t_employee_m WHERE emp_id IN (?, ?)";
-                $res = $conn->prepare($prevQuery);
+                $res = $conn->prepare($prevQuery, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
                 if (!$res->execute([$line[2], $line[3]])) {
                     // Handle query execution error
                     $error++;

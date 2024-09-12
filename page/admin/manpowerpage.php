@@ -107,7 +107,7 @@
             <div class="col-sm-2 ">
               <label for="">Status</label>
               <select class="form-control btn btn-info" id="emp_status" >
-                <option>Select</option>
+                <option value="">Select</option>
                 <option value="Resigned">Resigned</option>
                 <option value="Retired">Retired</option>
                 <option value="Dismiss">Dismiss</option>

@@ -6,7 +6,7 @@ $method = $_POST['method'];
 
 if ($method == 'fetch_pro_can') {
 	$category = $_POST['category'];
-	$query = "SELECT `process` FROM `m_process` WHERE category = '$category' ORDER BY process ASC";
+	$query = "SELECT process FROM m_process WHERE category = '$category' ORDER BY process ASC";
 	$stmt = $conn->prepare($query);
 	$stmt->execute();
 	if ($stmt->rowCount() > 0) {
@@ -31,14 +31,14 @@ function count_pending($search_arr, $conn) {
 	$query = $query . "SELECT a.auth_no";
 
 	if ($search_arr['category'] == 'Final') {
-		$query = $query . " FROM `t_f_process`";
+		$query = $query . " FROM t_f_process";
 	}else if ($search_arr['category'] == 'Initial') {
-		$query = $query . " FROM `t_i_process`";
+		$query = $query . " FROM t_i_process";
 	}
 
 	$query = $query . " a
 						LEFT JOIN t_employee_m b  ON a.emp_id = b.emp_id  
-						JOIN `m_process` c ON a.process = c.process
+						JOIN m_process c ON a.process = c.process
 						where a.r_status = 'Pending' ";
 	if (!empty($search_arr['emp_id'])) {
 				$query = $query . " AND (b.emp_id = '".$search_arr['emp_id']."' OR b.emp_id_old = '".$search_arr['emp_id']."')";
@@ -133,13 +133,13 @@ if ($method == 'fetch_category') {
 		$query = "SELECT a.r_approve_by,a.id,a.auth_no,a.auth_year,a.date_authorized,a.expire_date,a.r_of_cancellation,a.d_of_cancellation,a.remarks,a.up_date_time,a.r_status,b.fullname,b.agency,a.dept,b.batch,b.emp_id,c.category,c.process";
 
 		if ($category == 'Final') {
-			$query = $query . " FROM `t_f_process`";
+			$query = $query . " FROM t_f_process";
 		}else if ($category == 'Initial') {
-			$query = $query . " FROM `t_i_process`";
+			$query = $query . " FROM t_i_process";
 		}
 		$query = $query . " a
 							LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id  
-							JOIN `m_process` c ON a.process = c.process
+							JOIN m_process c ON a.process = c.process
 							where a.r_status = 'Pending' ";
 		if (!empty($emp_id)) {
 			$query = $query . " AND (b.emp_id = '$emp_id' OR b.emp_id_old = '$emp_id')";
@@ -206,13 +206,13 @@ if ($method == 'qc_view') {
     $query = "SELECT a.id, a.auth_no, a.auth_year, a.date_authorized, a.expire_date, a.r_of_cancellation, a.d_of_cancellation, a.remarks, a.up_date_time, a.r_status, a.r_review_by, b.fullname, b.emp_id, c.category ";
 
     if ($category == 'Final') {
-        $query .= "FROM `t_f_process` a ";
+        $query .= "FROM t_f_process a ";
     } else if ($category == 'Initial') {
-        $query .= "FROM `t_i_process` a ";
+        $query .= "FROM t_i_process a ";
     }
 
     $query .= "LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id ";
-    $query .= "JOIN `m_process` c ON a.process = c.process ";
+    $query .= "JOIN m_process c ON a.process = c.process ";
     $query .= "WHERE a.auth_no = :auth_no";
 
     $stmt = $conn->prepare($query);
@@ -246,9 +246,9 @@ if ($method == 'qc_review') {
 
 		$query = "UPDATE";
 		if ($category == 'Final') {
-			$query = $query . " `t_f_process`";
+			$query = $query . " t_f_process";
 		}else if ($category == 'Initial') {
-			$query = $query . " `t_i_process`";
+			$query = $query . " t_i_process";
 		}
 		$query = $query . " SET r_status = 'Reviewed', status = 'Qualified', r_review_by = '".$_SESSION['fname']. "/ " .$server_date_time."' WHERE auth_no = '$auth_no' ";
 		$stmt = $conn->prepare($query);
@@ -272,9 +272,9 @@ if ($method == 'qc_disreview') {
     foreach ($arr as $auth_no) {
         $query = "UPDATE";
         if ($category == 'Final') {
-            $query .= " `t_f_process`";
+            $query .= " t_f_process";
         } else if ($category == 'Initial') {
-            $query .= " `t_i_process`";
+            $query .= " t_i_process";
         }
         $query .= " SET r_status = 'Disapproved', status = 'Qualified',  r_review_by = '".$_SESSION['fname']. "/ " .$server_date_time."', r_of_cancellation = NULL, d_of_cancellation = NULL WHERE auth_no = '$auth_no'";
         $stmt = $conn->prepare($query);

@@ -122,7 +122,7 @@
               <div class="col-sm-1"></div>
               <div class="col-sm-2">
                 <label for="">Category</label>
-                <select class="form-control btn bg-info" name="category" id="category" required onchange="search_data(1)">
+                <select class="form-control btn bg-info" name="category" id="category" required>
                   <option value="">Select Category</option>
                   <option>Initial</option>
                   <option>Final</option>
@@ -130,7 +130,7 @@
               </div>
               <div class="col-sm-3">
                 <label for="">Process Name</label>
-                <select class="form-control btn" name="pro" required id="pro" onchange="search_data(1)" style="width: 100%; border: 2px solid black;background-color: white;color: black;font-size: 16px;cursor: pointer; border-color:var(--info);">
+                <select class="form-control btn" name="pro" required id="pro" style="width: 100%; border: 2px solid black;background-color: white;color: black;font-size: 16px;cursor: pointer; border-color:var(--info);">
                   <option>Please select a process.....</option>
                   <option></option>
                 </select>

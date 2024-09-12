@@ -16,14 +16,14 @@ function count_history_admin_r($search_arr, $conn) {
         $query .= "SELECT a.auth_no";
 
         if ($search_arr['category'] == 'Final') {
-            $query .= " FROM `t_f_process`";
+            $query .= " FROM t_f_process";
         } else if ($search_arr['category'] == 'Initial') {
-            $query .= " FROM `t_i_process`";
+            $query .= " FROM t_i_process";
         }
 
         $query .= " a
                         LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id  
-                        JOIN `m_process` c ON a.process = c.process
+                        JOIN m_process c ON a.process = c.process
                         WHERE (a.r_status = 'Approved' OR a.r_status = 'Reviewed' OR a.r_status = 'Disapproved')";
 
         if (!empty($emp_id)) {
@@ -120,14 +120,14 @@ if ($method == 'history_admin_reviwer') {
         $query = "SELECT a.id, a.auth_no, a.auth_year, a.date_authorized, a.expire_date, a.r_of_cancellation, a.d_of_cancellation, a.remarks, a.up_date_time, a.r_status, a.r_review_by, a.r_approve_by, b.fullname, b.agency, a.dept, b.batch, b.emp_id, c.category, c.process";
 
         if ($category == 'Final') {
-            $query .= " FROM `t_f_process`";
+            $query .= " FROM t_f_process";
         } elseif ($category == 'Initial') {
-            $query .= " FROM `t_i_process`";
+            $query .= " FROM t_i_process";
         }
 
         $query .= " a
                     LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id  
-                    JOIN `m_process` c ON a.process = c.process
+                    JOIN m_process c ON a.process = c.process
 					WHERE (a.r_status = 'Approved' OR a.r_status = 'Reviewed' OR a.r_status = 'Disapproved')";
 
         if (!empty($emp_id)) {
@@ -192,14 +192,14 @@ function count_history_approver($search_arr, $conn) {
         $query .= "SELECT a.auth_no";
 
         if ($search_arr['category'] == 'Final') {
-            $query .= " FROM `t_f_process`";
+            $query .= " FROM t_f_process";
         } else if ($search_arr['category'] == 'Initial') {
-            $query .= " FROM `t_i_process`";
+            $query .= " FROM t_i_process";
         }
 
         $query .= " a
                         LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id  
-                        JOIN `m_process` c ON a.process = c.process
+                        JOIN m_process c ON a.process = c.process
                         WHERE (a.r_status = 'Approved' OR a.r_status = 'Disapproved')";
 
         if (!empty($emp_id)) {
@@ -296,14 +296,14 @@ if ($method == 'history_approver') {
         $query = "SELECT a.id, a.auth_no, a.auth_year, a.date_authorized, a.expire_date, a.r_of_cancellation, a.d_of_cancellation, a.remarks, a.up_date_time, a.r_status, a.r_review_by, a.r_approve_by, b.fullname, b.agency, a.dept, b.batch, b.emp_id, c.category, c.process";
 
         if ($category == 'Final') {
-            $query .= " FROM `t_f_process`";
+            $query .= " FROM t_f_process";
         } elseif ($category == 'Initial') {
-            $query .= " FROM `t_i_process`";
+            $query .= " FROM t_i_process";
         }
 
         $query .= " a
                     LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id  
-                    JOIN `m_process` c ON a.process = c.process
+                    JOIN m_process c ON a.process = c.process
 					WHERE (a.r_status = 'Approved' OR a.r_status = 'Disapproved')";
 
         if (!empty($emp_id)) {
@@ -366,13 +366,13 @@ if ($method == 'view') {
 		$query = "SELECT a.id,a.auth_no,a.auth_year,a.date_authorized,a.expire_date,a.r_of_cancellation,a.d_of_cancellation,a.remarks,a.up_date_time,a.r_review_by,a.r_approve_by,a.r_status,b.fullname,b.emp_id,c.category";
 
 		if ($category == 'Final') {
-			$query = $query . " FROM `t_f_process`";
+			$query = $query . " FROM t_f_process";
 		}else if ($category == 'Initial') {
-			$query = $query . " FROM `t_i_process`";
+			$query = $query . " FROM t_i_process";
 		}
 		$query = $query . " a
 							LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id 
-							JOIN `m_process` c ON a.process = c.process
+							JOIN m_process c ON a.process = c.process
 							where a.auth_no = '$auth_no'";
 
 	$stmt = $conn->prepare($query);

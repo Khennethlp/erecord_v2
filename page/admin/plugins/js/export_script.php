@@ -188,7 +188,12 @@
     var category = document.getElementById('category').value;
     var pro = document.getElementById('pro').value;
     var date = document.getElementById('expire_date_search').value;
-    window.open('../../process/import_export/export_add_record.php?emp_id=' + emp_id + "&category=" + category + "&pro=" + pro + "&date=" + date, '_blank');
+
+    if(category == ''){
+      alert('Please, select category.');
+    }else{
+      window.open('../../process/import_export/export_add_record.php?emp_id=' + emp_id + "&category=" + category + "&pro=" + pro + "&date=" + date, '_blank');
+    }
   }
 
   $(document).ready(function() {

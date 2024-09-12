@@ -235,29 +235,32 @@
 	const search_account = () => {
 		var username_search = document.getElementById('username_search').value;
 
-
-		if ((username_search != '' || username_search == '')) {
-			$.ajax({
-				url: '../../process/accounts/add_admin.php',
-				type: 'POST',
-				cache: false,
-				data: {
-					method: 'search_account_list',
-					username_search: username_search
-				},
-				success: function(response) {
-					$('#account_list').html(response);
-					$('#spinner').fadeOut();
-				}
-			});
-		} else {
-			Swal.fire({
-				icon: 'info',
-				title: 'Empty Fields',
-				text: 'Fill-out input search field/s',
-				showConfirmButton: false,
-				timer: 1000
-			});
+		if(username_search == ''){
+			load_accounts();
+		}else{
+			if ((username_search != '' || username_search == '')) {
+				$.ajax({
+					url: '../../process/accounts/add_admin.php',
+					type: 'POST',
+					cache: false,
+					data: {
+						method: 'search_account_list',
+						username_search: username_search
+					},
+					success: function(response) {
+						$('#account_list').html(response);
+						$('#spinner').fadeOut();
+					}
+				});
+			} else {
+				Swal.fire({
+					icon: 'info',
+					title: 'Empty Fields',
+					text: 'Fill-out input search field/s',
+					showConfirmButton: false,
+					timer: 1000
+				});
+			}
 		}
 	}
 </script>

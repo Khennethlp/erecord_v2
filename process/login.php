@@ -12,8 +12,8 @@
    }
     else{
 
-      $check = "SELECT id, fname, role FROM accounts WHERE BINARY username = '$username' AND BINARY password = '$password'";
-      $stmt = $conn->prepare($check);
+      $check = "SELECT id, fname, role FROM accounts WHERE username = '$username' AND password = '$password'";
+      $stmt = $conn->prepare($check, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
       $stmt->execute();
       if ($stmt->rowCount() > 0) {
         foreach($stmt->fetchAll() as $e){

@@ -6,8 +6,8 @@ $method = $_POST['method'];
 
 if ($method == 'fetch_pro') {
 	$category = $_POST['category'];
-	$query = "SELECT `process` FROM `m_process` WHERE category = '$category' ORDER BY process ASC";
-	$stmt = $conn->prepare($query);
+	$query = "SELECT process FROM m_process WHERE category = '$category' ORDER BY process ASC";
+	$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 	$stmt->execute();
 	if ($stmt->rowCount() > 0) {
 		echo '<option value="">Please select a process.....</option>';
@@ -21,8 +21,8 @@ if ($method == 'fetch_pro') {
 
 if ($method == 'fetch_pro_can') {
 	$category = $_POST['category'];
-	$query = "SELECT `process` FROM `m_process` WHERE category = '$category' ORDER BY process ASC";
-	$stmt = $conn->prepare($query);
+	$query = "SELECT process FROM m_process WHERE category = '$category' ORDER BY process ASC";
+	$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 	$stmt->execute();
 	if ($stmt->rowCount() > 0) {
 		echo '<option value="">Please select a process.....</option>';
@@ -46,13 +46,13 @@ function count_can($search_arr, $conn)
 		$query = "SELECT  COUNT(DISTINCT a.auth_no) as total";
 
 		if ($category == 'Final') {
-			$query = $query . " FROM `t_f_process`";
+			$query = $query . " FROM t_f_process";
 		} else if ($category == 'Initial') {
-			$query = $query . " FROM `t_i_process`";
+			$query = $query . " FROM t_i_process";
 		}
 		$query = $query . " a
 							LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id 
-							JOIN `m_process` c ON a.process = c.process
+							JOIN m_process c ON a.process = c.process
 							where a.r_status ='" . $search_arr['r_status'] . "'";
 		if (!empty($search_arr['emp_id'])) {
 			$query = $query . " AND (b.emp_id = '" . $search_arr['emp_id'] . "' OR b.emp_id_old = '" . $search_arr['emp_id'] . "')";
@@ -65,9 +65,9 @@ function count_can($search_arr, $conn)
 		}
 
 		$query = $query . " AND b.fullname LIKE '" . $search_arr['fullname'] . "%'";
-		$query = $query . " ORDER BY SUBSTRING_INDEX(a.up_date_time , '/', -1) DESC";
+		// $query = $query . " ORDER BY SUBSTRING_INDEX(a.up_date_time , '/', -1) DESC";
 
-		$stmt = $conn->prepare($query);
+		$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 		$stmt->execute();
 		if ($stmt->rowCount() > 0) {
 			foreach ($stmt->fetchALL() as $j) {
@@ -147,13 +147,13 @@ if ($method == 'fetch_status_can') {
 		$query = "SELECT a.id,a.auth_no,a.auth_year,a.date_authorized,a.expire_date,a.r_of_cancellation,a.d_of_cancellation,a.remarks,a.up_date_time,a.r_status,a.r_review_by,a.r_approve_by,b.fullname,b.agency,a.dept,b.batch,b.emp_id,c.category,c.process";
 
 		if ($category == 'Final') {
-			$query = $query . " FROM `t_f_process`";
+			$query = $query . " FROM t_f_process";
 		} else if ($category == 'Initial') {
-			$query = $query . " FROM `t_i_process`";
+			$query = $query . " FROM t_i_process";
 		}
 		$query = $query . " a
 							LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id  
-							JOIN `m_process` c ON a.process = c.process
+							JOIN m_process c ON a.process = c.process
 							where a.r_status = '$r_status' AND a.up_date_time LIKE '%" . $_SESSION['fname'] . "%'";
 		if (!empty($emp_id)) {
 			$query = $query . " AND (b.emp_id = '$emp_id' OR b.emp_id_old = '$emp_id')";
@@ -167,8 +167,12 @@ if ($method == 'fetch_status_can') {
 		if (!empty($date_authorized_can)) {
 			$query = $query . " AND DATE(a.date_authorized) = '$date_authorized_can' ";
 		}
-		$query = $query . "GROUP BY a.auth_no ASC ORDER BY SUBSTRING_INDEX(a.up_date_time , '/', -1) DESC LIMIT " . $page_first_result . ", " . $results_per_page;
-		$stmt = $conn->prepare($query);
+
+		// $query = $query . "GROUP BY a.auth_no ASC ORDER BY SUBSTRING_INDEX(a.up_date_time , '/', -1) DESC LIMIT " . $page_first_result . ", " . $results_per_page;
+		$query = $query . " ORDER BY SUBSTRING(a.up_date_time, LEN(a.up_date_time) - CHARINDEX('/', REVERSE(a.up_date_time)) + 2, LEN(a.up_date_time)) DESC
+                    OFFSET " . $page_first_result . " ROWS FETCH NEXT " . $results_per_page . " ROWS ONLY";
+
+		$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 		$stmt->execute();
 		if ($stmt->rowCount() > 0) {
 			foreach ($stmt->fetchAll() as $j) {
@@ -218,9 +222,9 @@ if ($method == 'ds_qc_update') {
 
 	$query = "UPDATE ";
 	if ($category == 'Final') {
-		$query .= "`t_f_process`";
+		$query .= "t_f_process";
 	} else if ($category == 'Initial') {
-		$query .= "`t_i_process`";
+		$query .= "t_i_process";
 	}
 
 

@@ -8,8 +8,8 @@ $method = $_POST['method'];
 // New Authrization
 if ($method == 'fetch_pro') {
     $category = $_POST['category'];
-    $query = "SELECT `process` FROM `m_process` WHERE category = '$category' ORDER BY process ASC";
-    $stmt = $conn->prepare($query);
+    $query = "SELECT process FROM m_process WHERE category = '$category' ORDER BY process ASC";
+    $stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
     $stmt->execute();
     if ($stmt->rowCount() > 0) {
         echo '<option value="">Please select a process.....</option>';
@@ -28,7 +28,7 @@ if ($method == 'get_fullname_by_emp_no') {
     if (!empty($emp_id)) {
         $query = "SELECT emp_id, batch, fullname FROM t_employee_m WHERE emp_id = '$emp_id'";
 
-        $stmt = $conn->prepare($query);
+        $stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
         $stmt->execute();
         if ($stmt->rowCount() > 0) {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -68,12 +68,12 @@ if ($method == 'add_new_autho') {
     
     $query = "SELECT a.*, b.fullname, b.emp_id ";
     if ($category == 'Final') {
-        $query = $query . " FROM `t_f_process`";
+        $query = $query . " FROM t_f_process";
     } else if ($category == 'Initial') {
-        $query = $query . " FROM `t_i_process`";
+        $query = $query . " FROM t_i_process";
     }
     $query = $query . " a LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id WHERE a.process = '$pro' AND a.auth_no = '$auth_no' AND a.emp_id = '$emp_id' AND a.auth_year = '$auth_year' AND a.date_authorized = '$date_authorized' AND a.expire_date ='$expire_date' AND a.remarks = '$remarks' AND a.dept ='$dept' AND a.batch ='$batch' ";
-    $stmt = $conn->prepare($query);
+    $stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
     $stmt->execute();
     $count = $stmt->fetchColumn();
 
@@ -82,12 +82,12 @@ if ($method == 'add_new_autho') {
     } else {
         $insert = "";
         if ($category == 'Final') {
-            $insert = $insert . "INSERT INTO `t_f_process`";
+            $insert = $insert . "INSERT INTO t_f_process";
         } else if ($category == 'Initial') {
-            $insert = $insert . "INSERT INTO `t_i_process`";
+            $insert = $insert . "INSERT INTO t_i_process";
         }
 
-        $insert = $insert . "(`process`, `auth_no`, `emp_id`, `auth_year`, `date_authorized`, `expire_date`, `remarks`, `up_date_time`, `i_status`, `dept`, `batch`) VALUES ('$pro', '$auth_no', '$emp_id', '$auth_year', '$date_authorized', '$expire_date', '$remarks', '$up_date', 'Pending', '$dept', '$batch')";
+        $insert = $insert . "(process, auth_no, emp_id, auth_year, date_authorized, expire_date, remarks, up_date_time, i_status, dept, batch) VALUES ('$pro', '$auth_no', '$emp_id', '$auth_year', '$date_authorized', '$expire_date', '$remarks', '$up_date', 'Pending', '$dept', '$batch')";
         $stmt = $conn->prepare($insert);
         if ($stmt->execute()) {
             echo 'success';
@@ -117,7 +117,7 @@ if ($method == 'get_auth_no_by_emp_no') {
                       LEFT JOIN m_process c ON c.process = a.process
                       WHERE a.auth_no = '$auth_no'";
 
-            $stmt = $conn->prepare($query);
+            $stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
             $stmt->execute();
 
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -136,7 +136,7 @@ if ($method == 'get_auth_no_by_emp_no') {
                           LEFT JOIN m_process c ON c.process = b.process
                           WHERE b.auth_no = :auth_no";
 
-                $stmt = $conn->prepare($query);
+                $stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
                 $stmt->bindParam(':auth_no', $auth_no);
                 $stmt->execute();
 
@@ -194,13 +194,13 @@ if ($method == 'add_emp_pro') {
     $query = "SELECT a.*, b.fullname, b.emp_id ";
 
     if ($category == 'Final') {
-        $query = $query . " FROM `t_f_process`";
+        $query = $query . " FROM t_f_process";
     } else if ($category == 'Initial') {
-        $query = $query . " FROM `t_i_process`";
+        $query = $query . " FROM t_i_process";
     }
 
     $query = $query . " a LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id WHERE a.process = '$pro' AND a.auth_no = '$auth_no' AND a.emp_id = '$emp_id' AND a.auth_year = '$auth_year' AND a.date_authorized = '$date_authorized' AND a.expire_date ='$expire_date' AND a.remarks = '$remarks' AND a.dept ='$dept' AND a.batch ='$batch' ";
-    $stmt = $conn->prepare($query);
+    $stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
     $stmt->execute();
     $count = $stmt->fetchColumn();
 
@@ -209,12 +209,12 @@ if ($method == 'add_emp_pro') {
     } else {
         $insert = "";
         if ($category == 'Final') {
-            $insert = $insert . "INSERT INTO `t_f_process`";
+            $insert = $insert . "INSERT INTO t_f_process";
         } else if ($category == 'Initial') {
-            $insert = $insert . "INSERT INTO `t_i_process`";
+            $insert = $insert . "INSERT INTO t_i_process";
         }
 
-        $insert = $insert . "(`process`, `auth_no`, `emp_id`, `auth_year`, `date_authorized`, `expire_date`, `remarks`, `up_date_time`, `i_status`, `dept`, `batch`) VALUES ('$pro', '$auth_no', '$emp_id', '$auth_year', '$date_authorized', '$expire_date', '$remarks', '$up_date', 'Pending', '$dept', '$batch')";
+        $insert = $insert . "(process, auth_no, emp_id, auth_year, date_authorized, expire_date, remarks, up_date_time, i_status, dept, batch) VALUES ('$pro', '$auth_no', '$emp_id', '$auth_year', '$date_authorized', '$expire_date', '$remarks', '$up_date', 'Pending', '$dept', '$batch')";
         $stmt = $conn->prepare($insert);
         if ($stmt->execute()) {
             echo 'success';

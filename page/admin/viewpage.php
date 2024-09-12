@@ -32,7 +32,7 @@
             <div class="row">
               <div class="col-sm-2">
                 <label for="">Category</label>
-                <select class="form-control btn bg-info" required name="category" id="category" onchange="search_data(1)">
+                <select class="form-control btn bg-info" required name="category" id="category">
                   <option value="">Select Category</option>
                   <option>Initial</option>
                   <option>Final</option>
@@ -40,7 +40,7 @@
               </div>
               <div class="col-sm-2">
                 <label for="">Process Name</label>
-                <select class="form-control btn" name="pro" required id="pro" style="width: 100%; border: 2px solid black;background-color: white;color: black;font-size: 16px;cursor: pointer; border-color: var(--info);" onchange="search_data(1)">
+                <select class="form-control btn" name="pro" required id="pro" style="width: 100%; border: 2px solid black;background-color: white;color: black;font-size: 16px;cursor: pointer; border-color: var(--info);" >
                   <option>Please select a process.....</option>
                   <option></option>
                 </select>

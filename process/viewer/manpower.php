@@ -5,8 +5,8 @@ $method = $_POST['method'];
 
 
 if ($method == 'fetch_agency') {
-	$query = "SELECT `agency` FROM `m_agency` ORDER BY agency ASC";
-	$stmt = $conn->prepare($query);
+	$query = "SELECT agency FROM m_agency ORDER BY agency ASC";
+	$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 	$stmt->execute();
 	if ($stmt->rowCount() > 0) {
 		echo '<option value="">Provider</option>';
@@ -42,9 +42,9 @@ function count_data($search_arr, $conn)
 		$query = $query . "AND batch ='$batch' ";
 	}
 
-	$query = $query . " ORDER BY fullname ASC";
+	// $query = $query . " ORDER BY fullname ASC";
 
-	$stmt = $conn->prepare($query);
+	$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 	$stmt->execute();
 	if ($stmt->rowCount() > 0) {
 		foreach ($stmt->fetchALL() as $j) {
@@ -102,62 +102,43 @@ if ($method == 'search_data_pagination') {
 }
 
 if ($method == 'fetch_data') {
-	$agency = $_POST['agency'];
-	$emp_id = $_POST['emp_id'];
-	$batch = $_POST['batch'];
-	$fullname = $_POST['fullname'];
-	$emp_status = $_POST['emp_status'];
+	$agency = isset($_POST['agency']) ? $_POST['agency'] : '';
+	$emp_id = isset($_POST['emp_id']) ? $_POST['emp_id'] : '';
+	$batch = isset($_POST['batch']) ? $_POST['batch'] : '';
+	$fullname = isset($_POST['fullname']) ? $_POST['fullname'] : '';
+	$emp_status = isset($_POST['emp_status']) ? $_POST['emp_status'] : '';
 	$current_page = intval($_POST['current_page']);
 	$c = 0;
 
 	$results_per_page = 100;
 
-
 	$page_first_result = ($current_page - 1) * $results_per_page;
 	$c = $page_first_result;
 
-	// $query = "SELECT a.*, 
-	// CASE
-	// 	WHEN a.batch THEN a.batch
-	// 	WHEN b.batch THEN b.batch
-		
-	// END AS batch
-	//   FROM t_employee_m a LEFT JOIN t_f_process b ON a.emp_id = b.emp_id AND a.batch = b.batch WHERE (a.emp_id LIKE '$emp_id%' OR a.emp_id_old LIKE '$emp_id%') ";
-	// // $query = "SELECT * FROM t_employee_m WHERE (emp_id LIKE '$emp_id%' OR emp_id_old LIKE '$emp_id%') ";
-	// if (!empty($emp_status)) {
-	// 	$query .= "AND emp_status = '$emp_status' ";
-	// }
-	// if (!empty($fullname)) {
-	// 	$query .= "AND  fullname LIKE '$fullname%'";
-	// }
-	// if (!empty($agency)) {
-	// 	$query .= "AND  agency = '$agency'";
-	// }
-	// if (!empty($batch)) {
-	// 	$query .= "AND COALESCE(b.batch, a.batch) ='$batch' ";
-	// }
-
-	// $query .= " GROUP BY a.emp_id ORDER BY a.fullname ASC  LIMIT " . $page_first_result . ", " . $results_per_page;
-	//  $query .= " ORDER BY fullname ASC  LIMIT " . $page_first_result . ", " . $results_per_page;
-	$query = "SELECT  * FROM t_employee_m WHERE (emp_id LIKE '$emp_id%' OR emp_id_old LIKE '$emp_id%') ";
+	$query = "SELECT * FROM t_employee_m WHERE (emp_id LIKE '$emp_id%' OR emp_id LIKE '$emp_id%' )";
 	if (!empty($emp_status)) {
 		$query = $query . "AND emp_status = '$emp_status' ";
 	}
 	if (!empty($fullname)) {
-		$query = $query . "AND  fullname LIKE '$fullname%'";
+		$query = $query . "AND fullname LIKE '$fullname%'";
 	}
 	if (!empty($agency)) {
-		$query = $query . "AND  agency = '$agency'";
+		$query = $query . "AND agency = '$agency'";
 	}
 	if (!empty($batch)) {
 		$query = $query . "AND batch ='$batch' ";
 	}
 
-	$query = $query . " ORDER BY fullname ASC  LIMIT " . $page_first_result . ", " . $results_per_page;
-	$stmt = $conn->prepare($query);
+	$query = $query . "ORDER BY fullname ASC OFFSET :page_first_result ROWS FETCH NEXT :results_per_page ROWS ONLY";
+	echo $query;
+	$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+
+	$stmt->bindValue(':page_first_result', $page_first_result, PDO::PARAM_INT);
+	$stmt->bindValue(':results_per_page', $results_per_page, PDO::PARAM_INT);
+
 	$stmt->execute();
 	if ($stmt->rowCount() > 0) {
-		foreach ($stmt->fetchAll() as $j) {
+		foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $j) {
 			$c++;
 			$row_class = "";
 			$status = explode('/', $j['emp_status'])[0];
@@ -195,7 +176,7 @@ if ($method == 'save_acc') {
 	$m_name = $_POST['m_name'];
 
 	$check_duplicate = "SELECT COUNT(*) FROM t_employee_m WHERE emp_id = :emp_id";
-	$stmt_duplicate = $conn->prepare($check_duplicate);
+	$stmt_duplicate = $conn->prepare($check_duplicate, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL)) ;
 	$stmt_duplicate->bindParam(':emp_id', $emp_id);
 	$stmt_duplicate->execute();
 	$count = $stmt_duplicate->fetchColumn();
@@ -204,7 +185,7 @@ if ($method == 'save_acc') {
 		echo 'duplicate';
 	} else {
 		try {
-			$insert = "INSERT INTO t_employee_m (`fullname`, `emp_id`, `agency`,`batch`,`m_name`) VALUES (:fullname,:emp_id,:agency,:batch,:m_name)";
+			$insert = "INSERT INTO t_employee_m (fullname, emp_id, agency,batch,m_name) VALUES (:fullname,:emp_id,:agency,:batch,:m_name)";
 			$stmt = $conn->prepare($insert);
 			$stmt->execute(array(
 				':fullname' => $fullname,
@@ -231,7 +212,7 @@ if ($method == 'save_up') {
 	$m_name = $_POST['m_name'];
 
 	$check = "SELECT emp_id, batch FROM t_employee_m WHERE id = '$id'";
-	$stmt = $conn->prepare($check);
+	$stmt = $conn->prepare($check, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 	$stmt->execute();
 	if ($stmt->rowCount() > 0) {
 		foreach ($stmt->fetchAll() as $x) {
@@ -293,27 +274,6 @@ if ($method == 'fetch_data_m') {
 	// For row numbering
 	$c = $page_first_result;
 
-	// $query = "SELECT DISTINCT a.*,
-	// CASE
-	// 	WHEN a.batch THEN a.batch
-	// 	WHEN b.batch THEN b.batch
-	// END AS batch  
-	// FROM t_employee_m a LEFT JOIN t_f_process b ON a.emp_id = b.emp_id AND a.batch = b.batch WHERE (a.emp_id LIKE '$emp_id%' OR a.emp_id_old LIKE '$emp_id%') ";
-	// if (!empty($emp_status)) {
-	// 	$query = $query . "AND emp_status = '$emp_status' ";
-	// }
-	// if (!empty($fullname)) {
-	// 	$query = $query . "AND  fullname LIKE '$fullname%'";
-	// }
-	// if (!empty($agency)) {
-	// 	$query = $query . "AND  agency = '$agency'";
-	// }
-	// if (!empty($batch)) {
-	// 	$query = $query . "AND COALESCE(b.batch, a.batch) ='$batch' ";
-	// }
-
-	// $query = $query . " GROUP BY a.emp_id ORDER BY a.fullname ASC  LIMIT " . $page_first_result . ", " . $results_per_page;
-
 	$query = "SELECT  * FROM t_employee_m WHERE (emp_id LIKE '$emp_id%' OR emp_id_old LIKE '$emp_id%') ";
 	if (!empty($emp_status)) {
 		$query = $query . "AND emp_status = '$emp_status' ";
@@ -330,7 +290,7 @@ if ($method == 'fetch_data_m') {
 
 	$query = $query . " ORDER BY fullname ASC  LIMIT " . $page_first_result . ", " . $results_per_page;
 
-	$stmt = $conn->prepare($query);
+	$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 	$stmt->execute();
 	if ($stmt->rowCount() > 0) {
 		foreach ($stmt->fetchAll() as $j) {

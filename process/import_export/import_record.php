@@ -5,8 +5,8 @@
 
     function fetch_pro($category, $conn) {
         $arr = array();
-        $query = "SELECT `process` FROM `m_process` WHERE category = '$category' ORDER BY process ASC";
-        $stmt = $conn -> prepare($query);
+        $query = "SELECT process FROM m_process WHERE category = '$category' ORDER BY process ASC";
+        $stmt = $conn -> prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
         $stmt -> execute();
         if ($stmt -> rowCount() > 0) {
             foreach($stmt -> fetchAll() as $row) {
@@ -68,8 +68,8 @@
                 array_push($notExistsProArr, $check_csv_row);
             }
 
-            $sql = "SELECT `emp_id_old` FROM `t_employee_m` WHERE `emp_id` = '$emp_id'";
-            $stmt = $conn->prepare($sql);
+            $sql = "SELECT emp_id_old FROM t_employee_m WHERE emp_id = '$emp_id'";
+            $stmt = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
             $stmt->execute();
             if ($stmt->rowCount() > 0) {
                 foreach($stmt->fetchALL() as $x){
@@ -77,14 +77,14 @@
                 }
             }
 
-            $sql = "SELECT `auth_no`";
+            $sql = "SELECT auth_no";
             if ($category == 'final') {
-                $sql = $sql . " FROM `t_f_process`";
+                $sql = $sql . " FROM t_f_process";
             } else if ($category == 'initial') {
-                $sql = $sql . " FROM `t_i_process`";
+                $sql = $sql . " FROM t_i_process";
             }
-            $sql = $sql . " WHERE (`emp_id` != '$emp_id' AND `emp_id` != '$emp_id_old') AND `process` = '$pro' AND `auth_no` = '$auth_no'";
-            $stmt = $conn->prepare($sql);
+            $sql = $sql . " WHERE (emp_id != '$emp_id' AND emp_id != '$emp_id_old') AND process = '$pro' AND auth_no = '$auth_no'";
+            $stmt = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
             $stmt->execute();
             if ($stmt->rowCount() > 0) {
                 $hasError = 1;
@@ -180,9 +180,9 @@
                         $prevQuery = "SELECT id";
 
                         if ($category == 'final') {
-                            $prevQuery = $prevQuery . " FROM `t_f_process`";
+                            $prevQuery = $prevQuery . " FROM t_f_process";
                         } else if ($category == 'initial') {
-                            $prevQuery = $prevQuery . " FROM `t_i_process`";
+                            $prevQuery = $prevQuery . " FROM t_i_process";
                         }
 
                         $prevQuery = $prevQuery . " WHERE emp_id = '$emp_id' AND process = '$pro' AND  auth_year ='$auth_year' AND date_authorized = '$date_authorized' AND expire_date = '$expire_date'";
@@ -191,7 +191,7 @@
                         // echo $date_authorized;
                         // echo $expire_date;
 
-                        $res = $conn->prepare($prevQuery);
+                        $res = $conn->prepare($prevQuery, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
                         $res->execute();
                         $test = $res->rowCount();
                         if($res->rowCount() > 0){
@@ -202,9 +202,9 @@
                             $update = "";
 
                             if ($category == 'final') {
-                                $update = $update . "UPDATE `t_f_process`";
+                                $update = $update . "UPDATE t_f_process";
                             } else if ($category == 'initial') {
-                                $update = $update . "UPDATE `t_i_process`";
+                                $update = $update . "UPDATE t_i_process";
                             }
 
                             $update = $update . " SET emp_id = '$emp_id', process = '$pro', auth_no = '$auth_no', auth_year ='$auth_year', date_authorized ='$date_authorized', expire_date ='$expire_date', remarks ='$remarks' WHERE id = '$id'";
@@ -218,8 +218,8 @@
                         
                         }else{
 
-                            $sql = "SELECT `emp_id_old` FROM `t_employee_m` WHERE `emp_id` = '$emp_id'";
-                            $stmt = $conn->prepare($sql);
+                            $sql = "SELECT emp_id_old FROM t_employee_m WHERE emp_id = '$emp_id'";
+                            $stmt = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
                             $stmt->execute();
                             if ($stmt->rowCount() > 0) {
                                 foreach($stmt->fetchALL() as $x){
@@ -228,14 +228,14 @@
                             }
 
                             //Revision (Vince)
-                            $sql = "SELECT `auth_no`";
+                            $sql = "SELECT auth_no";
                             if ($category == 'final') {
-                                $sql = $sql . " FROM `t_f_process`";
+                                $sql = $sql . " FROM t_f_process";
                             } else if ($category == 'initial') {
-                                $sql = $sql . " FROM `t_i_process`";
+                                $sql = $sql . " FROM t_i_process";
                             }
-                            $sql = $sql . " WHERE (`emp_id` != '$emp_id' AND `emp_id` != '$emp_id_old') AND `process` = '$pro' AND `auth_no` = '$auth_no'";
-                            $stmt = $conn->prepare($sql);
+                            $sql = $sql . " WHERE (emp_id != '$emp_id' AND emp_id != '$emp_id_old') AND process = '$pro' AND auth_no = '$auth_no'";
+                            $stmt = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
                             $stmt->execute();
                             if ($stmt->rowCount() < 1) {
 
@@ -247,24 +247,24 @@
                                 }
 
                                 if ($category == 'final') {
-                                    $insert = $insert . "INSERT INTO `t_f_process`";
+                                    $insert = $insert . "INSERT INTO t_f_process";
                                 } else if ($category == 'initial') {
-                                    $insert = $insert . "INSERT INTO `t_i_process`";
+                                    $insert = $insert . "INSERT INTO t_i_process";
                                 }
 
-                                $insert = $insert . "(`emp_id`, `process`, `auth_no`, `auth_year`, `date_authorized`, `expire_date`, `up_date_time`, `dept`, `batch`,`i_status`";
+                                $insert = $insert . "(emp_id, process, auth_no, auth_year, date_authorized, expire_date, up_date_time, dept, batch,i_status";
 
                                 if (!empty($remarks)) {
-                                    $insert = $insert . ", `remarks`";
+                                    $insert = $insert . ", remarks";
                                 }
                                 if (!empty($r_of_cancellation)) {
-                                    $insert = $insert . ", `r_of_cancellation`";
+                                    $insert = $insert . ", r_of_cancellation";
                                 }
                                 if (!empty($d_of_cancellation)) {
-                                    $insert = $insert . ", `d_of_cancellation`";
+                                    $insert = $insert . ", d_of_cancellation";
                                 }
                                 if (!empty($r_status)) {
-                                    $insert = $insert . ", `r_status`";
+                                    $insert = $insert . ", r_status";
                                 }
 
                                 $insert = $insert . ") VALUES ('$emp_id', '$pro', '$auth_no', '$auth_year', '$date_authorized', '$expire_date', '$up_date', '$dept', '$batch', 'Pending'";
