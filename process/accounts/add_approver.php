@@ -45,7 +45,7 @@ if ($method == 'save_acc_approver') {
         echo 'duplicate';
     } else {
         $stmt = NULL;
-        $query = "INSERT INTO accounts (`fname`, `username`, `password`, `role`) VALUES ('$fname','$username','$password','$role')";
+        $query = "INSERT INTO accounts (fname, username, password, role) VALUES ('$fname','$username','$password','$role')";
         $stmt = $conn->prepare($query);
         if ($stmt->execute()) {
             echo 'success';

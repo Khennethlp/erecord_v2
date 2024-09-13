@@ -4,7 +4,7 @@ include '../conn.php';
 $method = $_POST['method'];
 
 if ($method == 'fetch_agency') {
-	$query = "SELECT `agency` FROM `m_agency` ORDER BY agency ASC";
+	$query = "SELECT agency FROM m_agency ORDER BY agency ASC";
 	$stmt = $conn -> prepare($query);
 	$stmt -> execute();
 	if ($stmt -> rowCount() > 0) {
