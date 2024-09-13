@@ -20,13 +20,13 @@ function count_history_admin_r($search_arr, $conn)
 		$query = "SELECT count(a.id) as total";
 
 		if ($category == 'Final') {
-			$query = $query . " FROM `t_f_process`";
+			$query = $query . " FROM t_f_process";
 		} else if ($category == 'Initial') {
-			$query = $query . " FROM `t_i_process`";
+			$query = $query . " FROM t_i_process";
 		}
 		$query = $query . " a
 							LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id AND a.batch = b.batch
-							JOIN `m_process` c ON a.process = c.process
+							JOIN m_process c ON a.process = c.process
 							WHERE (a.i_status = 'Approved' OR a.i_status = 'Reviewed' OR a.i_status = 'Disapproved')";
 
 		if (!empty($search_arr['emp_id'])) {
@@ -45,11 +45,12 @@ function count_history_admin_r($search_arr, $conn)
 			$query = $query . " AND c.process LIKE'" . $search_arr['processName_h'] . "%'";
 		}
 		if (!empty($search_arr['review_date_f']) && !empty($search_arr['review_date_t'])) {
-			$query = $query . " AND DATE(SUBSTRING_INDEX(a.i_review_by, '/', -1)) BETWEEN '$review_date_f' AND '$review_date_t' ";
+			$query .= " AND CONVERT(DATE, SUBSTRING(a.i_review_by, CHARINDEX('/', a.i_review_by) + 1, LEN(a.i_review_by) - CHARINDEX('/', a.i_review_by))) 
+						BETWEEN '$review_date_f' AND '$review_date_t'";
 		}
-		$query = $query . " ORDER BY SUBSTRING_INDEX(a.i_review_by, '/', -1) DESC";
+		// $query = $query . "ORDER BY CONVERT(DATE, SUBSTRING(a.i_review_by, CHARINDEX('/', a.i_review_by) + 1, LEN(a.i_review_by) - CHARINDEX('/', a.i_review_by))) DESC ";
 
-		$stmt = $conn->prepare($query);
+		$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 		$stmt->execute();
 		if ($stmt->rowCount() > 0) {
 			foreach ($stmt->fetchALL() as $j) {
@@ -146,13 +147,13 @@ if ($method == 'history_admin_r') {
 		$query = "SELECT a.id,a.auth_no,a.auth_year,a.date_authorized,a.expire_date,a.r_of_cancellation,a.d_of_cancellation,a.remarks,a.up_date_time,a.i_status,a.i_review_by,a.i_approve_by,b.fullname,b.agency,a.dept,b.batch,b.emp_id,c.category,c.process";
 
 		if ($category == 'Final') {
-			$query = $query . " FROM `t_f_process`";
+			$query = $query . " FROM t_f_process";
 		} else if ($category == 'Initial') {
-			$query = $query . " FROM `t_i_process`";
+			$query = $query . " FROM t_i_process";
 		}
 		$query = $query . " a
 							LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id AND a.batch = b.batch
-							JOIN `m_process` c ON a.process = c.process 
+							JOIN m_process c ON a.process = c.process 
 							WHERE (a.i_status = 'Approved' OR a.i_status = 'Reviewed' OR a.i_status = 'Disapproved')";
 
 		if (!empty($emp_id)) {
@@ -171,12 +172,19 @@ if ($method == 'history_admin_r') {
 			$query = $query . " AND c.process = '$processName_h' ";
 		}
 		if (!empty($review_date_f) && !empty($review_date_t)) {
-			$query = $query . " AND DATE(SUBSTRING_INDEX(a.i_review_by, '/', -1)) BETWEEN '$review_date_f' AND '$review_date_t' ";
+			// $query = $query . " AND DATE(SUBSTRING(a.i_review_by, '/', -1)) BETWEEN '$review_date_f' AND '$review_date_t' ";
+			$query .= " AND CONVERT(DATE, SUBSTRING(a.i_review_by, CHARINDEX('/', a.i_review_by) + 1, LEN(a.i_review_by) - CHARINDEX('/', a.i_review_by))) 
+						BETWEEN '$review_date_f' AND '$review_date_t'";
 		}
 
 		$query = $query . " AND b.fullname LIKE '$fullname%'";
-		$query = $query . "ORDER BY SUBSTRING_INDEX(a.i_review_by, '/', -1) DESC LIMIT " . $page_first_result . ", " . $results_per_page;
-		$stmt = $conn->prepare($query);
+
+		$query = $query . " ORDER BY SUBSTRING(a.i_review_by, CHARINDEX('/', a.i_review_by) + 1, LEN(a.i_review_by) - CHARINDEX('/', a.i_review_by)) DESC 
+							OFFSET $page_first_result ROWS FETCH NEXT $results_per_page ROWS ONLY";
+
+
+		$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+
 		$stmt->execute();
 		if ($stmt->rowCount() > 0) {
 			foreach ($stmt->fetchAll() as $j) {
@@ -235,13 +243,13 @@ function count_history_approver($search_arr, $conn)
 		$query = "SELECT count(a.id) as total";
 
 		if ($category == 'Final') {
-			$query = $query . " FROM `t_f_process`";
+			$query = $query . " FROM t_f_process";
 		} else if ($category == 'Initial') {
-			$query = $query . " FROM `t_i_process`";
+			$query = $query . " FROM t_i_process";
 		}
 		$query = $query . " a
 							LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id AND a.batch = b.batch
-							JOIN `m_process` c ON a.process = c.process
+							JOIN m_process c ON a.process = c.process
 							WHERE (a.i_status = 'Approved' OR a.i_status = 'Disapproved')";
 
 		if (!empty($search_arr['emp_id'])) {
@@ -264,7 +272,7 @@ function count_history_approver($search_arr, $conn)
 		}
 		$query = $query . " ORDER BY SUBSTRING_INDEX(a.i_approve_by , '/', -1) DESC";
 
-		$stmt = $conn->prepare($query);
+		$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 		$stmt->execute();
 		if ($stmt->rowCount() > 0) {
 			foreach ($stmt->fetchALL() as $j) {
@@ -360,13 +368,13 @@ if ($method == 'history_approver') {
 		$query = "SELECT a.id,a.auth_no,a.auth_year,a.date_authorized,a.expire_date,a.r_of_cancellation,a.d_of_cancellation,a.remarks,a.up_date_time,a.i_status,a.i_review_by,a.i_approve_by,b.fullname,b.agency,a.dept,b.batch,b.emp_id,c.category,c.process";
 
 		if ($category == 'Final') {
-			$query = $query . " FROM `t_f_process`";
+			$query = $query . " FROM t_f_process";
 		} else if ($category == 'Initial') {
-			$query = $query . " FROM `t_i_process`";
+			$query = $query . " FROM t_i_process";
 		}
 		$query = $query . " a
 							LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id AND a.batch = b.batch
-							JOIN `m_process` c ON a.process = c.process
+							JOIN m_process c ON a.process = c.process
 							WHERE (a.i_status = 'Approved' OR a.i_status = 'Disapproved')";
 
 		if (!empty($emp_id)) {
@@ -390,7 +398,7 @@ if ($method == 'history_approver') {
 
 		$query = $query . " AND b.fullname LIKE '$fullname%'";
 		$query = $query . "ORDER BY SUBSTRING_INDEX(a.i_approve_by , '/', -1) DESC LIMIT " . $page_first_result . ", " . $results_per_page;
-		$stmt = $conn->prepare($query);
+		$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 		$stmt->execute();
 		if ($stmt->rowCount() > 0) {
 			foreach ($stmt->fetchAll() as $j) {

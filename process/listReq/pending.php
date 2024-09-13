@@ -6,8 +6,8 @@ $method = $_POST['method'];
 
 if ($method == 'fetch_pro') {
 	$category = $_POST['category'];
-	$query = "SELECT `process` FROM `m_process` WHERE category = '$category' ORDER BY process ASC";
-	$stmt = $conn->prepare($query);
+	$query = "SELECT process FROM m_process WHERE category = '$category' ORDER BY process ASC";
+	$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 	$stmt->execute();
 	if ($stmt->rowCount() > 0) {
 		echo '<option value="">Please select a process.....</option>';
@@ -22,8 +22,8 @@ if ($method == 'fetch_pro') {
 // history
 if ($method == 'fetch_pro_h') {
 	$category = $_POST['category'];
-	$query = "SELECT `process` FROM `m_process` WHERE category = '$category' ORDER BY process ASC";
-	$stmt = $conn->prepare($query);
+	$query = "SELECT process FROM m_process WHERE category = '$category' ORDER BY process ASC";
+	$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 	$stmt->execute();
 	if ($stmt->rowCount() > 0) {
 		echo '<option value="">Please select a process.....</option>';
@@ -47,13 +47,13 @@ function count_pending($search_arr, $conn)
 		$query = "SELECT count(a.id) as total";
 
 		if ($category == 'Final') {
-			$query = $query . " FROM `t_f_process`";
+			$query = $query . " FROM t_f_process";
 		} else if ($category == 'Initial') {
-			$query = $query . " FROM `t_i_process`";
+			$query = $query . " FROM t_i_process";
 		}
 		$query = $query . " a
 							LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id AND a.batch = b.batch
-							JOIN `m_process` c ON a.process = c.process
+							JOIN m_process c ON a.process = c.process
 							where a.i_status = 'Pending' ";
 		if (!empty($search_arr['emp_id'])) {
 			$query = $query . " AND (b.emp_id = '" . $search_arr['emp_id'] . "' OR b.emp_id_old = '" . $search_arr['emp_id'] . "')";
@@ -69,9 +69,8 @@ function count_pending($search_arr, $conn)
 			$query = $query . " AND a.date_authorized = '" . $search_arr['date_authorized'] . "' ";
 		}
 		// $query = $query . "ORDER BY a.date_authorized DESC, SUBSTRING_INDEX(a.up_date_time, '/', -1) DESC, c.process, b.fullname ";
-		$query = $query . "ORDER BY SUBSTRING_INDEX(a.up_date_time, '/', -1) DESC ";
 
-		$stmt = $conn->prepare($query);
+		$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 		$stmt->execute();
 		if ($stmt->rowCount() > 0) {
 			foreach ($stmt->fetchALL() as $j) {
@@ -152,13 +151,13 @@ if ($method == 'fetch_category') {
 		$query = "SELECT a.i_status,a.i_approve_by, a.id, a.auth_no, a.auth_year, a.date_authorized, a.expire_date, a.r_of_cancellation, a.d_of_cancellation, a.remarks, a.up_date_time, b.fullname, b.agency, a.dept, a.batch, b.emp_id, c.category, c.process";
 
 		if ($category == 'Final') {
-			$query = $query . " FROM `t_f_process`";
+			$query = $query . " FROM t_f_process";
 		} else if ($category == 'Initial') {
-			$query = $query . " FROM `t_i_process`";
+			$query = $query . " FROM t_i_process";
 		}
 		$query = $query . " a
 							LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id AND a.batch = b.batch
-							JOIN `m_process` c ON a.process = c.process
+							JOIN m_process c ON a.process = c.process
 							where a.i_status = 'Pending' ";
 		if (!empty($emp_id)) {
 			$query = $query . " AND (b.emp_id = '$emp_id' OR b.emp_id_old = '$emp_id')";
@@ -173,17 +172,15 @@ if ($method == 'fetch_category') {
 		if (!empty($date_authorized)) {
 			$query = $query . " AND a.date_authorized = '$date_authorized' ";
 		}
-		$query = $query . " ORDER BY SUBSTRING_INDEX(a.up_date_time, '/', -1) DESC LIMIT " . $page_first_result . ", " . $results_per_page;
-		// $query = $query . " SUBSTRING_INDEX(a.up_date_time, '/', -1) DESC LIMIT " . $page_first_result . ", " . $results_per_page;
+		$query = $query . " ORDER BY SUBSTRING(a.up_date_time, LEN(a.up_date_time) - CHARINDEX('/', REVERSE(a.up_date_time)) + 2, LEN(a.up_date_time)) DESC 
+                    OFFSET " . $page_first_result . " ROWS FETCH NEXT " . $results_per_page . " ROWS ONLY";
 		
-		$stmt = $conn->prepare($query);
+		$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 		$stmt->execute();
 		if ($stmt->rowCount() > 0) {
 			foreach ($stmt->fetchAll() as $j) {
 				$c++;
 
-
-				
 				echo '<tr >';
 				echo '<td>';
 				echo  '<p>
@@ -232,9 +229,9 @@ if ($method == 'review') {
 
 		$query = "UPDATE";
 		if ($category == 'Final') {
-			$query = $query . " `t_f_process`";
+			$query = $query . " t_f_process";
 		} else if ($category == 'Initial') {
-			$query = $query . " `t_i_process`";
+			$query = $query . " t_i_process";
 		}
 		$query = $query . " SET i_status = 'Reviewed', i_review_by = '" . $_SESSION['fname'] . "/ " . $server_date_time . "' WHERE id = '$id' ";
 		$stmt = $conn->prepare($query);
@@ -259,9 +256,9 @@ if ($method == 'disreview') {
 
 		$query = "UPDATE";
 		if ($category == 'Final') {
-			$query = $query . " `t_f_process`";
+			$query = $query . " t_f_process";
 		}else if ($category == 'Initial') {
-			$query = $query . " `t_i_process`";
+			$query = $query . " t_i_process";
 		}
 		$query = $query . " SET i_status = 'Disapproved', i_review_by = '".$_SESSION['fname']. "/ " .$server_date_time."' WHERE id = '$id' ";
 		$stmt = $conn->prepare($query);
@@ -295,20 +292,20 @@ if ($method == 'update') {
 
 	$query = "SELECT id FROM ";
 	if ($category == 'Final') {
-		$query .= "`t_f_process`";
+		$query .= "t_f_process";
 	} else if ($category == 'Initial') {
-		$query .= "`t_i_process`";
+		$query .= "t_i_process";
 	}
 	$query .= " WHERE id = '$id' AND  auth_no='$auth_no'  AND auth_year = '$auth_year' AND date_authorized = '$date_authorized' AND expire_date = '$expire_date' AND remarks = '$remarks' AND dept = '$dept'";
 
-	$stmt = $conn->prepare($query);
+	$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 	$stmt->execute();
 	if ($stmt->rowCount() < 1) {
 		$query = "UPDATE ";
 		if ($category == 'Final') {
-			$query .= "`t_f_process`";
+			$query .= "t_f_process";
 		} else if ($category == 'Initial') {
-			$query .= "`t_i_process`";
+			$query .= "t_i_process";
 		}
 		$query .= " SET remarks = '$remarks', auth_year = '$auth_year', date_authorized = '$date_authorized', expire_date = '$expire_date', dept = '$dept', i_status = 'Pending', up_date_time = '" . $_SESSION['fname'] . "/ " . $server_date_time . "' WHERE id = '$id'";
 		$stmt = $conn->prepare($query);

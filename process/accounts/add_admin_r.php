@@ -8,7 +8,7 @@ $method = $_POST['method'];
 if ($method == 'fetch_account') {
     $c = 0;
     $query = "SELECT * FROM accounts WHERE role = 'admin_reviewer' ";
-    $stmt = $conn->prepare($query);
+    $stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
     $stmt->execute();
     if ($stmt->rowCount() > 0) {
         foreach ($stmt->fetchAll() as $j) {
@@ -37,7 +37,7 @@ if ($method == 'save_acc_admin_r') {
     $role = trim($_POST['role']);
 
     $check = "SELECT id FROM accounts WHERE username = '$username' ";
-    $stmt = $conn->prepare($check);
+    $stmt = $conn->prepare($check, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
     $stmt->execute();
 
 
@@ -64,7 +64,7 @@ if ($method == 'update_account') {
     $role = trim($_POST['role']);
 
     $query = "SELECT id FROM accounts WHERE fname = '$fname' AND username = '$username'";
-    $stmt = $conn->prepare($query);
+    $stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
     $stmt->execute();
     if ($stmt->rowCount() > 0) {
         echo 'duplicate';
@@ -109,8 +109,7 @@ if ($method == 'search_account_list') {
     $c = 0;
 
     $query = "SELECT * FROM accounts WHERE username LIKE '$username_search%' AND role = 'admin_reviewer'";
-
-    $stmt = $conn->prepare($query);
+    $stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
     $stmt->execute();
     if ($stmt->rowCount() > 0) {
         foreach ($stmt->fetchAll() as $j) {

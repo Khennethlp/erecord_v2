@@ -3,13 +3,30 @@ session_start();
 include '../conn.php';
 
 $method = $_POST['method'];
-// History for Admin Reviewer 
+// History for Admin Reviewer
+
+if ($method == 'fetch_pro') {
+	$category = $_POST['category'];
+	$query = "SELECT process FROM m_process WHERE category = '$category' ORDER BY process ASC";
+	$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+	$stmt->execute();
+	if ($stmt->rowCount() > 0) {
+		echo '<option value="">Please select a process.....</option>';
+		foreach ($stmt->fetchAll() as $row) {
+			echo '<option>' . htmlspecialchars($row['process']) . '</option>';
+		}
+	} else {
+		echo '<option>Please select a process.....</option>';
+	}
+}
+
 function count_history_admin_r($search_arr, $conn) {
     if (!empty($search_arr['category'])) {
         $emp_id = $search_arr['emp_id'];
         $fullname = $search_arr['fullname'];
         $expire_date = $search_arr['expire_date'];
         $date_authorized = $search_arr['date_authorized'];
+        $processName = $search_arr['processName'];
 
         $query = "SELECT count(auth_no) AS total FROM (";
 
@@ -38,10 +55,14 @@ function count_history_admin_r($search_arr, $conn) {
         if (!empty($date_authorized)) {
             $query .= " AND a.date_authorized = '$date_authorized' ";
         }
+        if (!empty($processName)) {
+            $query .= " AND a.process = '$processName' ";
+        }
 
-        $query .= "GROUP BY a.auth_no ORDER BY b.fullname ASC) AS asub";
+        $query .= ") AS asub";
+        // $query .= "GROUP BY a.auth_no ORDER BY b.fullname ASC) AS asub";
 
-        $stmt = $conn->prepare($query);
+        $stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
@@ -62,13 +83,15 @@ if ($method == 'count_history_admin_reviwer') {
 	$category = $_POST['category'];
 	$date_authorized = $_POST['date_authorized'];
 	$expire_date = $_POST['expire_date'];
+	$processName = $_POST['processName'];
 
 	$search_arr = array(
 		"emp_id" => $emp_id, 
 		"fullname" => $fullname, 
 		"category" => $category,
 		"date_authorized" => $date_authorized,
-		"expire_date" => $expire_date
+		"expire_date" => $expire_date,
+		"processName" => $processName
 	);
 
 	echo count_history_admin_r($search_arr, $conn);
@@ -80,13 +103,15 @@ if ($method == 'history_pagination_admin_r') {
 	$category = $_POST['category'];
 	$date_authorized = $_POST['date_authorized'];
 	$expire_date = $_POST['expire_date'];
+	$processName = $_POST['processName'];
 
 	$search_arr = array(
 		"emp_id" => $emp_id, 
 		"fullname" => $fullname, 
 		"category" => $category,
 		"date_authorized" => $date_authorized,
-		"expire_date" => $expire_date
+		"expire_date" => $expire_date,
+		"processName" => $processName
 	);
 
 	$results_per_page = 100;
@@ -109,6 +134,7 @@ if ($method == 'history_admin_reviwer') {
     $category = $_POST['category'];
     $date_authorized = $_POST['date_authorized'];
     $expire_date = $_POST['expire_date'];
+    $processName = $_POST['processName'];
     $current_page = intval($_POST['current_page']);
     $c = 0;
 
@@ -142,10 +168,15 @@ if ($method == 'history_admin_reviwer') {
         if (!empty($date_authorized)) {
             $query .= " AND a.date_authorized = '$date_authorized' ";
         }
+        if (!empty($processName)) {
+            $query .= " AND a.process = '$processName' ";
+        }
 
-        $query .= " GROUP BY a.auth_no ASC ORDER BY SUBSTRING_INDEX(a.r_review_by, '/', -1) DESC LIMIT ".$page_first_result.", ".$results_per_page;
+        // $query .= " GROUP BY a.auth_no ASC ORDER BY SUBSTRING_INDEX(a.r_review_by, '/', -1) DESC LIMIT ".$page_first_result.", ".$results_per_page;
+        $query = $query . " ORDER BY SUBSTRING(a.r_review_by, CHARINDEX('/', a.r_review_by) + 1, LEN(a.r_review_by) - CHARINDEX('/', a.r_review_by)) DESC 
+        OFFSET $page_first_result ROWS FETCH NEXT $results_per_page ROWS ONLY";
 
-        $stmt = $conn->prepare($query);
+        $stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
@@ -217,7 +248,7 @@ function count_history_approver($search_arr, $conn) {
 
         $query .= "GROUP BY a.auth_no ORDER BY b.fullname ASC) AS asub";
 
-        $stmt = $conn->prepare($query);
+        $stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
@@ -321,7 +352,7 @@ if ($method == 'history_approver') {
 
         $query .= " GROUP BY a.auth_no ASC ORDER BY a.r_approve_by DESC LIMIT ".$page_first_result.", ".$results_per_page;
 
-        $stmt = $conn->prepare($query);
+        $stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
@@ -375,7 +406,7 @@ if ($method == 'view') {
 							JOIN m_process c ON a.process = c.process
 							where a.auth_no = '$auth_no'";
 
-	$stmt = $conn->prepare($query);
+	$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 	$stmt->execute();
 	if ($stmt->rowCount() > 0) {
 		foreach($stmt->fetchAll() as $j){

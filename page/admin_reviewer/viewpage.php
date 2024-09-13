@@ -97,7 +97,7 @@
               </table>
             </div>
             <div class="row mt-3">
-              <div class="col-sm-12 col-md-9 col-9">
+              <div class="col-sm-6 col-md-8 col-8 mx-4">
                 <div class="dataTables_info" id="count_rows_display" role="status" aria-live="polite"></div>
                 <input type="hidden" id="count_rows">
               </div>

@@ -126,7 +126,12 @@
                     <option>Final</option>
                   </select>
                 </div>
-                
+                <div class="col-sm-2">
+                <label for="">Process Name</label>
+                  <select class=" form-control" name="processName" id="processName_h">
+                    <option value="">Select Process </option>
+                  </select>
+                </div>
                 <div class="col-sm-2">
                   <label for="">Employee Name</label>
                   <input placeholder="Type here..." type="text" id="fullname_h" class="form-control" autocomplete="off">
@@ -143,9 +148,9 @@
                   <label for="">Expire Date</label>
                   <input class="form-control" type="text" placeholder="Select date..." onfocus="(this.type='date')" onblur="(this.type='text')" id="expire_date_h">
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-2 ml-auto mt-3">
                   <!-- search button -->
-                   <label for="">&nbsp;</label>
+                   <!-- <label for="">&nbsp;</label> -->
                   <button class="btn btn-block d-flex justify-content-left" id="search_btn" onclick="search_history(1)" style="color:#fff;height:34px;border-radius:.25rem;background: var(--info);font-size:15px;font-weight:normal;"><img src="../../dist/img/search.png" style="height:19px;">&nbsp;&nbsp;Search</button>
                 </div>
               </div>

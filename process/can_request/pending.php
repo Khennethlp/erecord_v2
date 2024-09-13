@@ -7,7 +7,7 @@ $method = $_POST['method'];
 if ($method == 'fetch_pro_can') {
 	$category = $_POST['category'];
 	$query = "SELECT process FROM m_process WHERE category = '$category' ORDER BY process ASC";
-	$stmt = $conn->prepare($query);
+	$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 	$stmt->execute();
 	if ($stmt->rowCount() > 0) {
 		echo '<option value="">Please select a process.....</option>';
@@ -39,7 +39,8 @@ function count_pending($search_arr, $conn) {
 	$query = $query . " a
 						LEFT JOIN t_employee_m b  ON a.emp_id = b.emp_id  
 						JOIN m_process c ON a.process = c.process
-						where a.r_status = 'Pending' ";
+						WHERE a.r_status = 'Pending'";
+
 	if (!empty($search_arr['emp_id'])) {
 				$query = $query . " AND (b.emp_id = '".$search_arr['emp_id']."' OR b.emp_id_old = '".$search_arr['emp_id']."')";
 			}
@@ -50,12 +51,11 @@ function count_pending($search_arr, $conn) {
 		$query = $query . " AND c.process LIKE'".$search_arr['processName']."%'";
 	}
 
-	
-	$query = $query . "GROUP BY a.auth_no ORDER BY SUBSTRING_INDEX(a.up_date_time, '/', -1) DESC";
+	// $query = $query . "GROUP BY a.auth_no ORDER BY SUBSTRING_INDEX(a.up_date_time, '/', -1) DESC";
 
 	$query = $query . ") AS asub";
 
-	$stmt = $conn->prepare($query);
+	$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 	$stmt->execute();
 	if ($stmt->rowCount() > 0) {
 		foreach($stmt->fetchALL() as $j){
@@ -151,14 +151,16 @@ if ($method == 'fetch_category') {
 		if (!empty($processName)) {
 			$query = $query . " AND c.process LIKE'$processName%'";
 		}
-		$query = $query . "GROUP BY a.auth_no ASC ORDER BY SUBSTRING_INDEX(a.up_date_time, '/', -1) DESC LIMIT ".$page_first_result.", ".$results_per_page;
-		$stmt = $conn->prepare($query);
+		// $query = $query . "GROUP BY a.auth_no ASC ORDER BY SUBSTRING_INDEX(a.up_date_time, '/', -1) DESC LIMIT ".$page_first_result.", ".$results_per_page;
+		$query = $query . " ORDER BY SUBSTRING(a.up_date_time, LEN(a.up_date_time) - CHARINDEX('/', REVERSE(a.up_date_time)) + 2, LEN(a.up_date_time)) DESC 
+                    OFFSET " . $page_first_result . " ROWS FETCH NEXT " . $results_per_page . " ROWS ONLY";
+		$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+		
 		$stmt->execute();
 		if ($stmt->rowCount() > 0) {
 			foreach($stmt->fetchAll() as $j){
 				$c++;
 			
-				
 					echo '<tr style="cursor:pointer;" class="modal-trigger" data-toggle="modal" data-target="#view_p" onclick="p_details(&quot;'.$j['id'].'~!~'.$j['auth_year'].'~!~'.$j['date_authorized'].'~!~'.$j['expire_date'].'~!~'.$j['remarks'].'~!~'.$j['r_of_cancellation'].'~!~'.$j['d_of_cancellation'].'~!~'.$j['up_date_time'].'~!~'.$j['fullname'].'~!~'.$j['auth_no'].'&quot;)">';
 					
 
@@ -215,7 +217,7 @@ if ($method == 'qc_view') {
     $query .= "JOIN m_process c ON a.process = c.process ";
     $query .= "WHERE a.auth_no = :auth_no";
 
-    $stmt = $conn->prepare($query);
+    $stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
     $stmt->bindParam(':auth_no', $auth_no);
     $stmt->execute();
     
@@ -251,7 +253,7 @@ if ($method == 'qc_review') {
 			$query = $query . " t_i_process";
 		}
 		$query = $query . " SET r_status = 'Reviewed', status = 'Qualified', r_review_by = '".$_SESSION['fname']. "/ " .$server_date_time."' WHERE auth_no = '$auth_no' ";
-		$stmt = $conn->prepare($query);
+		$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 		$stmt -> execute();
 		$count--;
 	}
@@ -277,7 +279,7 @@ if ($method == 'qc_disreview') {
             $query .= " t_i_process";
         }
         $query .= " SET r_status = 'Disapproved', status = 'Qualified',  r_review_by = '".$_SESSION['fname']. "/ " .$server_date_time."', r_of_cancellation = NULL, d_of_cancellation = NULL WHERE auth_no = '$auth_no'";
-        $stmt = $conn->prepare($query);
+        $stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
         $stmt->execute();
         $count--;
     }

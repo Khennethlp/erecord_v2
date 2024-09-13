@@ -8,6 +8,24 @@ document.querySelectorAll('#fullname_h, #emp_id_h').forEach(input => {
   });
 });
 
+$(document).ready(function(){
+  $("#categoryyy").change(function() {
+      var category = document.getElementById("categoryyy").value;
+      $.ajax({
+        url: '../../process/can_request/history.php',
+        type: 'POST',
+        cache: false,
+        data: {
+          method: 'fetch_pro',
+          category: category
+        },
+        success: function(response) {
+          $('#processName_h').html(response);
+        }
+      });
+    });
+})
+
 document.getElementById("history_list_pagination2").addEventListener("keyup", e => {
   var current_page = document.getElementById("history_list_pagination2").value.trim();
   let total = sessionStorage.getItem('count_rows2');
@@ -46,6 +64,7 @@ const get_next_page2 = () => {
   var category = document.getElementById('categoryyy').value;
   var date_authorized = document.getElementById('date_authorized_h').value;
   var expire_date = document.getElementById('expire_date_h').value;
+  var processName = document.getElementById('processName_h').value;
 
    if (category == 'Category') {
     category = '';
@@ -61,6 +80,7 @@ const get_next_page2 = () => {
     category:category,
     date_authorized:date_authorized,
     expire_date:expire_date,
+    processName:processName,
     current_page:current_page 
     
     },success:function(response){
@@ -77,6 +97,7 @@ const get_next_page2 = () => {
   var category = document.getElementById('categoryyy').value;
   var date_authorized = document.getElementById('date_authorized_h').value;
   var expire_date = document.getElementById('expire_date_h').value;
+  var processName = document.getElementById('processName_h').value;
 
    if (category == 'Category') {
     category = '';
@@ -91,6 +112,7 @@ const get_next_page2 = () => {
     fullname:fullname,
     date_authorized:date_authorized,
     expire_date:expire_date,
+    processName:processName,
     category:category
     
     },success:function(response){
@@ -117,6 +139,7 @@ const history_pagination  = ()=>{
   var category = document.getElementById('categoryyy').value;
   var date_authorized = document.getElementById('date_authorized_h').value;
   var expire_date = document.getElementById('expire_date_h').value;
+  var processName = document.getElementById('processName_h').value;
   var current_page = sessionStorage.getItem('history_list_pagination2');
  
    if (category == 'Category') {
@@ -132,6 +155,7 @@ const history_pagination  = ()=>{
     fullname:fullname,
     date_authorized:date_authorized,
     expire_date:expire_date,
+    processName:processName,
     category:category
     
     },success:function(response){
