@@ -34,7 +34,7 @@
             <div class="col-sm-2">
               <label for="">Status</label>
               <select class="form-control btn btn-outline-secondary" id="emp_status">
-                <option>Select status</option>
+                <option value="">Select status</option>
                 <option value="Resigned">Resigned</option>
                 <option value="Retired">Retired</option>
                 <option value="Dismiss">Dismiss</option>
@@ -43,7 +43,7 @@
             <div class="col-sm-2">
               <label for="">Provider</label>
               <select class="form-control btn btn-outline-secondary" name="agency" id="agency">
-                <option>Select Provider</option>
+                <option value="">Select Provider</option>
                 <option></option>
               </select>
             </div>

@@ -395,7 +395,7 @@ if ($method == 'qc_fetch_category') {
 		if (!empty($pro)) {
 			$query = $query . " AND a.process LIKE '$pro'";
 		}
-		$query = $query . "GROUP BY a.auth_no ORDER BY b.fullname ASC LIMIT " . $page_first_result . ", " . $results_per_page;
+		$query = $query . "ORDER BY b.fullname ASC OFFSET $page_first_result ROWS FETCH NEXT $results_per_page ROWS ONLY";
 		$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 		$stmt->execute();
 		if ($stmt->rowCount() > 0) {
