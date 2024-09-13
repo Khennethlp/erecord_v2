@@ -246,7 +246,7 @@ function count_history_approver($search_arr, $conn) {
             $query .= " AND a.date_authorized = '$date_authorized' ";
         }
 
-        $query .= "GROUP BY a.auth_no ORDER BY b.fullname ASC) AS asub";
+        $query .= "GROUP BY a.auth_no) AS asub";
 
         $stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
         $stmt->execute();
@@ -350,7 +350,9 @@ if ($method == 'history_approver') {
             $query .= " AND a.date_authorized = '$date_authorized' ";
         }
 
-        $query .= " GROUP BY a.auth_no ASC ORDER BY a.r_approve_by DESC LIMIT ".$page_first_result.", ".$results_per_page;
+        $query .= " ORDER BY a.r_approve_by DESC OFFSET $page_first_result ROWS FETCH NEXT $results_per_page ROWS ONLY";
+        // $query = $query . " ORDER BY SUBSTRING(a.r_review_by, CHARINDEX('/', a.r_review_by) + 1, LEN(a.r_review_by) - CHARINDEX('/', a.r_review_by)) DESC 
+        // OFFSET $page_first_result ROWS FETCH NEXT $results_per_page ROWS ONLY";
 
         $stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
         $stmt->execute();

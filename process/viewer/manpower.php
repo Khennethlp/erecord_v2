@@ -288,7 +288,7 @@ if ($method == 'fetch_data_m') {
 		$query = $query . "AND batch ='$batch' ";
 	}
 
-	$query = $query . " ORDER BY fullname ASC  LIMIT " . $page_first_result . ", " . $results_per_page;
+	$query = $query . " ORDER BY fullname ASC OFFSET $page_first_result ROWS FETCH NEXT $results_per_page ROWS ONLY";
 
 	$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 	$stmt->execute();

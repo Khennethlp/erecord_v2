@@ -66,7 +66,7 @@
                       </div>
                       <div class="col-sm-2">
                         <label for="">Process Name:</label>
-                        <select class=" form-control  " name="processName" id="processName">
+                        <select class="form-control" name="processName" id="processName">
                           <option value="">Select Process</option>
                         </select>
                       </div>
@@ -152,7 +152,7 @@
                       <div class="col-sm-2 mt-2">
                         <label for="">Process Name:</label>
                         <select class=" form-control" name="processName" id="processName_h">
-                          <option value="">Select Process </option>
+                          <option value="">Select Process</option>
                         </select>
                       </div>
                       <div class="col-sm-2 mt-2">

@@ -31,12 +31,11 @@ function count_rev($search_arr, $conn) {
 		$query = $query . " AND b.fullname LIKE'".$search_arr['fullname']."%'";
 	}
 
-	
-	$query = $query . "GROUP BY a.auth_no ORDER BY SUBSTRING_INDEX(a.up_date_time, '/', -1) Desc";
+	// $query = $query . "GROUP BY a.auth_no ORDER BY SUBSTRING_INDEX(a.up_date_time, '/', -1) Desc";
 
 	$query = $query . ") AS asub";
 
-	$stmt = $conn->prepare($query);
+	$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 	$stmt->execute();
 	if ($stmt->rowCount() > 0) {
 		foreach($stmt->fetchALL() as $j){
@@ -122,15 +121,15 @@ if ($method == 'fetch_rev') {
 		if (!empty($fullname)) {
 			$query = $query . " AND b.fullname LIKE'$fullname%'";
 		}
-		$query = $query . "GROUP BY a.auth_no ASC  ORDER BY SUBSTRING_INDEX(a.up_date_time, '/', -1) Desc LIMIT ".$page_first_result.", ".$results_per_page;
-		$stmt = $conn->prepare($query);
+		$query = $query . " ORDER BY SUBSTRING(a.up_date_time, LEN(a.up_date_time) - CHARINDEX('/', REVERSE(a.up_date_time)) + 2, LEN(a.up_date_time)) DESC 
+		OFFSET " . $page_first_result . " ROWS FETCH NEXT " . $results_per_page . " ROWS ONLY";
+		
+		$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 		$stmt->execute();
 		if ($stmt->rowCount() > 0) {
 			foreach($stmt->fetchAll() as $j){
 				$c++;
 					echo '<tr style="cursor:pointer;" class="modal-trigger" data-toggle="modal" data-target="#view_p" onclick="p_details(&quot;'.$j['id'].'~!~'.$j['auth_year'].'~!~'.$j['date_authorized'].'~!~'.$j['expire_date'].'~!~'.$j['remarks'].'~!~'.$j['r_of_cancellation'].'~!~'.$j['d_of_cancellation'].'~!~'.$j['up_date_time'].'~!~'.$j['fullname'].'~!~'.$j['auth_no'].'&quot;)">';
-					
-
 					echo '<td>';
 	                echo '<p>
 	                        <label>
@@ -185,7 +184,7 @@ if ($method == 'view') {
 							JOIN m_process c ON a.process = c.process
 							where a.auth_no = '$auth_no'";
 
-	$stmt = $conn->prepare($query);
+	$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 	$stmt->execute();
 	if ($stmt->rowCount() > 0) {
 		foreach($stmt->fetchAll() as $j){

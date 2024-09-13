@@ -8,7 +8,7 @@ $method = $_POST['method'];
 if ($method == 'fetch_account') {
     $c = 0;
     $query = "SELECT * FROM accounts WHERE role = 'hrd_approver' ";
-    $stmt = $conn->prepare($query);
+    $stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
     $stmt->execute();
     if ($stmt->rowCount() > 0) {
         foreach ($stmt->fetchAll() as $j) {
@@ -110,7 +110,7 @@ if ($method == 'search_account_list') {
 
     $query = "SELECT * FROM accounts WHERE username LIKE '$username_search%'";
 
-    $stmt = $conn->prepare($query);
+    $stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
     $stmt->execute();
     if ($stmt->rowCount() > 0) {
         foreach ($stmt->fetchAll() as $j) {

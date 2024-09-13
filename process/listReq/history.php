@@ -211,7 +211,6 @@ if ($method == 'history_admin_r') {
 				echo '<td>' . $j['i_status'] . '</td>';
 				echo '<td>' . $j['remarks'] . '</td>';
 
-
 				echo '</tr>';
 			}
 		} else {
@@ -268,9 +267,12 @@ function count_history_approver($search_arr, $conn)
 			$query = $query . " AND c.process LIKE '" . $search_arr['processName_h'] . "%' ";
 		}
 		if (!empty($search_arr['approved_date_f']) && !empty($search_arr['approved_date_t'])) {
-			$query = $query . "AND DATE(SUBSTRING_INDEX(a.i_approve_by, '/', -1)) BETWEEN '$approved_date_f' AND '$approved_date_t' ";
+			// $query = $query . "AND DATE(SUBSTRING_INDEX(a.i_approve_by, '/', -1)) BETWEEN '$approved_date_f' AND '$approved_date_t' ";
+			$query .= " AND CONVERT(DATE, SUBSTRING(a.i_review_by, CHARINDEX('/', a.i_review_by) + 1, LEN(a.i_review_by) - CHARINDEX('/', a.i_review_by))) 
+						BETWEEN '$approved_date_f' AND '$approved_date_t'";
 		}
-		$query = $query . " ORDER BY SUBSTRING_INDEX(a.i_approve_by , '/', -1) DESC";
+		// $query = $query . " ORDER BY SUBSTRING(a.i_approve_by, CHARINDEX('/', a.i_approve_by) + 1, LEN(a.i_approve_by) - CHARINDEX('/', a.i_approve_by)) DESC ";
+		// $query = $query . " ORDER BY SUBSTRING_INDEX(a.i_approve_by , '/', -1) DESC";
 
 		$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 		$stmt->execute();
@@ -393,11 +395,16 @@ if ($method == 'history_approver') {
 			$query = $query . " AND c.process LIKE '$processName_h%' ";
 		}
 		if (!empty($approved_date_f) && !empty($approved_date_t)) {
-			$query = $query . "AND DATE(SUBSTRING_INDEX(a.i_approve_by, '/', -1)) BETWEEN '$approved_date_f' AND '$approved_date_t' ";
+			// $query = $query . "AND DATE(SUBSTRING_INDEX(a.i_approve_by, '/', -1)) BETWEEN '$approved_date_f' AND '$approved_date_t' ";
+			$query .= " AND CONVERT(DATE, SUBSTRING(a.i_approve_by, CHARINDEX('/', a.i_approve_by) + 1, LEN(a.i_approve_by) - CHARINDEX('/', a.i_approve_by))) 
+						BETWEEN '$approved_date_f' AND '$approved_date_t'";
 		}
 
 		$query = $query . " AND b.fullname LIKE '$fullname%'";
-		$query = $query . "ORDER BY SUBSTRING_INDEX(a.i_approve_by , '/', -1) DESC LIMIT " . $page_first_result . ", " . $results_per_page;
+		// $query = $query . "ORDER BY SUBSTRING_INDEX(a.i_approve_by , '/', -1) DESC LIMIT " . $page_first_result . ", " . $results_per_page;
+		$query = $query . " ORDER BY SUBSTRING(a.i_approve_by, CHARINDEX('/', a.i_approve_by) + 1, LEN(a.i_approve_by) - CHARINDEX('/', a.i_approve_by)) DESC 
+							OFFSET $page_first_result ROWS FETCH NEXT $results_per_page ROWS ONLY";
+
 		$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 		$stmt->execute();
 		if ($stmt->rowCount() > 0) {
@@ -424,8 +431,6 @@ if ($method == 'history_approver') {
 				echo '<td>' . $j['dept'] . '</td>';
 				echo '<td>' . $j['i_status'] . '</td>';
 				echo '<td>' . $j['remarks'] . '</td>';
-
-
 				echo '</tr>';
 			}
 		} else {
