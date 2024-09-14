@@ -170,7 +170,7 @@ if ($method == 'fetch_rev') {
 			$query = $query . " AND a.date_authorized = '$date_authorized' ";
 		}
 		// $query = $query ."ORDER BY SUBSTRING_INDEX(a.up_date_time, '/', -1) DESC LIMIT ".$page_first_result.", ".$results_per_page;
-		$query = $query . " ORDER BY SUBSTRING(a.up_date_time, LEN(a.up_date_time) - CHARINDEX('/', REVERSE(a.up_date_time)) + 2, LEN(a.up_date_time)) DESC 
+		$query = $query . "ORDER BY a.process ASC, CONVERT(DATETIME, SUBSTRING(a.i_review_by, CHARINDEX('/', a.i_review_by) + 2, LEN(a.i_review_by) - CHARINDEX('/', a.i_review_by) - 1)) DESC
 		OFFSET " . $page_first_result . " ROWS FETCH NEXT " . $results_per_page . " ROWS ONLY";
 
 		$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));

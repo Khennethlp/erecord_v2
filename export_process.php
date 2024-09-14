@@ -37,13 +37,13 @@ fputcsv($f, $fields, $delimiter);
 $query = "SELECT a.batch, a.process, a.auth_no, a.auth_year, a.date_authorized, a.expire_date, a.r_of_cancellation, a.d_of_cancellation, a.remarks, a.i_status, a.r_status, b.fullname, b.agency, a.dept, b.emp_id, c.category";
 
 if ($category == 'Final') {
-    $query .= " FROM `t_f_process`";
+    $query .= " FROM t_f_process";
 } else if ($category == 'Initial') {
-    $query .= " FROM `t_i_process`";
+    $query .= " FROM t_i_process";
 }
 
 $query .= " a LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id AND a.batch = b.batch
-		JOIN `m_process` c ON a.process = c.process
+		JOIN m_process c ON a.process = c.process
 		WHERE a.i_status = 'Approved'
 		";
 
@@ -66,7 +66,7 @@ if (!empty($date_authorized)) {
 }
 
 $query .= " ORDER BY a.process ASC, b.fullname ASC, a.auth_year DESC";
-$stmt = $conn->prepare($query);
+$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 $stmt->execute();
 if ($stmt->rowCount() > 0) {
 

@@ -179,7 +179,7 @@ if ($method == 'history_admin_r') {
 
 		$query = $query . " AND b.fullname LIKE '$fullname%'";
 
-		$query = $query . " ORDER BY SUBSTRING(a.i_review_by, CHARINDEX('/', a.i_review_by) + 1, LEN(a.i_review_by) - CHARINDEX('/', a.i_review_by)) DESC 
+		$query = $query . " ORDER BY a.process ASC, CONVERT(DATETIME, SUBSTRING(a.i_review_by, CHARINDEX('/', a.i_review_by) + 1, LEN(a.i_review_by) - CHARINDEX('/', a.i_review_by))) DESC 
 							OFFSET $page_first_result ROWS FETCH NEXT $results_per_page ROWS ONLY";
 
 

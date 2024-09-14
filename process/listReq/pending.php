@@ -172,7 +172,7 @@ if ($method == 'fetch_category') {
 		if (!empty($date_authorized)) {
 			$query = $query . " AND a.date_authorized = '$date_authorized' ";
 		}
-		$query = $query . " ORDER BY SUBSTRING(a.up_date_time, LEN(a.up_date_time) - CHARINDEX('/', REVERSE(a.up_date_time)) + 2, LEN(a.up_date_time)) DESC 
+		$query = $query . " ORDER BY CONVERT(DATETIME, SUBSTRING(a.up_date_time, LEN(a.up_date_time) - CHARINDEX('/', REVERSE(a.up_date_time)) + 2, LEN(a.up_date_time))) DESC 
                     OFFSET " . $page_first_result . " ROWS FETCH NEXT " . $results_per_page . " ROWS ONLY";
 		
 		$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
