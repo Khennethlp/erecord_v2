@@ -5,7 +5,8 @@
 	if (isset($_SESSION['username'])) {
 		$username = $_SESSION['username'];
 		$query = "SELECT * FROM accounts WHERE username = '$username'";
-		$stmt = $conn->prepare($query);
+		$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL)
+	);
 		$stmt->execute();
 
 		if ($stmt->rowCount() > 0) {
