@@ -1,6 +1,6 @@
   <footer class="main-footer">
-  <strong>Copyright &copy; 2023. EJ Montañano & JI Bautista & KL Puerto </strong>
-    All rights reserved.
+  <strong>Copyright &copy; 2023-2024. </strong>
+    All rights reserved.  <a href="" data-target="#developers" data-toggle="modal">Developers</a> 
     <div class="float-right d-none d-sm-inline-block">
       <b>Version</b> 2.0.0
     </div>
@@ -8,6 +8,7 @@
 <?php
 //MODALS
 include '../../modals/logout.php';
+include '../../modals/developers.php';
 include '../../modals/view.php';
 include '../../modals/update_admin_r.php';
 include '../../modals/qc_disapproved.php';
