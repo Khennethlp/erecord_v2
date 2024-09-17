@@ -336,7 +336,7 @@
               showConfirmButton: false,
               timer: 1000
             });
-            var auth_no = document.getElementById('auth_no_d').val('');
+            // var auth_no = document.getElementById('auth_no_d').val('');
             $('auth_year_d').val('');
             $('date_authorized_d').val('');
             $('expire_date_d').val('');
