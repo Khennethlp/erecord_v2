@@ -119,7 +119,7 @@ if (!isset($_SESSION['username'])) {
   </style>
 </head>
 
-<body class="hold-transition sidebar-mini sidebar-collapse">
+<body class="hold-transition sidebar-mini">
   <div class="wrapper">
 
     <!-- Preloader -->

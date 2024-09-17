@@ -122,7 +122,7 @@ else if ($_SESSION['role'] =='qc'){
   </style>
 </head>
 
-<body class="hold-transition sidebar-mini sidebar-collapse">
+<body class="hold-transition sidebar-mini">
   <div class="wrapper">
 
     <!-- Preloader -->
