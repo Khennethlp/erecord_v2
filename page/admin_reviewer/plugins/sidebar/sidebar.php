@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-light-primary elevation-2" style="background: #F6F6F6;">
     <!-- Brand Logo -->
-    <a href="defect_monitoring_record.php" class="brand-link" style="background: #275DAD;">
+    <a href="" class="brand-link" style="background: #275DAD;">
         <img src="../../dist/img/logo.png" alt="Logo" class="brand-image" style="opacity: .8;">
         <span class="brand-text" style="font-size:17px;color:#fff">E-Record System</span>
     </a>
