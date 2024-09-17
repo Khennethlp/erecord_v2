@@ -52,7 +52,7 @@
                       <div class="col-sm-1">
                         <!-- approve button -->
                         <label for="">&nbsp;</label>
-                        <button class="btn btn-block form-control  d-flex justify-content-left" data-toggle="modal" data-target="#i_approve" style="color:#fff;height:34px;border-radius:.25rem;background: #28a745;font-size:15px;font-weight:normal;"><img src="../../dist/img/check (1).png" style="height:19px;">&nbsp;&nbsp;Approve</button>
+                        <button class="btn btn-block form-control  d-flex justify-content-left" data-toggle="modal" data-target="#i_approve" style="color:#fff;height:34px;border-radius:.25rem;background: #28a745;font-size:15px;font-weight:normal; padding: 5px 3px;"><img src="../../dist/img/check (1).png" style="height:19px;">&nbsp;&nbsp;Approve</button>
                       </div>
                       <div class="col-sm-1"></div>
                       <!-- category -->

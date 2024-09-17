@@ -1,8 +1,7 @@
   <footer class="main-footer">
-  <strong>Copyright &copy; 2023-2024. </strong>
-    All rights reserved.  <a href="" data-target="#developers" data-toggle="modal">Developers</a>
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 2.0.0
+  <strong>Copyright &copy; 2024. </strong>
+  <div class="float-right d-none d-sm-inline-block">
+      All rights reserved.  <a href="" data-target="#developers" data-toggle="modal">Developers</a>
     </div>
   </footer>
 <?php

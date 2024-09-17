@@ -24,60 +24,60 @@
              with font-awesome or any other icon font library -->
         <li class="nav-item">
         <?php if ($_SERVER['REQUEST_URI'] == "/erecord_v2/page/hrd_approver/list_of_req.php") { ?>
-          <a href="list_of_req.php" class="nav-link active" >
+          <a href="list_of_req.php" class="nav-link active active-nav" >
           <?php } else { ?>
               <a href="list_of_req.php" class="nav-link">
               <?php } ?>
-            <img src="../../dist/img/list.png" style="height:25px;">
-            <p class="pl-1" style="font-size:16px; color:black">
+            <img src="../../dist/img/list.png" class="icon-image" style="height:25px;">
+            <p class="pl-1 active-p" style="font-size:16px; color:black">
               List of Request
             </p>
           </a>
         </li>
         <li class="nav-item">
         <?php if ($_SERVER['REQUEST_URI'] == "/erecord_v2/page/hrd_approver/cancellation.php") { ?>
-          <a href="cancellation.php" class="nav-link active" >
+          <a href="cancellation.php" class="nav-link active active-nav" >
           <?php } else { ?>
               <a href="cancellation.php" class="nav-link">
               <?php } ?>
-            <img src="../../dist/img/file.png" style="height:25px;">
-            <p class="pl-1" style="font-size:16px; color:black">
+            <img src="../../dist/img/file.png" class="icon-image" style="height:25px;">
+            <p class="pl-1 active-p" style="font-size:16px; color:black">
               Cancellation Request
             </p>
           </a>
         </li>
         <li class="nav-item">
         <?php if ($_SERVER['REQUEST_URI'] == "/erecord_v2/page/hrd_approver/viewpage.php") { ?>
-          <a href="viewpage.php" class="nav-link active">
+          <a href="viewpage.php" class="nav-link active active-nav">
           <?php } else { ?>
               <a href="viewpage.php" class="nav-link">
               <?php } ?>
-            <img src="../../dist/img/view.png" style="height:25px;">
-            <p class="pl-1" style="font-size:16px; color:black">
+            <img src="../../dist/img/view.png" class="icon-image" style="height:25px;">
+            <p class="pl-1 active-p" style="font-size:16px; color:black">
               View Data
             </p>
           </a>
         </li>
         <li class="nav-item">
         <?php if ($_SERVER['REQUEST_URI'] == "/erecord_v2/page/hrd_approver/manpowerpage.php") { ?>
-          <a href="manpowerpage.php" class="nav-link active">
+          <a href="manpowerpage.php" class="nav-link active active-nav">
           <?php } else { ?>
               <a href="manpowerpage.php" class="nav-link">
               <?php } ?>
-            <img src="../../dist/img/group.png" style="height:25px;">
-            <p class="pl-1" style="font-size:16px; color:black">
+            <img src="../../dist/img/group.png" class="icon-image" style="height:25px;">
+            <p class="pl-1 active-p" style="font-size:16px; color:black">
               Masterlist 
             </p>
           </a>
         </li>
         <li class="nav-item">
         <?php if ($_SERVER['REQUEST_URI'] == "/erecord_v2/page/hrd_approver/addaccountpage.php") { ?>
-          <a href="addaccountpage.php" class="nav-link active">
+          <a href="addaccountpage.php" class="nav-link active active-nav">
           <?php } else { ?>
               <a href="addaccountpage.php" class="nav-link">
               <?php } ?>
-            <img src="../../dist/img/account.png" style="height:25px;">
-            <p class="pl-1" style="font-size:16px; color:black">
+            <img src="../../dist/img/account.png" class="icon-image" style="height:25px;">
+            <p class="pl-1 active-p" style="font-size:16px; color:black">
               Account Management
             </p>
           </a>
@@ -86,6 +86,9 @@
       </ul>
     </nav>
     <!-- /.sidebar-menu -->
+  </div>
+  <div class="sidebar-bottom">
+    <p class="text-muted text-center" style="font-size: 14px; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);">Version 2.0.0</p>
   </div>
   <!-- /.sidebar -->
 </aside>

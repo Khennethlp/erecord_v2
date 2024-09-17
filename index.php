@@ -18,7 +18,14 @@
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
   <link rel="stylesheet" href="node_modules/sweetalert2/dist/sweetalert2.min.css">
 </head>
-
+<style>
+     .bg-info {
+      background-color: #3775D2 !important;
+    }
+    :root {
+      --info: #3775D2;
+    }
+</style>
 <body>
   <div class="container-fluid">
     <!-- Content Header (Page header) -->
@@ -143,10 +150,10 @@
   <!-- /.content-wrapper -->
   <div style="text-align: center;">
     <footer class="content-fluid">
-      <strong>Copyright &copy; 2023. EJ Montañano & Jane Irish Bautista & Khenneth Puerto </strong>
+      <strong>Copyright &copy; 2023-2024. EJ Montañano & Jane Irish Bautista & Khenneth Puerto </strong>
       All rights reserved.
       <div class=" d-none d-sm-inline-block">
-        <b>Version</b> 1.0.2
+        <b>Version</b> 2.0.0
       </div>
     </footer>
   </div>

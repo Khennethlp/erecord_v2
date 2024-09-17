@@ -119,6 +119,33 @@ else if ($_SESSION['role'] =='qc'){
     .nav-link.active {
       color: #1e96fc !important;
     }
+    .active-nav {
+      background-color: #275DAD !important;
+    }
+
+    .active-nav .active-p {
+      color: white !important;
+    }
+
+    .active-p {
+      color: black !important;
+    }
+
+    .active-nav .icon-image {
+      filter: brightness(0) invert(1);
+    }
+
+    .icon-image {
+      filter: none;/
+    }
+
+    .bg-info {
+      background-color: #3775D2 !important;
+    }
+
+    :root {
+      --info: #3775D2;
+    }
   </style>
 </head>
 

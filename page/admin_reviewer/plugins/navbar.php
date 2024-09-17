@@ -1,23 +1,22 @@
-<?php 
+<?php
 //SESSION
 include '../../process/session.php';
 
 if (!isset($_SESSION['username'])) {
   header('location: ../../index.php');
   exit;
-} else if ($_SESSION['role'] =='admin'){
+} else if ($_SESSION['role'] == 'admin') {
   header('location: ../../page/admin/dashboard.php');
   exit;
-}
-else if ($_SESSION['role'] =='qc'){
+} else if ($_SESSION['role'] == 'qc') {
   header('location: ../../page/qc/viewpage.php');
   exit;
-}else if ($_SESSION['role'] =='hrd_approver'){
+} else if ($_SESSION['role'] == 'hrd_approver') {
   header('location: ../../page/hrd_approver/dashboard.php');
   exit;
 }
 ?>
-  
+
 
 
 <!DOCTYPE html>
@@ -117,6 +116,34 @@ else if ($_SESSION['role'] =='qc'){
 
     .nav-link.active {
       color: #1e96fc !important;
+    }
+
+    .active-nav {
+      background-color: #275DAD !important;
+    }
+
+    .active-nav .active-p {
+      color: white !important;
+    }
+
+    .active-p {
+      color: black !important;
+    }
+
+    .active-nav .icon-image {
+      filter: brightness(0) invert(1);
+    }
+
+    .icon-image {
+      filter: none;/
+    }
+
+    .bg-info {
+      background-color: #3775D2 !important;
+    }
+
+    :root {
+      --info: #3775D2;
     }
   </style>
 </head>
