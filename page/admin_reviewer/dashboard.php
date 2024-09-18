@@ -20,7 +20,7 @@
 
   <section class="content">
     <div class="col-md-12">
-      <div class="card card-light" style="background: #fff; border-top: 2px solid #6c757d;">
+      <div class="card card-light" style="background: #fff; border-top: 2px solid #1e96fc;">
         <div class="card-header">
           <h3 class="card-title"><img src="../../dist/img/cancelled.png" style="height:28px;">&ensp;Cancellation Process Table</h3>
         </div>

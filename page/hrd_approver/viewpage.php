@@ -21,7 +21,7 @@
   <!-- /.content-header -->
   <section class="content">
     <div class="col-md-12">
-      <div class="card card-light" style="background: #fff; border-top: 2px solid #ffc300;">
+      <div class="card card-light" style="background: #fff; border-top: 2px solid #1e96fc;">
         <div class="card-header">
           <h3 class="card-title"><img src="../../dist/img/view-list.png" style="height:28px;">&ensp;View Data Table</h3>
         </div>

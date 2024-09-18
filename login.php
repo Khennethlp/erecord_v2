@@ -64,6 +64,7 @@ background-repeat: no-repeat;">
               </div>
             </div>
           </div>
+          <!-- /.col -->
 
           <div class="col-md-12">
             <div class="row">
@@ -81,9 +82,12 @@ background-repeat: no-repeat;">
               </div>
             </div>
           </div>
+          <!-- /.col -->
       </div>
       </form>
-      
+
+
+
       <!-- jQuery -->
       <script src="plugins/jquery/jquery.min.js"></script>
       <!-- Bootstrap 4 -->
