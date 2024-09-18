@@ -1,6 +1,7 @@
 <?php 
 //SESSION
 include '../../process/session.php';
+include '../../process/session_timeout.php';
 
 if (!isset($_SESSION['username'])) {
   header('location: ../../index.php');
