@@ -153,7 +153,7 @@ if (!isset($_SESSION['username'])) {
   <div class="wrapper">
 
     <!-- Preloader -->
-    <div class="preloader flex-column justify-content-center align-items-center" style="background:#6c757d;">
+    <div class="preloader flex-column justify-content-center align-items-center" style="background:#fff;">
       <img class="animation__shake" src="../../dist/img/logo.png" alt="logo" height="100" width="100">
     </div>
 

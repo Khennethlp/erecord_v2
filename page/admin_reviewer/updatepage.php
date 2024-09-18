@@ -28,7 +28,7 @@
       <div class=" row">
            <div class="col-sm-2 ml-auto">
             <label for="">Category</label>
-             <select class="form-control btn-block bg-info" required name="category" id="category">
+             <select class="form-control btn-block btn bg-info" required name="category" id="category">
                <option value="">Category</option>
                <option>Initial</option>
                <option>Final</option>

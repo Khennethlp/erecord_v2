@@ -67,7 +67,7 @@
           <button class="btn btn-block" onclick="minor_save_data()" style="color:#fff;height:34px;border-radius:.25rem;background: #CA3F3F;font-size:15px;font-weight:normal;">Minor Update Data</button>
         </div>
         <div class="col-sm-3">
-          <button class="btn btn-block" onclick="save_data()" style="color:#fff;height:34px;border-radius:.25rem;background: #425B2C;font-size:15px;font-weight:normal;">Update Data</button>
+          <button class="btn btn-block" onclick="save_data()" style="color:#fff;height:34px;border-radius:.25rem;background: #275DAD;font-size:15px;font-weight:normal;">Update Data</button>
         </div>
       </div>
     </div>

@@ -29,7 +29,7 @@
         <div class="col-sm-1"></div>
            <div class="col-sm-2">
             <label for="">Category</label>
-             <select class="form-control btn-block bg-info" required name="category" id="category">
+             <select class="form-control btn-block btn bg-info" required name="category" id="category">
                <option value="">Select Category</option>
                <option>Initial</option>
                <option>Final</option>
