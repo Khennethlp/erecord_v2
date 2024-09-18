@@ -18,7 +18,7 @@
           </div>
           <div class="row ml-4">
             <div class="col- 0">
-            <select class="btn btn-block btn-info" name="category" id="category" required>
+            <select class="btn btn-block" style="background:#275DAD; color: white;" name="category" id="category" required>
               <option value="">Category</option>
               <option value="initial">Initial</option>
               <option value="final">Final</option>

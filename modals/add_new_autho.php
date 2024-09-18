@@ -23,7 +23,7 @@
           <div class="col-sm-5">
             <!-- select process -->
             <label style="font-weight: normal;color: #000;"></label>
-            <select class="form-control btn" name="new_pro_add" recquired id="new_pro_add" style="width: 100%; border: 2px solid black;background-color: white;color: black;font-size: 16px;cursor: pointer; border-color: #7ADFB5;">
+            <select class="form-control btn" name="new_pro_add" recquired id="new_pro_add" style="width: 100%; border: 2px solid black;background-color: white;color: black;font-size: 16px;cursor: pointer; border-color: #275DAD;">
               <option>Please select a process.....</option>
               <option></option>
             </select>
