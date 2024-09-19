@@ -1,7 +1,7 @@
 <div class="modal fade bd-example-modal-xl" id="edit_emp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
-      <div class="modal-header" style="background:#6c757d;">
+      <div class="modal-header" style="background:#ffff;">
         <h5 class="modal-title" id="exampleModalLabel">
           <b>Update Masterlist</b>
         </h5>

@@ -67,7 +67,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="float-right">
-                            <a href="#" class="btn btn-primary" onclick="ds_save_data()">Save</a>
+                            <a href="#" class="btn" style="background-color: #275DAD; color: #fff;" onclick="ds_save_data()">Save</a>
                         </div>
                     </div>
                 </div>
