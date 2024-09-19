@@ -218,15 +218,16 @@
                         
                         }else{
 
-                            $sql = "SELECT emp_id_old FROM t_employee_m WHERE emp_id = '$emp_id'";
+                            $sql = "SELECT emp_id, emp_id_old FROM t_employee_m WHERE emp_id = '$emp_id'";
                             $stmt = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
                             $stmt->execute();
                             if ($stmt->rowCount() > 0) {
                                 foreach($stmt->fetchALL() as $x){
+                                    $emp_id = $x['emp_id']; 
                                     $emp_id_old = $x['emp_id_old']; 
                                 }
                             }
-
+                           
                             //Revision (Vince)
                             $sql = "SELECT auth_no";
                             if ($category == 'final') {
@@ -284,7 +285,7 @@
 
                                 $insert = $insert . ")";
 
-                                $stmt = $conn->prepare($insert);
+                                $stmt = $conn->prepare($insert, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
                                 if($stmt->execute()){
                                     
                                     $error = 0;
