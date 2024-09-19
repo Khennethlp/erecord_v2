@@ -181,7 +181,7 @@ if ($method == 'fetch_category') {
                 $c++;
                 $row_class = ($j['r_status'] == 'Approved') ? " bg-danger" : "";
 
-                echo '<tr style="cursor:pointer;" class="modal-trigger' . $row_class . '">';
+                echo '<tr>';
                 echo '<td>' . $c . '</td>';
                 echo '<td>' . htmlspecialchars($j['process']) . '</td>';
                 echo '<td>' . htmlspecialchars($j['auth_no']) . '</td>';

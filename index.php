@@ -58,7 +58,7 @@
             <div class="row">
               <div class="col-sm-1">
                 <label for="">Category</label>
-                <select class="form-control btn bg-info" required name="category" id="category">
+                <select class="form-control btn bg-info" required name="category" id="category" onchange="search_data(1)">
                   <option value="">Select</option>
                   <option>Initial</option>
                   <option>Final</option>
