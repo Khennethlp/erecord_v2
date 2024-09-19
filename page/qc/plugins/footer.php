@@ -13,7 +13,7 @@ include '../../modals/update_admin_r.php';
 include '../../modals/qc_disapproved.php';
 include '../../modals/add_qc.php';
 include '../../modals/update_qc.php';
-
+include '../../modals/timeout.php';
 ?>
 <!-- jQuery -->
 <!-- <script src="../../plugins/jquery/jquery.min.js"></script> -->
@@ -27,7 +27,7 @@ include '../../modals/update_qc.php';
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.js"></script>
-
+<script src="../../dist/js/session.js"></script>
 
 </body>
 </html>

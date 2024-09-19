@@ -15,6 +15,7 @@ include '../../modals/add_approver.php';
 include '../../modals/update_approver.php';
 include '../../modals/i_approve.php';
 include '../../modals/qc_i_approve.php';
+include '../../modals/timeout.php';
 ?>
 <!-- jQuery -->
 <!-- <script src="../../plugins/jquery/jquery.min.js"></script> -->
@@ -28,6 +29,7 @@ include '../../modals/qc_i_approve.php';
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.js"></script>
+<script src="../../dist/js/session.js"></script>
 
 
 

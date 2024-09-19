@@ -21,7 +21,7 @@ include '../../modals/review.php';
 include '../../modals/approve.php';
 include '../../modals/disapproved.php';
 include '../../modals/qc_disapproved.php';
-
+include '../../modals/timeout.php';
 include '../../modals/add_new_autho.php';
 include '../../modals/add_autho.php';
 ?>
@@ -37,7 +37,7 @@ include '../../modals/add_autho.php';
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.js"></script>
-
+<script src="../../dist/js/session.js"></script>
 
 
 </body>

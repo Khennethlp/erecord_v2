@@ -19,7 +19,7 @@ include '../../modals/add_emp.php';
 // include '../../modals/import_employee.php';
 include '../../modals/edit_emp.php';
 // include '../../modals/add_emp_pro.php';
-
+include '../../modals/timeout.php';
 include '../../modals/view_p.php';
 include '../../modals/review.php';
 include '../../modals/approve.php';
@@ -40,7 +40,7 @@ include '../../modals/add_autho.php';
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.js"></script>
-
+<script src="../../dist/js/session.js"></script>
 
 
 </body>
