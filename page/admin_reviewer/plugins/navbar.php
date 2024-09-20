@@ -154,7 +154,7 @@ if (!isset($_SESSION['username'])) {
 
     <!-- Preloader -->
     <div class="preloader flex-column justify-content-center align-items-center" style="background:#fff;">
-      <img class="animation__shake" src="../../dist/img/logo.png" alt="logo" height="100" width="100">
+      <img class="" src="../../dist/img/preloader.gif" alt="logo" height="60" width="60">
     </div>
 
     <!-- Navbar -->
