@@ -5,9 +5,9 @@
       <div class="modal-content">
         <div class="modal-body bg-dark">
           <h5 style="text-align:center;">You have been inactive for <strong>10 minutes</strong>. Your session timed out.</h5>
-        </div>
-        <div class="ml-auto m-3">
-            <input type="submit" id="session_timeout" value="OK" class="btn btn-dark" name="Logout">
+          <div class="mt-3">
+              <input type="submit" id="session_timeout" value="OK" class="btn btn-light btn-block" name="Logout">
+          </div>
         </div>
       </div>
     </div>
