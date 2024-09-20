@@ -155,7 +155,7 @@ if ($method == 'fetch_status_cert') {
 		if (!empty($date_authorized_cert)) {
 			$query = $query . " AND DATE(a.date_authorized) = '$date_authorized_cert' ";
 		}
-		$query = $query . " ORDER BY a.process ASC, CONVERT(DATETIME, SUBSTRING(a.up_date_time, LEN(a.up_date_time) - CHARINDEX('/', REVERSE(a.up_date_time)) + 2, LEN(a.up_date_time))) DESC 
+		$query = $query . " ORDER BY CONVERT(DATETIME, SUBSTRING(a.up_date_time, LEN(a.up_date_time) - CHARINDEX('/', REVERSE(a.up_date_time)) + 2, LEN(a.up_date_time))) DESC 
                     OFFSET " . $page_first_result . " ROWS FETCH NEXT " . $results_per_page . " ROWS ONLY";
 
 		// $query = $query . "  ORDER BY SUBSTRING_INDEX(a.up_date_time , '/', -1) DESC LIMIT " . $page_first_result . ", " . $results_per_page;
