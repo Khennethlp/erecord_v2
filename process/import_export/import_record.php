@@ -17,11 +17,6 @@ function fetch_pro($category, $conn)
     return $arr;
 }
 
-function isValidDate($date)
-{
-    return DateTime::createFromFormat('Y-m-d', $date) !== false;
-}
-
 function check_csv($file, $category, $conn)
 {
     // READ FILE
@@ -337,7 +332,7 @@ function check_csv($file, $category, $conn)
                         echo $category;
                         echo $test;
                         echo '<script>
-                            var x = confirm("SUCCESS!");
+                            var x = alert("SUCCESS!");
                             if(x == true){
                                 location.replace("../../page/' . $page . '/import_exportpage.php");
                             }else{
@@ -346,7 +341,7 @@ function check_csv($file, $category, $conn)
                         </script>';
                     } else {
                         echo '<script>
-                            var x = confirm("WITH ERROR! # OF ERRORS ' . $error . ' ");
+                            var x = alert("WITH ERROR! # OF ERRORS ' . $error . ' ");
                             if(x == true){
                                 location.replace("../../page/' . $page . '/import_exportpage.php");
                             }else{
@@ -357,7 +352,7 @@ function check_csv($file, $category, $conn)
                 } else {
                     // If errors found
                     echo '<script>
-                        var x = confirm("' . $chkCsvMsg . '");
+                        var x = alert("' . $chkCsvMsg . '");
                         if(x == true){
                             location.replace("../../page/' . $page . '/import_exportpage.php");
                         }else{
@@ -367,7 +362,7 @@ function check_csv($file, $category, $conn)
                 }
             } else {
                 echo '<script>
-                            var x = confirm("CSV FILE NOT UPLOADED!");
+                            var x = alert("CSV FILE NOT UPLOADED!");
                             if(x == true){
                                 location.replace("../../page/' . $page . '/import_exportpage.php");
                             }else{
@@ -377,7 +372,7 @@ function check_csv($file, $category, $conn)
             }
         } else {
             echo '<script>
-                            var x = confirm("INVALID FILE FORMAT!");
+                            var x = alert("INVALID FILE FORMAT!");
                             if(x == true){
                                 location.replace("../../page/' . $page . '/import_exportpage.php");
                             }else{
