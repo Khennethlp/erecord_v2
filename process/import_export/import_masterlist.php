@@ -186,19 +186,19 @@ if (isset($_POST['upload'])) {
                 }
 
                 // Validate if Employee status are within the array
-                $validStatuses = ['Resigned', 'Retired', 'Dismiss'];
-                if (!in_array($emp_status, $validStatuses)) {
-                    $error++;
-                    $errorMessages[] = "Invalid employee status.";
-                    continue;
-                }
+                // $validStatuses = ['Resigned', 'Retired', 'Dismiss'];
+                // if (!in_array($emp_status, $validStatuses)) {
+                //     $error++;
+                //     $errorMessages[] = "Invalid employee status.";
+                //     continue;
+                // }
 
-                // checks if uploaded file have more than 6 column
-                if (count($line) != 6) { 
-                    $error++;
-                    $errorMessages[] = "Invalid number of columns.";
-                    continue;
-                }
+                // // checks if uploaded file have more than 6 column
+                // if (count($line) != 6) { 
+                //     $error++;
+                //     $errorMessages[] = "Invalid number of columns.";
+                //     continue;
+                // }
                 
                 // Check if the employee already exists
                 $prevQuery = "SELECT id, emp_id, emp_id_old FROM t_employee_m WHERE emp_id IN (?, ?)";
