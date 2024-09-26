@@ -213,10 +213,13 @@
     });
     console.log(arr);
     var numberOfChecked = arr.length;
+    console.log(numberOfChecked);
     if (numberOfChecked > 0) {
       $('#checkbox_control').attr('disabled', false);
+      $('#counter_con').css('display', numberOfChecked > 0 ? 'block' : 'none', 'background-color', 'red').text(`Checked: ${numberOfChecked}`);
     } else {
       $('#checkbox_control').attr('disabled', true);
+      $('#counter_con').css('display', numberOfChecked > 0 ? 'block' : 'none');
     }
   }
 
@@ -562,7 +565,6 @@
       arr.push($(el).val());
     });
     console.log(arr);
-
     var numberOfChecked = arr.length;
     if (numberOfChecked > 0) {
       $.ajax({

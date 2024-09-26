@@ -89,7 +89,9 @@
                       </div>
                     </div>
                     <br>
-
+                    <div class="form-control border-0 mb-2" id="counter_con" style="display: none; background-color: #E9ECEB; color: #111; width: 10%; ">
+                      <p id="checked_count">Checked:&nbsp; 100</p>
+                    </div>
                     <div class="col-12">
                       <div class="card-body table-responsive p-0" style="height: 600px;">
                         <table class="table table-head-fixed text-nowrap" id="employee_data">

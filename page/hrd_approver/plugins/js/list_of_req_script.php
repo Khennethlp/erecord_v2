@@ -212,10 +212,14 @@
     });
     console.log(arr);
     var numberOfChecked = arr.length;
+    console.log(numberOfChecked);
+
     if (numberOfChecked > 0) {
       $('#checkbox_control').attr('disabled', false);
+      $('#counter_con').css('display', numberOfChecked > 0 ? 'block' : 'none').text(`Checked: ${numberOfChecked}`);
     } else {
       $('#checkbox_control').attr('disabled', true);
+      $('#counter_con').css('display', numberOfChecked > 0 ? 'block' : 'none');
     }
   }
 
