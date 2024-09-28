@@ -174,7 +174,7 @@
       Swal.fire({
         icon: 'info',
         title: 'Please Wait!!!',
-        text: '',
+        text: 'Make sure you have selected category.',
         showConfirmButton: false,
         allowOutsideClick: false,
         allowEscapeKey: false,
