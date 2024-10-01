@@ -141,6 +141,7 @@ const count_data =()=>{
               document.getElementById('btnPrevPage').disabled = true;
               document.getElementById('btnNextPage').disabled = true;
               document.getElementById('process_details_pagination').disabled = true;
+              $('#count_rows_display').html('');
             }
         }
     });
@@ -221,7 +222,12 @@ const export_data = () => {
   var date = document.getElementById('expire_date_search').value;
   var date_authorized = document.getElementById('date_authorized_search').value;
   var fullname = document.getElementById('fullname_search').value;
-  window.open('export_process.php?emp_id='+emp_id+"&category="+category+"&pro="+pro+"&date="+date+"&date_authorized="+date_authorized+"&fullname="+fullname,'_blank');
+
+  if(category){
+    window.open('export_process.php?emp_id='+emp_id+"&category="+category+"&pro="+pro+"&date="+date+"&date_authorized="+date_authorized+"&fullname="+fullname,'_blank');
+  }else{
+    alert('Please, select category.');
+  }
 }
 
 </script>
