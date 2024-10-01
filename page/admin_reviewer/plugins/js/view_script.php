@@ -250,7 +250,12 @@ const export_data = () => {
   var date = document.getElementById('expire_date_search').value;
   var date_authorized = document.getElementById('date_authorized_search').value;
   var fullname = document.getElementById('fullname_search').value;
-  window.open('../../process/import_export/export_view_data.php?emp_id='+emp_id+"&category="+category+"&pro="+pro+"&date="+date+"&date_authorized="+date_authorized+"&fullname="+fullname,'_blank');
+
+  if(category){
+    window.open('../../process/import_export/export_view_data.php?emp_id='+emp_id+"&category="+category+"&pro="+pro+"&date="+date+"&date_authorized="+date_authorized+"&fullname="+fullname,'_blank');
+  }else{
+    alert('Please, select category.');
+  }
 }
   
   
