@@ -224,7 +224,8 @@ const export_data = () => {
   var fullname = document.getElementById('fullname_search').value;
 
   if(category){
-    window.open('export_process.php?emp_id='+emp_id+"&category="+category+"&pro="+pro+"&date="+date+"&date_authorized="+date_authorized+"&fullname="+fullname,'_blank');
+    var encodedPro = encodeURIComponent(pro);
+    window.open('export_process.php?emp_id='+emp_id+"&category="+category+"&pro="+encodedPro+"&date="+date+"&date_authorized="+date_authorized+"&fullname="+fullname,'_blank');
   }else{
     alert('Please, select category.');
   }

@@ -127,18 +127,65 @@ if ($method == 'fetch_category') {
 		// For row numbering
 		$c = $page_first_result;
 
-		$query = "SELECT b.batch,a.up_date_time,a.id,a.auth_no,a.auth_year,a.date_authorized,a.expire_date,a.r_of_cancellation,a.d_of_cancellation,a.remarks,a.up_date_time,a.r_status,b.fullname,b.m_name,b.agency,a.dept,b.batch,b.emp_id,c.category";
+		// $query = "SELECT b.batch,a.up_date_time,a.id,a.auth_no,a.auth_year,a.date_authorized,a.expire_date,a.r_of_cancellation,a.d_of_cancellation,a.remarks,a.up_date_time,a.r_status,b.fullname,b.m_name,b.agency,a.dept,b.batch,b.emp_id,c.category";
 
+		// if ($category == 'Final') {
+		// 	$query = $query . " FROM t_f_process";
+		// } else if ($category == 'Initial') {
+		// 	$query = $query . " FROM t_i_process";
+		// }
+		// $query = $query . " a
+		// 					LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id AND a.batch = b.batch
+		// 					JOIN m_process c ON a.process = c.process
+		// 					WHERE a.i_status = 'Approved'";
+
+		// if (!empty($emp_id)) {
+		// 	$query = $query . " AND (b.emp_id = '$emp_id' OR b.emp_id_old = '$emp_id')";
+		// }
+		// if (!empty($fullname)) {
+		// 	$query = $query . " AND b.fullname LIKE '$fullname%'";
+		// }
+		// if (!empty($pro)) {
+		// 	$query = $query . " AND a.process LIKE '$pro'";
+		// }
+		// $query = $query . "ORDER BY b.fullname ASC OFFSET :page_first_result ROWS FETCH NEXT :results_per_page ROWS ONLY";
+		
+		
+		$query = "
+		SELECT 
+			MAX(b.batch) AS batch, 
+			MAX(a.up_date_time) AS up_date_time, 
+			MAX(a.id) AS id, 
+			MAX(a.auth_no) AS auth_no, 
+			MAX(a.auth_year) AS auth_year, 
+			MAX(a.date_authorized) AS date_authorized, 
+			MAX(a.expire_date) AS expire_date, 
+			MAX(a.r_of_cancellation) AS r_of_cancellation, 
+			MAX(a.d_of_cancellation) AS d_of_cancellation, 
+			MAX(a.remarks) AS remarks, 
+			MAX(a.r_status) AS r_status, 
+			MAX(b.fullname) AS fullname, 
+			MAX(b.m_name) AS m_name, 
+			MAX(b.agency) AS agency, 
+			MAX(a.dept) AS dept, 
+			MAX(b.batch) AS b_batch, 
+			MAX(b.emp_id) AS emp_id, 
+			MAX(c.category) AS category
+		";
+		
 		if ($category == 'Final') {
 			$query = $query . " FROM t_f_process";
 		} else if ($category == 'Initial') {
 			$query = $query . " FROM t_i_process";
 		}
-		$query = $query . " a
-							LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id AND a.batch = b.batch
-							JOIN m_process c ON a.process = c.process
-							WHERE a.i_status = 'Approved'";
-
+		
+		$query = $query . "
+			a
+			LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id AND a.batch = b.batch
+			JOIN m_process c ON a.process = c.process
+			WHERE a.i_status = 'Approved'
+		";
+		
 		if (!empty($emp_id)) {
 			$query = $query . " AND (b.emp_id = '$emp_id' OR b.emp_id_old = '$emp_id')";
 		}
@@ -148,10 +195,12 @@ if ($method == 'fetch_category') {
 		if (!empty($pro)) {
 			$query = $query . " AND a.process LIKE '$pro'";
 		}
-		$query = $query . " ORDER BY b.fullname ASC 
-            OFFSET :page_first_result ROWS 
-            FETCH NEXT :results_per_page ROWS ONLY";
-
+		
+		$query = $query . "
+		GROUP BY a.auth_no
+		ORDER BY fullname ASC 
+		OFFSET :page_first_result ROWS FETCH NEXT :results_per_page ROWS ONLY";
+		
 		$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 		$stmt->bindValue(':page_first_result', $page_first_result, PDO::PARAM_INT);
 		$stmt->bindValue(':results_per_page', $results_per_page, PDO::PARAM_INT);
@@ -274,7 +323,7 @@ if ($method == 'admin_update') {
 		} else if ($category == 'Initial') {
 			$query .= "t_i_process";
 		}
-		$query .= " SET r_of_cancellation = '$r_of_cancellation', d_of_cancellation = '$d_of_cancellation', r_status = 'Pending', dept = '$dept', up_date_time = '" . $_SESSION['fname'] . "/ " . $server_date_time . "' WHERE auth_no = '$auth_no'";
+		$query .= " SET remarks = '$remarks', r_of_cancellation = '$r_of_cancellation', d_of_cancellation = '$d_of_cancellation', r_status = 'Pending', dept = '$dept', up_date_time = '" . $_SESSION['fname'] . "/ " . $server_date_time . "' WHERE auth_no = '$auth_no'";
 	} else {
 
 		$query = "UPDATE ";
@@ -342,7 +391,7 @@ if ($method == 'minor_update') {
 		} else if ($category == 'Initial') {
 			$query .= "t_i_process";
 		}
-		$query .= " SET r_of_cancellation = '$r_of_cancellation', d_of_cancellation = '$d_of_cancellation', r_status = 'Approved', dept = '$dept' WHERE auth_no = '$auth_no'";
+		$query .= " SET remarks = '$remarks', r_of_cancellation = '$r_of_cancellation', d_of_cancellation = '$d_of_cancellation', r_status = 'Approved', dept = '$dept' WHERE auth_no = '$auth_no'";
 		$stmt = $conn->prepare($query);
 		if (!$stmt->execute()) {
 			$error++;

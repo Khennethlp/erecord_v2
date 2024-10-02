@@ -252,11 +252,11 @@ const export_data = () => {
   var fullname = document.getElementById('fullname_search').value;
 
   if(category){
-    window.open('../../process/import_export/export_view_data.php?emp_id='+emp_id+"&category="+category+"&pro="+pro+"&date="+date+"&date_authorized="+date_authorized+"&fullname="+fullname,'_blank');
+    var encodedPro = encodeURIComponent(pro);
+    window.open('../../process/import_export/export_view_data.php?emp_id='+emp_id+"&category="+category+"&pro="+encodedPro+"&date="+date+"&date_authorized="+date_authorized+"&fullname="+fullname,'_blank');
   }else{
     alert('Please, select category.');
   }
 }
-  
   
 </script>

@@ -143,8 +143,29 @@ if ($method == 'history_admin_reviwer') {
         $page_first_result = ($current_page - 1) * $results_per_page;
         $c = $page_first_result;
 
-        $query = "SELECT a.id, a.auth_no, a.auth_year, a.date_authorized, a.expire_date, a.r_of_cancellation, a.d_of_cancellation, a.remarks, a.up_date_time, a.r_status, a.r_review_by, a.r_approve_by, b.fullname, b.agency, a.dept, b.batch, b.emp_id, c.category, c.process";
+        // $query = "SELECT a.id, a.auth_no, a.auth_year, a.date_authorized, a.expire_date, a.r_of_cancellation, a.d_of_cancellation, a.remarks, a.up_date_time, a.r_status, a.r_review_by, a.r_approve_by, b.fullname, b.agency, a.dept, b.batch, b.emp_id, c.category, c.process";
 
+        $query = "SELECT 
+        MAX(a.id) AS id,
+        a.process,
+        MAX(a.auth_no) AS auth_no,
+        MAX(a.auth_year) AS auth_year,
+        MAX(a.date_authorized) AS date_authorized,
+        MAX(a.expire_date) AS expire_date,
+        MAX(a.r_of_cancellation) AS r_of_cancellation,
+        MAX(a.d_of_cancellation) AS d_of_cancellation,
+        MAX(a.remarks) AS remarks,
+        MAX(a.up_date_time) AS up_date_time,
+        MAX(a.r_status) AS r_status,
+        MAX(a.r_review_by) AS r_review_by,
+        MAX(b.fullname) AS fullname,
+        MAX(b.agency) AS agency,
+        MAX(a.dept) AS dept,
+        MAX(b.batch) AS batch,
+        MAX(b.emp_id) AS emp_id,
+        MAX(c.category) AS category,
+        MAX(c.process) AS process_category";
+    
         if ($category == 'Final') {
             $query .= " FROM t_f_process";
         } elseif ($category == 'Initial') {
@@ -173,8 +194,12 @@ if ($method == 'history_admin_reviwer') {
         }
 
         // $query .= " GROUP BY a.auth_no ASC ORDER BY SUBSTRING_INDEX(a.r_review_by, '/', -1) DESC LIMIT ".$page_first_result.", ".$results_per_page;
-        $query = $query . " ORDER BY SUBSTRING(a.r_review_by, CHARINDEX('/', a.r_review_by) + 1, LEN(a.r_review_by) - CHARINDEX('/', a.r_review_by)) DESC 
-        OFFSET $page_first_result ROWS FETCH NEXT $results_per_page ROWS ONLY";
+        // $query = $query . " ORDER BY SUBSTRING(a.r_review_by, CHARINDEX('/', a.r_review_by) + 1, LEN(a.r_review_by) - CHARINDEX('/', a.r_review_by)) DESC 
+        // OFFSET $page_first_result ROWS FETCH NEXT $results_per_page ROWS ONLY";
+
+        $query .= " GROUP BY a.process, up_date_time 
+            ORDER BY MAX(r_review_by) DESC
+            OFFSET " . $page_first_result . " ROWS FETCH NEXT " . $results_per_page . " ROWS ONLY";
 
         $stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
         $stmt->execute();
