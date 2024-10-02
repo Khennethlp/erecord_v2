@@ -100,7 +100,22 @@ $stmt->execute();
 $c = 0;
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     $c++;
-    $lineData = array($c, $row['process'], $row['auth_no'], $row['auth_year'], $row['date_authorized'], $row['expire_date'], '"'.$row['fullname'].'"' , $row['emp_id'], $row['batch'], $row['dept'], $row['remarks'], $row['r_of_cancellation'], $row['d_of_cancellation']);
+    // $lineData = array($c, $row['process'], $row['auth_no'], $row['auth_year'], $row['date_authorized'], $row['expire_date'], '"'.$row['fullname'].'"' , $row['emp_id'], $row['batch'], $row['dept'], '"'.$row['remarks'].'"', '"'.$row['r_of_cancellation'].'"', '"'.$row['d_of_cancellation'].'"');
+    $lineData = array(
+        $c,
+        $row['process'],
+        $row['auth_no'],
+        $row['auth_year'],
+        $row['date_authorized'],
+        $row['expire_date'],
+        '"' . str_replace('"', '""', $row['fullname']) . '"', // Escape any double quotes in fullname
+        $row['emp_id'],
+        $row['batch'],
+        $row['dept'],
+        '"' . str_replace('"', '""', $row['remarks']) . '"', // Escape any double quotes in remarks
+        '"' . str_replace('"', '""', $row['r_of_cancellation']) . '"', // Escape any double quotes in r_of_cancellation
+        '"' . str_replace('"', '""', $row['d_of_cancellation']) . '"'  // Escape any double quotes in d_of_cancellation
+    );
     echo implode($delimiter, $lineData) . "\n"; // Output each line directly
 }
 

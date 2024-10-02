@@ -104,45 +104,6 @@ if ($method == 'fetch_rev') {
 		$c = $page_first_result;
 
 		// $query = "SELECT a.id, a.auth_no, a.process, a.auth_year,a.date_authorized,a.expire_date,a.r_of_cancellation,a.d_of_cancellation,a.remarks,a.up_date_time,a.r_status,a.r_review_by,b.fullname,b.agency,a.dept,b.batch,b.emp_id,c.category,c.process";
-		// 	$query = "SELECT 
-		// a.process,
-		// MAX(a.auth_no) AS auth_no,
-		// MAX(a.auth_year) AS auth_year,
-		// MAX(a.date_authorized) AS date_authorized,
-		// MAX(a.expire_date) AS expire_date,
-		// MAX(a.r_of_cancellation) AS r_of_cancellation,
-		// MAX(a.d_of_cancellation) AS d_of_cancellation,
-		// MAX(a.remarks) AS remarks,
-		// MAX(a.up_date_time) AS up_date_time,
-		// MAX(a.r_status) AS r_status,
-		// MAX(a.r_review_by) AS r_review_by,
-		// MAX(b.fullname) AS fullname,
-		// MAX(b.agency) AS agency,
-		// MAX(a.dept) AS dept,
-		// MAX(b.batch) AS batch,
-		// MAX(b.emp_id) AS emp_id,
-		// MAX(c.category) AS category,
-		// MAX(c.process) AS process_category";
-
-		// 	if ($category == 'Final') {
-		// 		$query = $query . " FROM t_f_process";
-		// 	} else if ($category == 'Initial') {
-		// 		$query = $query . " FROM t_i_process";
-		// 	}
-		// 	$query = $query . " a
-		// 						LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id
-		// 						JOIN m_process c ON a.process = c.process
-		// 						where a.r_status = 'Reviewed'";
-		// 	if (!empty($emp_id)) {
-		// 		$query = $query . " AND (b.emp_id = '$emp_id' OR b.emp_id_old = '$emp_id')";
-		// 	}
-
-		// 	if (!empty($fullname)) {
-		// 		$query = $query . " AND b.fullname LIKE'$fullname%'";
-		// 	}
-		// 	// $query = $query . "GROUP BY a.process OFFSET " . $page_first_result . " ROWS FETCH NEXT " . $results_per_page . " ROWS ONLY";
-		// 	$query = $query . "Group BY a.process ORDER BY SUBSTRING(up_date_time, LEN(up_date_time) - CHARINDEX('/', REVERSE(up_date_time)) + 2, LEN(up_date_time)) DESC
-		// 	OFFSET " . $page_first_result . " ROWS FETCH NEXT " . $results_per_page . " ROWS ONLY";
 
 		$query = "SELECT 
 	MAX(a.id) AS id,
