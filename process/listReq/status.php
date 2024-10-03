@@ -153,7 +153,7 @@ if ($method == 'fetch_status_cert') {
 			$query = $query . " AND c.process LIKE '$processName_cert%' ";
 		}
 		if (!empty($date_authorized_cert)) {
-			$query = $query . " AND DATE(a.date_authorized) = '$date_authorized_cert' ";
+			$query = $query . " AND CONVERT(DATE, a.date_authorized) = '$date_authorized_cert' ";
 		}
 		$query = $query . " ORDER BY CONVERT(DATETIME, SUBSTRING(a.up_date_time, LEN(a.up_date_time) - CHARINDEX('/', REVERSE(a.up_date_time)) + 2, LEN(a.up_date_time))) DESC 
                     OFFSET " . $page_first_result . " ROWS FETCH NEXT " . $results_per_page . " ROWS ONLY";

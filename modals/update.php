@@ -22,8 +22,23 @@
             <span><b>Authorization No. :</b></span>
           </div>
           <div class="col-3">
-            <input type="text" id="auth_no_can" class="form-control" style="height:35px; border: 1px solid black; font-size: 15px;" autocomplete="off" >
+            <input type="text" id="auth_no_can" class="form-control" style="height:35px; border: 1px solid black; font-size: 15px;" autocomplete="off">
           </div>
+          <?php
+          if ($_SESSION['username'] == 'admin' && $_SESSION['fname'] == 'IT Personnel') {
+          ?>
+            <div class="col-3">
+              <!-- <input type="text" class="form-control" id="update_emp_id"> -->
+              <label for="">Edit Batch:</label>
+              <input type="text" class="form-control" id="update_batch">
+            </div>
+            <div class="col-3">
+              <label for="">Edit Emp_ID:</label>
+              <input type="text" class="form-control" id="update_emp_id">
+            </div>
+          <?php
+          }
+          ?>
         </div>
         <div class="row mt-3">
           <div class="col-3">
@@ -69,6 +84,16 @@
         <div class="col-sm-3">
           <button class="btn btn-block" onclick="save_data()" style="color:#fff;height:34px;border-radius:.25rem;background: #275DAD;font-size:15px;font-weight:normal;">Update Data</button>
         </div>
+        <?php
+          if ($_SESSION['username'] == 'admin' && $_SESSION['fname'] == 'IT Personnel') {
+          ?>
+            <div class="col-sm-3">
+          <button class="btn btn-block" onclick="save_new_batch()" style="color:#fff;height:34px;border-radius:.25rem;background: var(--success);font-size:15px;font-weight:normal;">Batch Update</button>
+        </div>
+          <?php
+          }
+          ?>
+       
       </div>
     </div>
   </div>

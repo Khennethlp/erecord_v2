@@ -82,9 +82,12 @@ if ($stmt->rowCount() > 0) {
 fseek($f, 0);
 
 // Set headers to download file rather than displayed 
-header('Content-Type: text/csv');
+// header('Content-Type: text/csv');
+// header('Content-Disposition: attachment; filename="' . $filename . '";');
+header('Content-Type: text/csv; charset=UTF-8');
 header('Content-Disposition: attachment; filename="' . $filename . '";');
-
+header('Pragma: no-cache');
+header('Expires: 0');
 //output all remaining data on a file pointer 
 fpassthru($f);
 

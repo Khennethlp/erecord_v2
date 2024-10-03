@@ -248,6 +248,8 @@
     var up_date_time = data[8];
     var fullname = data[9];
     var auth_no = data[10];
+    var batch = data[12];
+    var emp_id = data[13];
     //var category = category[10];
 
 
@@ -262,8 +264,52 @@
     $('#up_date_time_can').val(up_date_time);
     $('#employee_name_can').val(fullname);
     $('#auth_no_can').val(auth_no);
+    $('#update_batch').val(batch);
+    $('#update_batch').val(batch);
+    $('#update_emp_id').val(emp_id);
     console.log(param)
 
+  }
+
+  const save_new_batch = () => {
+    var id = document.getElementById('id_can').value;
+    var batch = document.getElementById('update_batch').value;
+    var category = document.getElementById('category').value;
+
+    $.ajax({
+        url: '../../process/update/update.php',
+        type: 'POST',
+        cache: false,
+        data: {
+          method: 'admin_update_batch',
+          id: id,
+          batch: batch,
+          category: category,
+        },
+        success: function(response) {
+          console.log(response)
+          if (response == 'success') {
+            Swal.fire({
+              icon: 'success',
+              title: 'Batch Updated.',
+              text: 'Success',
+              showConfirmButton: false,
+              timer: 1000
+            });
+         
+            view_data();
+            $('#update').modal('hide');
+           } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error !!!',
+              text: 'Error',
+              showConfirmButton: false,
+              timer: 1000
+            });
+
+          }}
+  })
   }
 
   const save_data = () => {
