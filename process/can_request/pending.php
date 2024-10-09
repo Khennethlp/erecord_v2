@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 include '../conn.php';
 
@@ -19,53 +19,54 @@ if ($method == 'fetch_pro_can') {
 	}
 }
 
-function count_pending($search_arr, $conn) {
-	if (!empty($search_arr['category'] )) {
-	$emp_id = $_POST['emp_id'];
-	$fullname = $_POST['fullname'];
-	$category = $_POST['category'];
-	$processName = $_POST['processName'];
+function count_pending($search_arr, $conn)
+{
+	if (!empty($search_arr['category'])) {
+		$emp_id = $_POST['emp_id'];
+		$fullname = $_POST['fullname'];
+		$category = $_POST['category'];
+		$processName = $_POST['processName'];
 
-	$query = "SELECT count(auth_no) AS total FROM (";
+		$query = "SELECT count(DISTINCT auth_no) AS total FROM (";
 
-	$query = $query . "SELECT a.auth_no";
+		$query = $query . "SELECT a.auth_no";
 
-	if ($search_arr['category'] == 'Final') {
-		$query = $query . " FROM t_f_process";
-	}else if ($search_arr['category'] == 'Initial') {
-		$query = $query . " FROM t_i_process";
-	}
+		if ($search_arr['category'] == 'Final') {
+			$query = $query . " FROM t_f_process";
+		} else if ($search_arr['category'] == 'Initial') {
+			$query = $query . " FROM t_i_process";
+		}
 
-	$query = $query . " a
+		$query = $query . " a
 						LEFT JOIN t_employee_m b  ON a.emp_id = b.emp_id  
 						JOIN m_process c ON a.process = c.process
 						WHERE a.r_status = 'Pending'";
 
-	if (!empty($search_arr['emp_id'])) {
-				$query = $query . " AND (b.emp_id = '".$search_arr['emp_id']."' OR b.emp_id_old = '".$search_arr['emp_id']."')";
-			}
-	if (!empty($search_arr['fullname'])) {
-		$query = $query . " AND b.fullname LIKE'".$search_arr['fullname']."%'";
-	}
-	if (!empty($search_arr['processName'])) {
-		$query = $query . " AND c.process LIKE'".$search_arr['processName']."%'";
-	}
-
-	// $query = $query . "GROUP BY a.auth_no ORDER BY SUBSTRING_INDEX(a.up_date_time, '/', -1) DESC";
-
-	$query = $query . ") AS asub";
-
-	$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
-	$stmt->execute();
-	if ($stmt->rowCount() > 0) {
-		foreach($stmt->fetchALL() as $j){
-			$total = $j['total'];
+		if (!empty($search_arr['emp_id'])) {
+			$query = $query . " AND (b.emp_id = '" . $search_arr['emp_id'] . "' OR b.emp_id_old = '" . $search_arr['emp_id'] . "')";
 		}
-	}else{
-		$total = 0;
+		if (!empty($search_arr['fullname'])) {
+			$query = $query . " AND b.fullname LIKE'" . $search_arr['fullname'] . "%'";
+		}
+		if (!empty($search_arr['processName'])) {
+			$query = $query . " AND c.process LIKE'" . $search_arr['processName'] . "%'";
+		}
+
+		// $query = $query . "GROUP BY a.auth_no ORDER BY SUBSTRING_INDEX(a.up_date_time, '/', -1) DESC";
+
+		$query = $query . ") AS asub";
+
+		$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+		$stmt->execute();
+		if ($stmt->rowCount() > 0) {
+			foreach ($stmt->fetchALL() as $j) {
+				$total = $j['total'];
+			}
+		} else {
+			$total = 0;
+		}
+		return $total;
 	}
-	return $total;
-}
 }
 
 if ($method == 'count_pending') {
@@ -75,8 +76,8 @@ if ($method == 'count_pending') {
 	$processName = $_POST['processName'];
 
 	$search_arr = array(
-		"emp_id" => $emp_id, 
-		"fullname" => $fullname, 
+		"emp_id" => $emp_id,
+		"fullname" => $fullname,
 		"category" => $category,
 		"processName" => $processName
 	);
@@ -91,8 +92,8 @@ if ($method == 'search_pending_pagination') {
 	$processName = $_POST['processName'];
 
 	$search_arr = array(
-		"emp_id" => $emp_id, 
-		"fullname" => $fullname, 
+		"emp_id" => $emp_id,
+		"fullname" => $fullname,
 		"category" => $category,
 		"processName" => $processName
 	);
@@ -105,15 +106,14 @@ if ($method == 'search_pending_pagination') {
 	$number_of_page = ceil($number_of_result / $results_per_page);
 
 	for ($page = 1; $page <= $number_of_page; $page++) {
-		echo '<option value="'.$page.'">'.$page.'</option>';
-    }
-
+		echo '<option value="' . $page . '">' . $page . '</option>';
+	}
 }
 
 
 
 if ($method == 'fetch_category') {
-	$emp_id = $_POST['emp_id']; 
+	$emp_id = $_POST['emp_id'];
 	$fullname = $_POST['fullname'];
 	$category = $_POST['category'];
 	$processName = $_POST['processName'];
@@ -125,16 +125,35 @@ if ($method == 'fetch_category') {
 		$results_per_page = 100;
 
 		//determine the sql LIMIT starting number for the results on the displaying page
-		$page_first_result = ($current_page-1) * $results_per_page;
+		$page_first_result = ($current_page - 1) * $results_per_page;
 
 		// For row numbering
 		$c = $page_first_result;
 
-		$query = "SELECT a.r_approve_by,a.id,a.auth_no,a.auth_year,a.date_authorized,a.expire_date,a.r_of_cancellation,a.d_of_cancellation,a.remarks,a.up_date_time,a.r_status,b.fullname,b.agency,a.dept,b.batch,b.emp_id,c.category,c.process";
-
+		// $query = "SELECT a.r_approve_by,a.id,a.auth_no,a.auth_year,a.date_authorized,a.expire_date,a.r_of_cancellation,a.d_of_cancellation,a.remarks,a.up_date_time,a.r_status,b.fullname,b.agency,a.dept,b.batch,b.emp_id,c.category,c.process";
+		$query = "SELECT 
+        MAX(a.id) AS id,
+        a.process,
+        MAX(a.auth_no) AS auth_no,
+        MAX(a.auth_year) AS auth_year,
+        MAX(a.date_authorized) AS date_authorized,
+        MAX(a.expire_date) AS expire_date,
+        MAX(a.r_of_cancellation) AS r_of_cancellation,
+        MAX(a.d_of_cancellation) AS d_of_cancellation,
+        MAX(a.remarks) AS remarks,
+        MAX(a.up_date_time) AS up_date_time,
+        MAX(a.r_status) AS r_status,
+        MAX(a.r_review_by) AS r_review_by,
+        MAX(b.fullname) AS fullname,
+        MAX(b.agency) AS agency,
+        MAX(a.dept) AS dept,
+        MAX(b.batch) AS batch,
+        MAX(b.emp_id) AS emp_id,
+        MAX(c.category) AS category,
+        MAX(c.process) AS process_category";
 		if ($category == 'Final') {
 			$query = $query . " FROM t_f_process";
-		}else if ($category == 'Initial') {
+		} else if ($category == 'Initial') {
 			$query = $query . " FROM t_i_process";
 		}
 		$query = $query . " a
@@ -152,89 +171,89 @@ if ($method == 'fetch_category') {
 			$query = $query . " AND c.process LIKE'$processName%'";
 		}
 		// $query = $query . "GROUP BY a.auth_no ASC ORDER BY SUBSTRING_INDEX(a.up_date_time, '/', -1) DESC LIMIT ".$page_first_result.", ".$results_per_page;
-		$query = $query . " ORDER BY SUBSTRING(a.up_date_time, LEN(a.up_date_time) - CHARINDEX('/', REVERSE(a.up_date_time)) + 2, LEN(a.up_date_time)) DESC 
-                    OFFSET " . $page_first_result . " ROWS FETCH NEXT " . $results_per_page . " ROWS ONLY";
+		// $query = $query . " ORDER BY SUBSTRING(a.up_date_time, LEN(a.up_date_time) - CHARINDEX('/', REVERSE(a.up_date_time)) + 2, LEN(a.up_date_time)) DESC 
+		//             OFFSET " . $page_first_result . " ROWS FETCH NEXT " . $results_per_page . " ROWS ONLY";
+		$query .= " GROUP BY a.process, up_date_time ORDER BY MAX(r_review_by) DESC OFFSET " . $page_first_result . " ROWS FETCH NEXT " . $results_per_page . " ROWS ONLY";
 		$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
-		
+
 		$stmt->execute();
 		if ($stmt->rowCount() > 0) {
-			foreach($stmt->fetchAll() as $j){
+			foreach ($stmt->fetchAll() as $j) {
 				$c++;
-			
-					echo '<tr style="cursor:pointer;" class="modal-trigger" data-toggle="modal" data-target="#view_p" onclick="p_details(&quot;'.$j['id'].'~!~'.$j['auth_year'].'~!~'.$j['date_authorized'].'~!~'.$j['expire_date'].'~!~'.$j['remarks'].'~!~'.$j['r_of_cancellation'].'~!~'.$j['d_of_cancellation'].'~!~'.$j['up_date_time'].'~!~'.$j['fullname'].'~!~'.$j['auth_no'].'&quot;)">';
-					
 
-					echo '<td>';
-	                echo '<p>
+				echo '<tr style="cursor:pointer;" class="modal-trigger" data-toggle="modal" data-target="#view_p" onclick="p_details(&quot;' . $j['id'] . '~!~' . $j['auth_year'] . '~!~' . $j['date_authorized'] . '~!~' . $j['expire_date'] . '~!~' . $j['remarks'] . '~!~' . $j['r_of_cancellation'] . '~!~' . $j['d_of_cancellation'] . '~!~' . $j['up_date_time'] . '~!~' . $j['fullname'] . '~!~' . $j['auth_no'] . '&quot;)">';
+
+
+				echo '<td>';
+				echo '<p>
 	                        <label>
-	                            <input type="checkbox" name="" id="" class="singleCheck" onclick="get_checked_length();" value="'.$j['auth_no'].'">
+	                            <input type="checkbox" name="" id="" class="singleCheck" onclick="get_checked_length();" value="' . $j['auth_no'] . '">
 	                            <span></span>
 	                        </label>
 	                    </p>';
-	                echo '</td>';
-	                echo '<td>'.$c.'</td>';
-					echo '<td>'.$j['process'].'</td>';
-					echo '<td>'.$j['auth_no'].'</td>';
-					echo '<td>'.$j['fullname'].'</td>';
-					echo '<td>'.$j['emp_id'].'</td>';
-					echo '<td>'.$j['r_of_cancellation'].'</td>';
-					echo '<td>'.$j['d_of_cancellation'].'</td>';
-					echo '<td>'.$j['up_date_time'].'</td>';
-					echo '<td>'.$j['dept'].'</td>';
-					echo '<td>'.$j['r_status'].'</td>';
-					echo '<td>'.$j['remarks'].'</td>';
-					
-					
+				echo '</td>';
+				echo '<td>' . $c . '</td>';
+				echo '<td>' . $j['process'] . '</td>';
+				echo '<td>' . $j['auth_no'] . '</td>';
+				echo '<td>' . $j['fullname'] . '</td>';
+				echo '<td>' . $j['emp_id'] . '</td>';
+				echo '<td>' . $j['r_of_cancellation'] . '</td>';
+				echo '<td>' . $j['d_of_cancellation'] . '</td>';
+				echo '<td>' . $j['up_date_time'] . '</td>';
+				echo '<td>' . $j['dept'] . '</td>';
+				echo '<td>' . $j['r_status'] . '</td>';
+				echo '<td>' . $j['remarks'] . '</td>';
+
+
 				echo '</tr>';
 			}
-		
-		}else{
-				echo '<tr>';
-					echo '<td style="text-align:center;" colspan="4">No Result</td>';
-				echo '</tr>';
-			}
-	}else {
+		} else {
+			echo '<tr>';
+			echo '<td style="text-align:center;" colspan="4">No Result</td>';
+			echo '</tr>';
+		}
+	} else {
 		echo '<script>alert("Please select category ");</script>';
 	}
 }
 
 if ($method == 'qc_view') {
-    $fullname = $_POST['fullname'];
-    $auth_no = $_POST['auth_no'];
-    $category = $_POST['category'];
+	$fullname = $_POST['fullname'];
+	$auth_no = $_POST['auth_no'];
+	$category = $_POST['category'];
 
-    $c = 0;
+	$c = 0;
 
-    $query = "SELECT a.id, a.auth_no, a.auth_year, a.date_authorized, a.expire_date, a.r_of_cancellation, a.d_of_cancellation, a.remarks, a.up_date_time, a.r_status, a.r_review_by, b.fullname, b.emp_id, c.category ";
+	$query = "SELECT a.id, a.auth_no, a.auth_year, a.date_authorized, a.expire_date, a.r_of_cancellation, a.d_of_cancellation, a.remarks, a.up_date_time, a.r_status, a.r_review_by, b.fullname, b.emp_id, c.category ";
 
-    if ($category == 'Final') {
-        $query .= "FROM t_f_process a ";
-    } else if ($category == 'Initial') {
-        $query .= "FROM t_i_process a ";
-    }
+	if ($category == 'Final') {
+		$query .= "FROM t_f_process a ";
+	} else if ($category == 'Initial') {
+		$query .= "FROM t_i_process a ";
+	}
 
-    $query .= "LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id ";
-    $query .= "JOIN m_process c ON a.process = c.process ";
-    $query .= "WHERE a.auth_no = :auth_no";
+	$query .= "LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id ";
+	$query .= "JOIN m_process c ON a.process = c.process ";
+	$query .= "WHERE a.auth_no = :auth_no";
 
-    $stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
-    $stmt->bindParam(':auth_no', $auth_no);
-    $stmt->execute();
-    
-    if ($stmt->rowCount() > 0) {
-        foreach ($stmt->fetchAll() as $j) {
-            $c++;
-            echo '<tr>';
-            echo '<td>' . $j['auth_year'] . '</td>';
-            echo '<td>' . $j['date_authorized'] . '</td>';
-            echo '<td>' . $j['expire_date'] . '</td>';
-            echo '</tr>';
-        }
-    } else {
-        echo '<tr>';
-        echo '<td style="text-align:center;" colspan="4">No Result</td>';
-        echo '</tr>';
-    }
+	$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+	$stmt->bindParam(':auth_no', $auth_no);
+	$stmt->execute();
+
+	if ($stmt->rowCount() > 0) {
+		foreach ($stmt->fetchAll() as $j) {
+			$c++;
+			echo '<tr>';
+			echo '<td>' . $j['auth_year'] . '</td>';
+			echo '<td>' . $j['date_authorized'] . '</td>';
+			echo '<td>' . $j['expire_date'] . '</td>';
+			echo '</tr>';
+		}
+	} else {
+		echo '<tr>';
+		echo '<td style="text-align:center;" colspan="4">No Result</td>';
+		echo '</tr>';
+	}
 }
 
 
@@ -249,12 +268,12 @@ if ($method == 'qc_review') {
 		$query = "UPDATE";
 		if ($category == 'Final') {
 			$query = $query . " t_f_process";
-		}else if ($category == 'Initial') {
+		} else if ($category == 'Initial') {
 			$query = $query . " t_i_process";
 		}
-		$query = $query . " SET r_status = 'Reviewed', status = 'Qualified', r_review_by = '".$_SESSION['fname']. "/ " .$server_date_time."' WHERE auth_no = '$auth_no' ";
+		$query = $query . " SET r_status = 'Reviewed', status = 'Qualified', r_review_by = '" . $_SESSION['fname'] . "/ " . $server_date_time . "' WHERE auth_no = '$auth_no' ";
 		$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
-		$stmt -> execute();
+		$stmt->execute();
 		$count--;
 	}
 
@@ -263,36 +282,29 @@ if ($method == 'qc_review') {
 	} else {
 		echo 'Error';
 	}
-
 }
 
 if ($method == 'qc_disreview') {
-    $category = $_POST['category'];
-    $arr = $_POST['arr'];
+	$category = $_POST['category'];
+	$arr = $_POST['arr'];
 
-    $count = count($arr);
-    foreach ($arr as $auth_no) {
-        $query = "UPDATE";
-        if ($category == 'Final') {
-            $query .= " t_f_process";
-        } else if ($category == 'Initial') {
-            $query .= " t_i_process";
-        }
-        $query .= " SET r_status = 'Disapproved', status = 'Qualified',  r_review_by = '".$_SESSION['fname']. "/ " .$server_date_time."', r_of_cancellation = NULL, d_of_cancellation = NULL WHERE auth_no = '$auth_no'";
-        $stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
-        $stmt->execute();
-        $count--;
-    }
+	$count = count($arr);
+	foreach ($arr as $auth_no) {
+		$query = "UPDATE";
+		if ($category == 'Final') {
+			$query .= " t_f_process";
+		} else if ($category == 'Initial') {
+			$query .= " t_i_process";
+		}
+		$query .= " SET r_status = 'Disapproved', status = 'Qualified',  r_review_by = '" . $_SESSION['fname'] . "/ " . $server_date_time . "', r_of_cancellation = NULL, d_of_cancellation = NULL WHERE auth_no = '$auth_no'";
+		$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+		$stmt->execute();
+		$count--;
+	}
 
-    if ($count == 0) {
-        echo 'success';
-    } else {
-        echo 'Error';
-    }
+	if ($count == 0) {
+		echo 'success';
+	} else {
+		echo 'Error';
+	}
 }
-
-
-
-
-
-?>
