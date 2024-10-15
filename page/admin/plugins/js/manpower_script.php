@@ -464,11 +464,11 @@ function export_data_masterlist() {
     var fullname = document.getElementById('fullname_search').value;
     var emp_status = document.getElementById('emp_status').value;
 
-    if(agency || emp_status){
-      window.open('../../process/import_export/export_masterlist.php?agency=' + agency + "&emp_id=" + emp_id + "&batch=" + batch + "&fullname=" + fullname + "&emp_status=" + emp_status, '_blank');
-    }else{
-      alert('Please choose and search by Status or Provider, or enter employee details to search.');
-    }
+    window.open('../../process/import_export/export_masterlist.php?agency=' + agency + "&emp_id=" + emp_id + "&batch=" + batch + "&fullname=" + fullname + "&emp_status=" + emp_status, '_blank');
+    // if(agency || emp_status){
+    // }else{
+    //   alert('Please choose and search by Status or Provider, or enter employee details to search.');
+    // }
 }
 
 </script>

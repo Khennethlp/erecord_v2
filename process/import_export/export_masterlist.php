@@ -1,25 +1,18 @@
 <?php
 require '../conn.php';
 
-switch (true) {
-    case !isset($_GET['agency']):
-    case !isset($_GET['emp_id']):
-    case !isset($_GET['batch']):
-    case !isset($_GET['fullname']):
-        echo 'Query Parameters Not Set';
-        exit;
-        break;
-}
+// Sanitize and retrieve variables from the GET request
+$emp_id = isset($_GET['emp_id']) ? trim($_GET['emp_id']) : '';
+$agency = isset($_GET['agency']) ? trim($_GET['agency']) : '';
+$batch = isset($_GET['batch']) ? trim($_GET['batch']) : '';
+$fullname = isset($_GET['fullname']) ? trim($_GET['fullname']) : '';
+$emp_status = isset($_GET['emp_status']) ? trim($_GET['emp_status']) : '';
 
-$agency = $_GET['agency'];
-$emp_id = $_GET['emp_id'];
-$batch = $_GET['batch'];
-$fullname = $_GET['fullname'];
+// Initialize variables
 $c = 0;
-
 $delimiter = ",";
 $datenow = date('Y-m-d');
-$filename = "E-Record_Masterlist  - " . $datenow . ".csv";
+$filename = "E-Record_Masterlist_" . $datenow . ".csv";
 
 // Create a file pointer 
 $f = fopen('php://memory', 'w');
@@ -27,44 +20,87 @@ $f = fopen('php://memory', 'w');
 // UTF-8 BOM for special character compatibility
 fputs($f, "\xEF\xBB\xBF");
 
-// Set column headers 
+// Set column headers
 $fields = array('#', 'Employee Name', 'Maiden Name', 'Employee No.', 'Employee No. Old', 'Batch No.', 'Provider');
 fputcsv($f, $fields, $delimiter);
+
+// Build the query dynamically
 $query = "SELECT fullname, m_name, emp_id, emp_id_old, agency, batch FROM t_employee_m WHERE (emp_id LIKE '$emp_id%' OR emp_id_old LIKE '$emp_id%') ";
-if (!empty($emp_status)){
-    $query = $query ."AND emp_status = '$emp_status' ";
+
+// Use prepared statements for security
+$params = [];
+
+if (!empty($emp_id)) {
+    $query .= " AND (emp_id LIKE :emp_id OR emp_id_old LIKE :emp_id)";
+    $params[':emp_id'] = $emp_id . '%';
+}
+if (!empty($emp_status)) {
+    $query .= " AND emp_status = :emp_status";
+    $params[':emp_status'] = $emp_status;
 }
 if (!empty($fullname)) {
-    $query = $query . "AND  fullname LIKE '$fullname%'";
+    $query .= " AND fullname LIKE :fullname";
+    $params[':fullname'] = $fullname . '%';
 }
 if (!empty($agency)) {
-    $query = $query . "AND  agency = '$agency'";
+    $query .= " AND agency = :agency";
+    $params[':agency'] = $agency;
 }
-if (!empty($batch)){
-    $query = $query ."AND batch ='$batch' ";
+if (!empty($batch)) {
+    $query .= " AND batch = :batch";
+    $params[':batch'] = $batch;
 }
 
-$query = $query . " ORDER BY  fullname ASC";
-$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+// Add ordering
+$query .= " ORDER BY fullname ASC";
+
+// Prepare the statement
+$stmt = $conn->prepare($query);
+
+// Bind parameters to the query
+foreach ($params as $param => $value) {
+    $stmt->bindValue($param, $value, PDO::PARAM_STR);
+}
+
+// Execute the query
 $stmt->execute();
-if ($stmt->rowCount() > 0) {
 
-    // Output each row of the data, format line as csv and write to file pointer 
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $c++;
-        $lineData = array($c, $row['fullname'], $row['m_name'], $row['emp_id'], $row['emp_id_old'], $row['batch'], $row['agency']);
-        fputcsv($f, $lineData, $delimiter);
+// Fetch and process rows
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    $c++;
+
+    // Sanitize line breaks and spaces in fields
+    foreach ($row as $key => $value) {
+        $row[$key] = str_replace(["\r", "\n"], " ", $value);
     }
+
+    // Prepare data for CSV
+    $lineData = array(
+        $c,
+        $row['fullname'], 
+        $row['m_name'], 
+        $row['emp_id'], 
+        $row['emp_id_old'],
+        $row['batch'], 
+        $row['agency']
+    );
+    fputcsv($f, $lineData, $delimiter);
 }
 
-// Move back to beginning of file 
+// Move back to the beginning of the file
 fseek($f, 0);
 
-// Set headers to download file rather than displayed 
-header('Content-Type: text/csv');
+// Set headers for download
+header('Content-Type: text/csv; charset=UTF-8');
 header('Content-Disposition: attachment; filename="' . $filename . '";');
+header('Pragma: no-cache');
+header('Expires: 0');
 
-//output all remaining data on a file pointer 
+// Output all remaining data on a file pointer
 fpassthru($f);
 
+// Close the connection
+fclose($f);
 $conn = null;
+exit;
+?>
