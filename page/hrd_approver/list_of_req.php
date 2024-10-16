@@ -105,6 +105,7 @@
                               <th>Authorization&nbsp;No.</th>
                               <th>Employee&nbsp;Name</th>
                               <th>Employee No</th>
+                              <th>Batch No</th>
                               <th>Authorization Year</th>
                               <th>Date Authorized</th>
                               <th>Expire&nbsp;Date</th>

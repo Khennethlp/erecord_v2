@@ -193,6 +193,7 @@ if ($method == 'fetch_rev') {
 					echo '<td>'.$j['auth_no'].'</td>';
 					echo '<td>'.$j['fullname'].'</td>';
 					echo '<td>'.$j['emp_id'].'</td>';
+					echo '<td>'.$j['batch'].'</td>';
 					echo '<td>'.$j['auth_year'].'</td>';
 					echo '<td>'.$j['date_authorized'].'</td>';
 					echo '<td>'.$j['expire_date'].'</td>';
