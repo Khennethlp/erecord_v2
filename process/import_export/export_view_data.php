@@ -1,6 +1,7 @@
 <?php
 require '../conn.php';
 
+// Retrieve and sanitize the GET parameters
 $emp_id = $_GET['emp_id'] ?? '';
 $category = $_GET['category'] ?? '';
 $pro = $_GET['pro'] ?? '';
@@ -28,66 +29,73 @@ fputs($f, "\xEF\xBB\xBF");
 $fields = array('#', 'Process Name', 'Authorization No.', 'Authorization Year', 'Date Authorized', 'Expire Date', 'Employee Name', 'Employee No.', 'Batch No.', 'Department', 'Remarks', 'Reason of Cancellation', 'Date of Cancellation');
 fputcsv($f, $fields, $delimiter);
 
-// Begin SQL query
+// Build the SQL query
 $query = "SELECT a.batch, a.process, a.auth_no, a.auth_year, a.date_authorized, a.expire_date, 
-          a.r_of_cancellation, a.d_of_cancellation, a.remarks, a.i_status, a.r_status, 
-          b.fullname, b.agency, a.dept, b.emp_id, c.category
+                 a.r_of_cancellation, a.d_of_cancellation, a.remarks, a.i_status, a.r_status, 
+                 b.fullname, b.agency, a.dept, b.emp_id, c.category
           FROM ";
 
 if ($category == 'Final') {
     $query .= "t_f_process a ";
-} else if ($category == 'Initial') {
+} elseif ($category == 'Initial') {
     $query .= "t_i_process a ";
+} else {
+    echo 'Invalid category selected.';
+    exit;
 }
 
 $query .= "LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id AND a.batch = b.batch
 JOIN m_process c ON a.process = c.process
-WHERE a.i_status = 'Approved' ";
+WHERE a.i_status = 'Approved'";
 
 $conditions = [];
+$params = [];
+
+// Append conditions based on the filters
 if (!empty($emp_id)) {
     $conditions[] = "(b.emp_id = :emp_id OR b.emp_id_old = :emp_id)";
+    $params[':emp_id'] = $emp_id;
 }
 if (!empty($fullname)) {
     $conditions[] = "b.fullname LIKE :fullname";
+    $params[':fullname'] = $fullname . '%';
 }
 if (!empty($pro)) {
     $conditions[] = "a.process LIKE :pro";
+    $params[':pro'] = '%' . $pro . '%';
 }
 if (!empty($date)) {
     $conditions[] = "a.expire_date = :expire_date";
+    $params[':expire_date'] = $date;
 }
 if (!empty($date_authorized)) {
     $conditions[] = "a.date_authorized = :date_authorized";
+    $params[':date_authorized'] = $date_authorized;
 }
 
-// Append conditions to the query
-if (count($conditions) > 0) {
+// Append the conditions to the query if they exist
+if (!empty($conditions)) {
     $query .= " AND " . implode(" AND ", $conditions);
 }
 
+// Order the results
 $query .= " ORDER BY a.process ASC, b.fullname ASC, a.auth_year DESC";
 
-// Prepare and execute query with batch processing
+// Prepare the query
 $stmt = $conn->prepare($query);
-if (!empty($emp_id)) {
-    $stmt->bindValue(':emp_id', $emp_id);
-}
-if (!empty($fullname)) {
-    $stmt->bindValue(':fullname', $fullname . '%');
-}
-if (!empty($pro)) {
-    $stmt->bindValue(':pro', '%' . $pro . '%');
-}
-if (!empty($date)) {
-    $stmt->bindValue(':expire_date', $date);
-}
-if (!empty($date_authorized)) {
-    $stmt->bindValue(':date_authorized', $date_authorized);
+
+// Bind parameters to the prepared statement
+foreach ($params as $param => $value) {
+    $stmt->bindValue($param, $value, PDO::PARAM_STR);
 }
 
-// Execute the statement in batches
-$stmt->execute();
+// Execute the query
+try {
+    $stmt->execute();
+} catch (PDOException $e) {
+    echo 'Error: ' . $e->getMessage();
+    exit;
+}
 
 // Stream output directly to the browser in chunks
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
