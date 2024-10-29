@@ -55,11 +55,13 @@ $query = $query . " ORDER BY process ASC, fullname ASC, auth_year DESC";
 $stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 $stmt->execute();
 if ($stmt->rowCount() > 0) {
-
+    
     // Output each row of the data, format line as csv and write to file pointer 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $c++;
-        $lineData = array($c, $row['code'], $row['process'], $row['expire_date'], $row['auth_no'], $row['fullname'], $row['emp_id'], $row['batch'], $row['status'], $row['r_of_cancellation']);
+        $status = !empty($row['r_of_cancellation']) ? 'Not Qualified':'Qualified';
+
+        $lineData = array($c, $row['code'], $row['process'], $row['expire_date'], $row['auth_no'], $row['fullname'], $row['emp_id'], $row['batch'], $status, $row['r_of_cancellation']);
         fputcsv($f, $lineData, $delimiter);
     }
 }
