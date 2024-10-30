@@ -180,8 +180,8 @@ if ($method == 'fetch_category') {
             foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $j) {
                 $c++;
                 $row_class = ($j['r_status'] == 'Approved') ? " bg-danger" : "";
-
-                echo '<tr>';
+				
+                echo '<tr class="'.$row_class.'">';
                 echo '<td>' . $c . '</td>';
                 echo '<td>' . htmlspecialchars($j['process']) . '</td>';
                 echo '<td>' . htmlspecialchars($j['auth_no']) . '</td>';

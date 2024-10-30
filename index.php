@@ -106,7 +106,7 @@
             <div class="col-12">
               <div class="card-body table-responsive p-0" style="height: 550px;">
                 <table class="table table-head-fixed text-nowrap" id="employee_data">
-                  <thead style="text-align: center;">
+                  <thead style="text-align: left;">
                     <th>#</th>
                     <th>Process Name</th>
                     <th>Authorization No.</th>
