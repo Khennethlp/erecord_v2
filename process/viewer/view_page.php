@@ -127,33 +127,33 @@ if ($method == 'fetch_category') {
 		$results_per_page = 100;
 
 		//determine the sql LIMIT starting number for the results on the displaying page
-		$page_first_result = ($current_page-1) * $results_per_page;
+		$page_first_result = ($current_page - 1) * $results_per_page;
 
 		// For row numbering
 		$c = $page_first_result;
 
 		$query = "SELECT a.batch, a.process,a.auth_no,a.auth_year,a.date_authorized,a.expire_date,a.r_of_cancellation,a.d_of_cancellation,a.remarks,a.i_status,a.r_status,b.fullname,b.agency,a.dept,b.emp_id,c.category";
-// $query = "SELECT 
-//     a.batch, 
-//     MAX(a.process) AS process,
-//     MAX(a.auth_no) AS auth_no,
-//     MAX(a.auth_year) AS auth_year,
-//     MAX(a.date_authorized) AS date_authorized,
-//     MAX(a.expire_date) AS expire_date,
-//     MAX(a.r_of_cancellation) AS r_of_cancellation,
-//     MAX(a.d_of_cancellation) AS d_of_cancellation,
-//     MAX(a.remarks) AS remarks,
-//     MAX(a.i_status) AS i_status,
-//     MAX(a.r_status) AS r_status,
-//     MAX(b.fullname) AS fullname,
-//     MAX(b.agency) AS agency,
-//     MAX(a.dept) AS dept,
-//     MAX(b.emp_id) AS emp_id,
-//     MAX(c.category) AS category";
+		// $query = "SELECT 
+		//     a.batch, 
+		//     MAX(a.process) AS process,
+		//     MAX(a.auth_no) AS auth_no,
+		//     MAX(a.auth_year) AS auth_year,
+		//     MAX(a.date_authorized) AS date_authorized,
+		//     MAX(a.expire_date) AS expire_date,
+		//     MAX(a.r_of_cancellation) AS r_of_cancellation,
+		//     MAX(a.d_of_cancellation) AS d_of_cancellation,
+		//     MAX(a.remarks) AS remarks,
+		//     MAX(a.i_status) AS i_status,
+		//     MAX(a.r_status) AS r_status,
+		//     MAX(b.fullname) AS fullname,
+		//     MAX(b.agency) AS agency,
+		//     MAX(a.dept) AS dept,
+		//     MAX(b.emp_id) AS emp_id,
+		//     MAX(c.category) AS category";
 
 		if ($category == 'Final') {
 			$query = $query . " FROM t_f_process";
-		}else if ($category == 'Initial') {
+		} else if ($category == 'Initial') {
 			$query = $query . " FROM t_i_process";
 		}
 
@@ -162,7 +162,7 @@ if ($method == 'fetch_category') {
 							JOIN m_process c ON a.process = c.process
 							where a.i_status = 'Approved'";
 		if (!empty($emp_id)) {
-		$query = $query . " AND (b.emp_id = '$emp_id' OR b.emp_id_old = '$emp_id')";
+			$query = $query . " AND (b.emp_id = '$emp_id' OR b.emp_id_old = '$emp_id')";
 		}
 
 		if (!empty($fullname)) {
@@ -178,7 +178,7 @@ if ($method == 'fetch_category') {
 		if (!empty($date_authorized)) {
 			$query = $query . " AND a.date_authorized = '$date_authorized' ";
 		}
-		
+
 		// $query = $query ." ORDER BY a.process ASC, b.fullname ASC, a.auth_year DESC LIMIT ".$page_first_result.", ".$results_per_page;
 		$query .= "ORDER BY a.process ASC, b.fullname ASC, a.auth_year DESC OFFSET :page_first_result ROWS FETCH NEXT :results_per_page ROWS ONLY";
 		// $query .= "GROUP BY a.batch ORDER BY fullname ASC, process ASC, auth_year DESC OFFSET :page_first_result ROWS FETCH NEXT :results_per_page ROWS ONLY";
@@ -186,45 +186,50 @@ if ($method == 'fetch_category') {
 		$stmt = $conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 
 		$stmt->bindValue(':page_first_result', $page_first_result, PDO::PARAM_INT);
-        $stmt->bindValue(':results_per_page', $results_per_page, PDO::PARAM_INT);
+		$stmt->bindValue(':results_per_page', $results_per_page, PDO::PARAM_INT);
 
 		$stmt->execute();
 		if ($stmt->rowCount() > 0) {
-			foreach($stmt->fetchAll() as $j){
+			foreach ($stmt->fetchAll() as $j) {
 				$c++;
-				$row_class = "";
-			if ($j['r_status'] == 'Approved') {
-				$row_class = " bg-danger";
-			}
-				echo '<tr style="cursor:pointer;" class="modal-trigger'.$row_class.'">';
-					echo '<td>'.$c.'</td>';
-					echo '<td>'.$j['process'].'</td>';
-					echo '<td>'.$j['auth_no'].'</td>';
-					echo '<td>'.$j['auth_year'].'</td>';
-					echo '<td>'.$j['date_authorized'].'</td>';
-					echo '<td>'.$j['expire_date'].'</td>';
-					echo '<td>'.$j['fullname'].'</td>';
-					echo '<td>'.$j['emp_id'].'</td>';
-					echo '<td>'.$j['batch'].'</td>';
-					echo '<td>'.$j['dept'].'</td>';
-					echo '<td>'.$j['remarks'].'</td>';
-					if ($j['r_status'] == 'Approved') {
-						echo '<td>'.$j['r_of_cancellation'].'</td>';
-						echo '<td>'.$j['d_of_cancellation'].'</td>';
-					} else {
-						echo '<td></td>';
-						echo '<td></td>';
-					}
-					
+				// 	$row_class = "";
+				// if ($j['r_status'] == 'Approved') {
+				// 	$row_class = " bg-danger";
+				// }
+
+				$row_class = !empty($j['r_of_cancellation']) ? " bg-danger" : "";
+
+				echo '<tr style="cursor:pointer;" class="modal-trigger' . $row_class . '">';
+				echo '<td>' . $c . '</td>';
+				echo '<td>' . $j['process'] . '</td>';
+				echo '<td>' . $j['auth_no'] . '</td>';
+				echo '<td>' . $j['auth_year'] . '</td>';
+				echo '<td>' . $j['date_authorized'] . '</td>';
+				echo '<td>' . $j['expire_date'] . '</td>';
+				echo '<td>' . $j['fullname'] . '</td>';
+				echo '<td>' . $j['emp_id'] . '</td>';
+				echo '<td>' . $j['batch'] . '</td>';
+				echo '<td>' . $j['dept'] . '</td>';
+				echo '<td>' . $j['remarks'] . '</td>';
+				echo '<td>' . $j['r_of_cancellation'] . '</td>';
+				echo '<td>' . $j['d_of_cancellation'] . '</td>';
+				
+				if (!empty($j['r_of_cancellation'])) {
+					echo '<td>' . htmlspecialchars($j['r_of_cancellation']) . '</td>';
+					echo '<td>' . htmlspecialchars($j['d_of_cancellation']) . '</td>';
+				} else {
+					echo '<td></td>';
+					echo '<td></td>';
+				}
+
 				echo '</tr>';
 			}
-		}else{
+		} else {
 			echo '<tr>';
-				echo '<td style="text-align:center;" colspan="4">No Result</td>';
+			echo '<td style="text-align:center;" colspan="4">No Result</td>';
 			echo '</tr>';
 		}
 	} else {
 		echo '<script>alert("Please select category and process");</script>';
 	}
-
 }

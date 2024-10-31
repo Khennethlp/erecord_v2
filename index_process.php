@@ -179,8 +179,8 @@ if ($method == 'fetch_category') {
         if ($stmt->rowCount() > 0) {
             foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $j) {
                 $c++;
-                $row_class = ($j['r_status'] == 'Approved') ? " bg-danger" : "";
-				
+                // $row_class = (!empty($j['r_status'] == 'Approved') && $j['i_status'] == 'Approved') ? " bg-danger" : "";
+				$row_class = !empty($j['r_of_cancellation']) ? " bg-danger" : "";
                 echo '<tr class="'.$row_class.'">';
                 echo '<td>' . $c . '</td>';
                 echo '<td>' . htmlspecialchars($j['process']) . '</td>';
@@ -193,13 +193,15 @@ if ($method == 'fetch_category') {
                 echo '<td>' . htmlspecialchars($j['batch']) . '</td>';
                 echo '<td>' . htmlspecialchars($j['dept']) . '</td>';
                 echo '<td>' . htmlspecialchars($j['remarks']) . '</td>';
-                if ($j['r_status'] == 'Approved') {
-                    echo '<td>' . htmlspecialchars($j['r_of_cancellation']) . '</td>';
-                    echo '<td>' . htmlspecialchars($j['d_of_cancellation']) . '</td>';
+				
+                if (!empty($j['r_of_cancellation'])) {
+					echo '<td>' . htmlspecialchars($j['r_of_cancellation']) . '</td>';
+					echo '<td>' . htmlspecialchars($j['d_of_cancellation']) . '</td>';
                 } else {
                     echo '<td></td>';
                     echo '<td></td>';
                 }
+				
                 echo '</tr>';
             }
         } else {
