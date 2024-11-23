@@ -160,7 +160,7 @@ if ($method == 'fetch_category') {
 		$query = $query . " a
 		LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id AND a.batch = b.batch
 							JOIN m_process c ON a.process = c.process
-							where a.i_status = 'Approved'";
+							where (a.i_status = 'Approved' OR a.i_status = 'Pending')";
 		if (!empty($emp_id)) {
 			$query = $query . " AND (b.emp_id = '$emp_id' OR b.emp_id_old = '$emp_id')";
 		}
