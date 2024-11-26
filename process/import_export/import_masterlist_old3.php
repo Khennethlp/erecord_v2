@@ -26,6 +26,7 @@ if (isset($_POST['upload'])) {
 
                 $error = 0;
                 $errorMessages = array();
+                $employeesToUpdate = array(); // Array to hold employees to update after user confirmation
 
                 while (($line = fgetcsv($csvFile)) !== false) {
                     if (empty(array_filter($line))) {
@@ -56,12 +57,31 @@ if (isset($_POST['upload'])) {
                         $empIdsInFile[] = $emp_id;
                     }
 
-                    $insertQuery = "INSERT INTO t_employee_m (fullname, m_name, emp_id, agency, batch, emp_status) VALUES (?, ?, ?, ?, ?, ?)";
-                    $stmt = $conn->prepare($insertQuery);
-                    if (!$stmt->execute([$fullname, $m_name, $emp_id, $agency, $batch, $emp_status])) {
+                    // Check if the employee already exists
+                    $prevQuery = "SELECT id, emp_id, emp_id_old FROM t_employee_m WHERE emp_id IN (?, ?)";
+                    $res = $conn->prepare($prevQuery, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+                    if (!$res->execute([$emp_id, $emp_id_old])) {
                         $error++;
-                        $errorMessages[] = "Failed to insert new employee with ID $emp_id";
+                        // $errorMessages[] = "Database error: Failed to check existing employee for ID $emp_id";
                         continue;
+                    }
+
+                    if ($res->rowCount() > 0) {
+                        // If employee exists, store the info for confirmation and possible update
+                        $row = $res->fetch(PDO::FETCH_ASSOC);
+                        $id = $row['id'];
+                        $insertQuery = "INSERT INTO t_employee_m (fullname, m_name, emp_id, agency, batch, emp_status) VALUES (?, ?, ?, ?, ?, ?)";
+                        $stmt = $conn->prepare($insertQuery);
+                        if (!$stmt->execute([$fullname, $m_name, $emp_id, $agency, $batch, $emp_status])) {
+                            $error++;
+                            $errorMessages[] = "Failed to insert new employee with ID $emp_id";
+                            continue;
+                        }
+                        $emp_id_ref = $row['emp_id'];
+                        $emp_id_old_ref = $row['emp_id_old'];
+
+                    } else {
+                        // Insert new employee
                     }
                 }
 
@@ -104,3 +124,37 @@ if (isset($_POST['upload'])) {
         }
 }
 
+// function updateEmployee($conn, $id, $emp_id, $emp_id_old, $emp_id_ref, $emp_id_old_ref)
+// {
+//     // Update existing employee
+//     $updateQuery = "UPDATE t_employee_m SET emp_id = ?";
+//     $params = [ $emp_id];
+
+//     if (!empty($emp_id_old) && $emp_id_old != $emp_id_old_ref) {
+//         $updateQuery .= ", emp_id_old = ?";
+//         $params[] = $emp_id_old;
+//     }
+
+//     $updateQuery .= " WHERE id = ?";
+//     $params[] = $id;
+
+//     $stmt = $conn->prepare($updateQuery);
+//     if (!$stmt->execute($params)) {
+//         return 'alert("Failed to update employee with ID ' . $emp_id . '");';
+//     }
+
+//     // Update related processes
+//     $updateFQuery = "UPDATE t_f_process SET emp_id_old = ?, emp_id = ? WHERE emp_id = ?";
+//     $stmt = $conn->prepare($updateFQuery);
+//     if (!$stmt->execute([$emp_id_old, $emp_id, $emp_id_ref])) {
+//         return 'alert("Failed to update Final process for employee ID ' . $emp_id . '");';
+//     }
+
+//     $updateIQuery = "UPDATE t_i_process SET emp_id_old = ?, emp_id = ? WHERE emp_id = ?";
+//     $stmt = $conn->prepare($updateIQuery);
+//     if (!$stmt->execute([$emp_id_old, $emp_id, $emp_id_ref])) {
+//         return 'alert("Failed to update Initial process for employee ID ' . $emp_id . '");';
+//     }
+
+//     return 'alert("Employee with ID ' . $emp_id . ' successfully updated.");';
+// }
