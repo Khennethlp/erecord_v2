@@ -12,6 +12,7 @@
       <div class="modal-body">
         <div class="row">
           <input type="hidden" id="id_can" class="form-control" style="height:35px; border: 1px solid black; font-size: 15px;" autocomplete="off">
+          <input type="hidden" id="emp_id_can" class="form-control" style="height:35px; border: 1px solid black; font-size: 15px;" autocomplete="off">
           <div class="col-0 mt-1">
             <span><b>&nbsp;&nbsp;Employee Name :</b></span>
           </div>
@@ -78,6 +79,10 @@
         </div>
       </div>
       <div class="modal-footer" style="background:#fff;">
+        <!-- Delete func to remove after -->
+        <div class="col-sm-3">
+          <button class="btn btn-block" onclick="del_data()" style="color:#fff;height:34px;border-radius:.25rem;background:rgb(170, 134, 16);font-size:15px;font-weight:normal;">Delete Data</button>
+        </div>
         <div class="col-sm-3">
           <button class="btn btn-block" onclick="minor_save_data()" style="color:#fff;height:34px;border-radius:.25rem;background: #CA3F3F;font-size:15px;font-weight:normal;">Minor Update Data</button>
         </div>

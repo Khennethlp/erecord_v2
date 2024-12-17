@@ -595,3 +595,21 @@ if ($method == 'qc_update') {
 		echo 'error';
 	}
 }
+
+// <!-- Delete func to remove after -->
+if($method == 'remove_record'){
+	$id = $_POST['id'];
+	$emp_id = $_POST['emp_id'];
+
+	$del_sql = "DELETE FROM t_f_process WHERE id = :id AND emp_id = :emp_id";
+	$del_stmt = $conn->prepare($del_sql);
+	$del_stmt->bindParam(':id',$id);
+	$del_stmt->bindParam(':emp_id',$emp_id);
+	$del_stmt->execute();
+
+	if($del_stmt){
+		echo 'success';
+	}else{
+		echo 'failed';
+	}
+}
