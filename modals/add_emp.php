@@ -30,13 +30,30 @@
             <span><b>Provider:</b></span><br>
             <select class="form-control" id="agency_get" style="height:35px; border: 1px solid black; font-size: 15px;">
               <option></option>
-              <option>ADD EVEN</option>
+              <!-- <option>ADD EVEN</option>
               <option>FAS</option>
               <option>GOLDENHAND</option>
               <option>MAXIM</option>
               <option>MEGATREND</option>
               <option>ONE SOURCE</option>
               <option>PKIMT</option>
+              <option>I-PROMOTE</option>
+              <option>NATCORP</option> -->
+              <?php
+              require '../../process/conn.php';
+
+              $sql = "SELECT DISTINCT agency FROM m_agency";
+              $stmt = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+              $stmt->execute();
+              if ($stmt->rowCount() > 0) {
+                $supplier = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($supplier as $s) {
+                  echo '<option value="' . $s['agency'] . '">' . $s['agency'] . '</option>';
+                }
+              } else {
+                echo '<option value="">No agency found.</option>';
+              }
+              ?>
             </select>
           </div>
           <div class="col-sm-4">
