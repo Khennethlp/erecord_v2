@@ -214,8 +214,25 @@ if ($method == 'fetch_category') {
 				if ($j['r_status'] == 'Approved') {
 					$row_class = " bg-danger";
 				}
-
-				echo '<tr style="cursor:pointer;" class="modal-trigger' . $row_class . '" data-toggle="modal" data-target="#view" onclick="rec_details(&quot;' . $j['id'] . '~!~' . $j['auth_year'] . '~!~' . $j['date_authorized'] . '~!~' . $j['expire_date'] . '~!~' . $j['remarks'] . '~!~' . $j['r_of_cancellation'] . '~!~' . $j['d_of_cancellation'] . '~!~' . $j['up_date_time'] . '~!~' . $j['fullname'] . '~!~' . $j['m_name'] . '~!~' . $j['auth_no'] . '&quot;)">';
+				
+				if (isset($j['r_of_cancellation']) && is_array($j['r_of_cancellation'])) {
+					// Remove double quotes from the r_of_cancellation field
+					$r_of_cancellation = array_map(function($value) {
+						return str_replace('"', '', $value); // Remove double quotes
+					}, $j['r_of_cancellation']);
+				
+					// Join the cleaned r_of_cancellation values into a string (if needed)
+					$r_of_cancellation_string = implode('', $r_of_cancellation);
+				} else {
+					// Handle the case when r_of_cancellation is not set or not an array
+					$r_of_cancellation_string = ''; // or set a default value
+				}
+				
+				// Escape special characters in the string for safe use in HTML and JavaScript
+				$r_of_cancellation_escaped = htmlspecialchars($r_of_cancellation_string);
+				
+				
+				echo '<tr style="cursor:pointer;" class="modal-trigger' . $row_class . '" data-toggle="modal" data-target="#view" onclick="rec_details(\'' . $j['id'] . '~!~' . $j['auth_year'] . '~!~' . $j['date_authorized'] . '~!~' . $j['expire_date'] . '~!~' . $j['remarks'] . '~!~' . $r_of_cancellation_escaped . '~!~' . $j['d_of_cancellation'] . '~!~' . $j['up_date_time'] . '~!~' . $j['fullname'] . '~!~' . $j['m_name'] . '~!~' . $j['auth_no'] . '\')">';
 
 				// echo '<td>'.$j['process'].'</td>';
 				// echo '<td>'.$j['expire_date'].'</td>';
@@ -273,8 +290,12 @@ if ($method == 'view') {
 			if ($j['r_status'] == 'Approved') {
 				$row_class = " bg-danger";
 			}
+
+			$r_of_cancellation = $j['r_of_cancellation'];
+			$r_of_cancellation_string = str_replace('"', '', $r_of_cancellation);
+			
 			if ($i_status == 'Approved') {
-				echo '<tr style="cursor:pointer;" class="modal-trigger' . $row_class . '" data-toggle="modal" data-target="#update" onclick="rec_update(&quot;' . $j['id'] . '~!~' . $j['auth_year'] . '~!~' . $j['date_authorized'] . '~!~' . $j['expire_date'] . '~!~' . $j['remarks'] . '~!~' . $j['r_of_cancellation'] . '~!~' . $j['dept'] . '~!~' . $j['d_of_cancellation'] . '~!~' . $j['up_date_time'] . '~!~' . $j['fullname'] . '~!~' . $j['auth_no'] . '~!~' . $j['i_status'] . '~!~' . $j['batch'] . '~!~' . $j['emp_id'] . '&quot;)">';
+				echo '<tr style="cursor:pointer;" class="modal-trigger' . $row_class . '" data-toggle="modal" data-target="#update" onclick="rec_update(&quot;' . $j['id'] . '~!~' . $j['auth_year'] . '~!~' . $j['date_authorized'] . '~!~' . $j['expire_date'] . '~!~' . $j['remarks'] . '~!~' . $r_of_cancellation_string . '~!~' . $j['dept'] . '~!~' . $j['d_of_cancellation'] . '~!~' . $j['up_date_time'] . '~!~' . $j['fullname'] . '~!~' . $j['auth_no'] . '~!~' . $j['i_status'] . '~!~' . $j['batch'] . '~!~' . $j['emp_id'] . '&quot;)">';
 
 				echo '<td>' . $j['auth_year'] . '</td>';
 				echo '<td>' . $j['date_authorized'] . '</td>';
