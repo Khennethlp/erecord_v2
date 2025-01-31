@@ -132,7 +132,7 @@ if ($method == 'fetch_status_cert') {
 
 		$page_first_result = ($current_page - 1) * $results_per_page;
 		$c = $page_first_result;
-		$query = "SELECT a.up_date_time,a.id,a.auth_no,a.auth_year,a.date_authorized,a.expire_date,a.r_of_cancellation,a.d_of_cancellation,a.remarks,a.up_date_time,a.i_status,a.i_review_by,b.fullname,b.agency,a.dept,b.batch,b.emp_id,c.category,c.process";
+		$query = "SELECT a.up_date_time,a.id,a.auth_no,a.auth_year,a.date_authorized,a.expire_date,a.r_of_cancellation,a.d_of_cancellation,a.remarks,a.up_date_time,a.i_status,a.i_review_by,a.i_approve_by, b.fullname,b.agency,a.dept,b.batch,b.emp_id,c.category,c.process";
 
 		if ($category == 'Final') {
 			$query = $query . " FROM t_f_process";
@@ -169,8 +169,8 @@ if ($method == 'fetch_status_cert') {
 				echo '<td>' . $c . '</td>';
 				echo '<td>' . $j['process'] . '</td>';
 				echo '<td>' . $j['auth_no'] . '</td>';
-				echo '<td>' . $j['fullname'] . '</td>';
-				echo '<td>' . $j['emp_id'] . '</td>';
+				echo '<td>' . trim($j['fullname']) . '</td>';
+				echo '<td>' . trim($j['emp_id']) . '</td>';
 				echo '<td>' . $j['auth_year'] . '</td>';
 				echo '<td>' . $j['date_authorized'] . '</td>';
 				echo '<td>' . $j['expire_date'] . '</td>';

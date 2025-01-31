@@ -63,6 +63,8 @@ function check_csv($file, $category, $conn)
             array_push($hasBlankErrorArr, $check_csv_row);
         }
 
+
+
         // CHECK ROW VALIDATION
         if (!in_array($pro, $pro_arr)) {
             $hasError = 1;
@@ -137,222 +139,82 @@ if ($_SESSION['role'] == 'admin_reviewer') {
 if (isset($_POST['upload'])) {
     $id_number_record = $_POST['id_number_record'];
     $category = $_POST['category'];
-    //$pro = $_POST['pro'];
     $pro_arr = fetch_pro($category, $conn);
-    $csvMimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain');
-
-    $fileName = $_FILES['file']['name'];
+    $csvMimes = array(
+        'text/x-comma-separated-values',
+        'text/comma-separated-values',
+        'application/octet-stream',
+        'application/vnd.ms-excel',
+        'application/x-csv',
+        'text/x-csv',
+        'text/csv',
+        'application/csv',
+        'application/excel',
+        'application/vnd.msexcel',
+        'text/plain'
+    );
 
     if (!empty($_FILES['file']['name']) && in_array($_FILES['file']['type'], $csvMimes)) {
         if (is_uploaded_file($_FILES['file']['tmp_name'])) {
-
             $chkCsvMsg = check_csv($_FILES['file']['tmp_name'], $category, $conn);
 
             if ($chkCsvMsg == '') {
-                // If no errors found
-
-                //READ FILE
                 $csvFile = fopen($_FILES['file']['tmp_name'], 'r');
-                // SKIP FIRST LINE
-                fgetcsv($csvFile);
-                // PARSE
-                $error = 0;
-                $test = 0;
-                while (($line = fgetcsv($csvFile)) !== false) {
+                fgetcsv($csvFile); // Skip header
 
+                while (($line = fgetcsv($csvFile)) !== false) {
                     if (empty(implode('', $line))) {
                         continue;
                     }
 
-                    $pro = $line[0];
-                    $emp_id = $line[1];
-                    $auth_no = $line[2];
-                    $auth_year = $line[3];
-                    $date_authorized = $line[4];
-                    $expire_date = $line[5];
-                    $remarks = $line[6];
-                    $dept = $line[7];
-                    $batch = $line[8];
+                    list($pro, $emp_id, $auth_no, $auth_year, $date_authorized, $expire_date, $remarks, $dept, $batch) = $line;
+                    $date_authorized = date('Y-m-d', strtotime($date_authorized));
+                    $expire_date = date('Y-m-d', strtotime($expire_date));
                     $up_date = $fname . '/ ' . $server_date_time;
-
-                    $date_authorized = new DAteTime($date_authorized);
-                    $date_authorized = date_format($date_authorized, "Y-m-d");
-                    $expire_date = new DAtetime($expire_date);
-                    $expire_date = date_format($expire_date, "Y-m-d");
-
-                    // CHECK DATA
-                    $prevQuery = "SELECT id";
-
-                    if ($category == 'final') {
-                        $prevQuery = $prevQuery . " FROM t_f_process";
-                    } else if ($category == 'initial') {
-                        $prevQuery = $prevQuery . " FROM t_i_process";
+                    
+                    if (empty($emp_id) || empty($batch)) {
+                        echo '<script>alert("Error: Employee No. or Batch cannot be empty!"); location.replace("../../page/' . $page . '/import_exportpage.php");</script>';
+                        fclose($csvFile);
+                        exit();
                     }
 
-                    $prevQuery = $prevQuery . " WHERE emp_id = '$emp_id' AND process = '$pro' AND  auth_year ='$auth_year' AND date_authorized = '$date_authorized' AND expire_date = '$expire_date'";
+                    // Check if record exists
+                    $checkQuery = "SELECT id FROM " . ($category == 'final' ? "t_f_process" : "t_i_process") . " 
+                                   WHERE emp_id = ? AND process = ? AND auth_year = ? 
+                                   AND date_authorized = ? AND expire_date = ?";
+                    $stmt = $conn->prepare($checkQuery);
+                    $stmt->execute([$emp_id, $pro, $auth_year, $date_authorized, $expire_date]);
+                    $existingData = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                    // echo $auth_year;
-                    // echo $date_authorized;
-                    // echo $expire_date;
-
-                    $res = $conn->prepare($prevQuery, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
-                    $res->execute();
-                    $test = $res->rowCount();
-                    if ($res->rowCount() > 0) {
-                        foreach ($res->fetchALL() as $x) {
-                            $id = $x['id'];
-                        }
-
-                        $update = "";
-
-                        if ($category == 'final') {
-                            $update = $update . "UPDATE t_f_process";
-                        } else if ($category == 'initial') {
-                            $update = $update . "UPDATE t_i_process";
-                        }
-
-                        $update = $update . " SET emp_id = '$emp_id', process = '$pro', auth_no = '$auth_no', auth_year ='$auth_year', date_authorized ='$date_authorized', expire_date ='$expire_date', remarks ='$remarks' WHERE id = '$id'";
-
-                        $stmt = $conn->prepare($update);
-                        if ($stmt->execute()) {
-                            $error = 0;
-                        } else {
-                            $error = $error + 1;
-                        }
+                    if ($existingData) {
+                        // Update existing record
+                        $updateQuery = "UPDATE " . ($category == 'final' ? "t_f_process" : "t_i_process") . " 
+                                        SET auth_no = ?, remarks = ?, up_date_time = ?, dept = ?, batch = ? 
+                                        WHERE id = ?";
+                        $stmt = $conn->prepare($updateQuery);
+                        $stmt->execute([$auth_no, $remarks, $up_date, $dept, $batch, $existingData['id']]);
                     } else {
-
-                        $sql = "SELECT emp_id, emp_id_old FROM t_employee_m WHERE emp_id = '$emp_id'";
-                        $stmt = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
-                        $stmt->execute();
-                        if ($stmt->rowCount() > 0) {
-                            foreach ($stmt->fetchALL() as $x) {
-                                $emp_id = $x['emp_id'];
-                                $emp_id_old = $x['emp_id_old'];
-                            }
-                        }
-
-                        //Revision (Vince)
-                        $sql = "SELECT auth_no";
-                        if ($category == 'final') {
-                            $sql = $sql . " FROM t_f_process";
-                        } else if ($category == 'initial') {
-                            $sql = $sql . " FROM t_i_process";
-                        }
-                        $sql = $sql . " WHERE (emp_id != '$emp_id' AND emp_id != '$emp_id_old') AND process = '$pro' AND auth_no = '$auth_no'";
-                        $stmt = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
-                        $stmt->execute();
-                        if ($stmt->rowCount() < 1) {
-
-                            $insert = "";
-
-                            $r_status = "";
-                            if (!empty($r_of_cancellation)) {
-                                $r_status = "Pending";
-                            }
-
-                            if ($category == 'final') {
-                                $insert = $insert . "INSERT INTO t_f_process";
-                            } else if ($category == 'initial') {
-                                $insert = $insert . "INSERT INTO t_i_process";
-                            }
-
-                            $insert = $insert . "(emp_id, process, auth_no, auth_year, date_authorized, expire_date, up_date_time, dept, batch,i_status";
-
-                            if (!empty($remarks)) {
-                                $insert = $insert . ", remarks";
-                            }
-                            if (!empty($r_of_cancellation)) {
-                                $insert = $insert . ", r_of_cancellation";
-                            }
-                            if (!empty($d_of_cancellation)) {
-                                $insert = $insert . ", d_of_cancellation";
-                            }
-                            if (!empty($r_status)) {
-                                $insert = $insert . ", r_status";
-                            }
-
-                            $insert = $insert . ") VALUES ('$emp_id', '$pro', '$auth_no', '$auth_year', '$date_authorized', '$expire_date', '$up_date', '$dept', '$batch', 'Pending'";
-
-                            if (!empty($remarks)) {
-                                $insert = $insert . ", '$remarks'";
-                            }
-                            if (!empty($r_of_cancellation)) {
-                                $insert = $insert . ", '$r_of_cancellation'";
-                            }
-                            if (!empty($d_of_cancellation)) {
-                                $insert = $insert . ", '$d_of_cancellation'";
-                            }
-                            if (!empty($r_status)) {
-                                $insert = $insert . ", '$r_status'";
-                            }
-
-                            $insert = $insert . ")";
-
-                            $stmt = $conn->prepare($insert, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
-                            if ($stmt->execute()) {
-
-                                $error = 0;
-                            } else {
-                                $error = $error + 1;
-                            }
-                        }
+                        // Insert new record
+                        $insertQuery = "INSERT INTO " . ($category == 'final' ? "t_f_process" : "t_i_process") . "
+                                        (emp_id, process, auth_no, auth_year, date_authorized, expire_date, up_date_time, dept, batch, i_status, remarks) 
+                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending', ?)";
+                        $stmt = $conn->prepare($insertQuery);
+                        $stmt->execute([$emp_id, $pro, $auth_no, $auth_year, $date_authorized, $expire_date, $up_date, $dept, $batch, $remarks]);
                     }
                 }
-
                 fclose($csvFile);
-                if ($error == 0) {
-                    echo $category;
-                    echo $test;
-                    echo '<script>
-                            var x = confirm("SUCCESS!");
-                            if(x == true){
-                                location.replace("../../page/' . $page . '/import_exportpage.php");
-                            }else{
-                                 location.replace("../../page/' . $page . '/import_exportpage.php");
-                            }
-                        </script>';
-                } else {
-                    echo '<script>
-                            var x = confirm("WITH ERROR! # OF ERRORS ' . $error . ' ");
-                            if(x == true){
-                                location.replace("../../page/' . $page . '/import_exportpage.php");
-                            }else{
-                                 location.replace("../../page/' . $page . '/import_exportpage.php");
-                            }
-                        </script>';
-                }
+                echo '<script>alert("File uploaded successfully."); location.replace("../../page/' . $page . '/import_exportpage.php");</script>';
             } else {
-                // If errors found
-                echo '<script>
-                        var x = confirm("' . $chkCsvMsg . '");
-                        if(x == true){
-                            location.replace("../../page/' . $page . '/import_exportpage.php");
-                        }else{
-                             location.replace("../../page/' . $page . '/import_exportpage.php");
-                        }
-                    </script>';
+                echo '<script>alert("' . $chkCsvMsg . '"); location.replace("../../page/' . $page . '/import_exportpage.php");</script>';
             }
         } else {
-            echo '<script>
-                            var x = confirm("CSV FILE NOT UPLOADED!");
-                            if(x == true){
-                                 location.replace("../../page/' . $page . '/import_exportpage.php");
-                            }else{
-                                 location.replace("../../page/' . $page . '/import_exportpage.php");
-                            }
-                        </script>';
+            echo '<script>alert("CSV FILE NOT UPLOADED!"); location.replace("../../page/' . $page . '/import_exportpage.php");</script>';
         }
     } else {
-        echo '<script>
-                            var x = confirm("INVALID FILE FORMAT!");
-                            if(x == true){
-                                 location.replace("../../page/' . $page . '/import_exportpage.php");
-                            }else{
-                                 location.replace("../../page/' . $page . '/import_exportpage.php");
-                            }
-                        </script>';
+        echo '<script>alert("INVALID FILE FORMAT!"); location.replace("../../page/' . $page . '/import_exportpage.php");</script>';
     }
 }
+
 
 // KILL CONNECTION
 $conn = null;
