@@ -48,7 +48,7 @@
           </div> -->
           <div class="col-sm-4">
             <span><b>Batch No.:</b></span>
-            <input type="number" id="batch_edit" class="form-control" style="height:35px; border: 1px solid black; font-size: 15px;" autocomplete="off">
+            <input type="text" id="batch_edit" class="form-control" style="height:35px; border: 1px solid black; font-size: 15px;" autocomplete="off">
           </div>
           <div class="col-sm-4">
             <span><b>STATUS:</b></span><br>

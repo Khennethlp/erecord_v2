@@ -175,9 +175,10 @@ if ($method == 'save_acc') {
 	$batch = $_POST['batch'];
 	$m_name = $_POST['m_name'];
 
-	$check_duplicate = "SELECT COUNT(*) FROM t_employee_m WHERE emp_id = :emp_id";
+	$check_duplicate = "SELECT COUNT(*) FROM t_employee_m WHERE emp_id = :emp_id AND batch = :batch";
 	$stmt_duplicate = $conn->prepare($check_duplicate, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL)) ;
 	$stmt_duplicate->bindParam(':emp_id', $emp_id);
+	$stmt_duplicate->bindParam(':batch', $batch);
 	$stmt_duplicate->execute();
 	$count = $stmt_duplicate->fetchColumn();
 

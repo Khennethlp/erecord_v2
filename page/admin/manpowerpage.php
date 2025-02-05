@@ -122,7 +122,7 @@
             </div>
             <div class="col-sm-2">
               <label for="">Batch No.</label>
-              <input class="form-control" placeholder="Type here..." type="number" id="batch">
+              <input class="form-control" placeholder="Type here..." type="text" id="batch">
             </div>
             <div class="col-sm-2">
               <label for="">Employee ID</label>

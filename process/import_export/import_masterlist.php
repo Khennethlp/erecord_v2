@@ -59,9 +59,9 @@ if (isset($_POST['upload'])) {
                     }
 
                     // Check if the employee already exists
-                    $prevQuery = "SELECT id, emp_id, emp_id_old, fullname, batch FROM t_employee_m WHERE emp_id IN (?, ?)";
+                    $prevQuery = "SELECT id, emp_id, emp_id_old, fullname, batch FROM t_employee_m WHERE emp_id IN (?, ?) AND batch = ?";
                     $res = $conn->prepare($prevQuery, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
-                    if (!$res->execute([$emp_id, $emp_id_old])) {
+                    if (!$res->execute([$emp_id, $emp_id_old, $batch])) {
                         $error++;
                         continue;
                     }
