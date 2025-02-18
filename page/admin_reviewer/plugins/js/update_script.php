@@ -276,6 +276,7 @@
   const del_data = () => {
     var id = document.getElementById('id_can').value;
     var emp_id = document.getElementById('emp_id_can').value;
+    var category = document.getElementById('category').value;
 
     Swal.fire({
       title: "Do you want to remove this data?",
@@ -290,12 +291,13 @@
             method: 'remove_record',
             id: id,
             emp_id: emp_id,
+            category: category
           },
           success: function(response) {
             if (response == 'success') {
               Swal.fire("Deleted Successfully!", "", "success");
               view_data();
-              $("#view").modal("hide");
+              $("#update").modal("hide");
             } else if (response == 'failed') {
               Swal.fire("Failed to remove this data.", "", "warning");
             } else {

@@ -621,8 +621,17 @@ if ($method == 'qc_update') {
 if($method == 'remove_record'){
 	$id = $_POST['id'];
 	$emp_id = $_POST['emp_id'];
+	$category = $_POST['category'];
 
-	$del_sql = "DELETE FROM t_f_process WHERE id = :id AND emp_id = :emp_id";
+	$del_sql = "DELETE FROM ";
+
+	if ($category == 'Final') {
+		$del_sql .= "t_f_process";
+	} else if ($category == 'Initial') {
+		$del_sql .= "t_i_process";
+	}
+
+	$del_sql .= " WHERE id = :id AND emp_id = :emp_id";
 	$del_stmt = $conn->prepare($del_sql);
 	$del_stmt->bindParam(':id',$id);
 	$del_stmt->bindParam(':emp_id',$emp_id);
