@@ -133,23 +133,6 @@ if ($method == 'fetch_category') {
 		$c = $page_first_result;
 
 		$query = "SELECT a.batch, a.process,a.auth_no,a.auth_year,a.date_authorized,a.expire_date,a.r_of_cancellation,a.d_of_cancellation,a.remarks,a.i_status,a.r_status,b.fullname,b.agency,a.dept,b.emp_id,c.category";
-		// $query = "SELECT 
-		//     a.batch, 
-		//     MAX(a.process) AS process,
-		//     MAX(a.auth_no) AS auth_no,
-		//     MAX(a.auth_year) AS auth_year,
-		//     MAX(a.date_authorized) AS date_authorized,
-		//     MAX(a.expire_date) AS expire_date,
-		//     MAX(a.r_of_cancellation) AS r_of_cancellation,
-		//     MAX(a.d_of_cancellation) AS d_of_cancellation,
-		//     MAX(a.remarks) AS remarks,
-		//     MAX(a.i_status) AS i_status,
-		//     MAX(a.r_status) AS r_status,
-		//     MAX(b.fullname) AS fullname,
-		//     MAX(b.agency) AS agency,
-		//     MAX(a.dept) AS dept,
-		//     MAX(b.emp_id) AS emp_id,
-		//     MAX(c.category) AS category";
 
 		if ($category == 'Final') {
 			$query = $query . " FROM t_f_process";
@@ -160,7 +143,7 @@ if ($method == 'fetch_category') {
 		$query = $query . " a
 		LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id AND a.batch = b.batch
 							JOIN m_process c ON a.process = c.process
-							where (a.i_status = 'Approved' OR a.i_status = 'Pending')";
+							where a.i_status = 'Approved'";
 		if (!empty($emp_id)) {
 			$query = $query . " AND (b.emp_id = '$emp_id' OR b.emp_id_old = '$emp_id')";
 		}

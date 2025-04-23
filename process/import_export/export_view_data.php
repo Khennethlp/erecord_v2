@@ -46,7 +46,7 @@ if ($category == 'Final') {
 
 $query .= "LEFT JOIN t_employee_m b ON a.emp_id = b.emp_id AND a.batch = b.batch
 JOIN m_process c ON a.process = c.process
-WHERE (a.i_status = 'Approved' OR a.i_status = 'Pending')";
+WHERE a.i_status = 'Approved'";
 
 $conditions = [];
 $params = [];
