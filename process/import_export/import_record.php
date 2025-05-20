@@ -188,8 +188,9 @@ if (isset($_POST['upload'])) {
 
                     if ($existingData) {
                         // Update existing record
+                        // added i_status = 'Pending' to reset status, remove if not needed or something went wrong
                         $updateQuery = "UPDATE " . ($category == 'final' ? "t_f_process" : "t_i_process") . " 
-                                        SET auth_no = ?, remarks = ?, up_date_time = ?, dept = ?, batch = ? 
+                                        SET auth_no = ?, remarks = ?, up_date_time = ?, dept = ?, batch = ?, i_status = 'Pending' 
                                         WHERE id = ?";
                         $stmt = $conn->prepare($updateQuery);
                         $stmt->execute([$auth_no, $remarks, $up_date, $dept, $batch, $existingData['id']]);
