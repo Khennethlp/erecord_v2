@@ -19,7 +19,7 @@ if (isset($_SESSION['last_activity'])) {
         session_destroy();
 
         // Redirect to the login page with a timeout message
-        header("Location: /erecord_v2/login.php");
+        header("Location: /erecord_v1/login.php");
         exit();
     }
 }
