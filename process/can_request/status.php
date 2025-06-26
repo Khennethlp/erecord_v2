@@ -41,7 +41,7 @@ function count_can($search_arr, $conn)
 		$fullname = $_POST['fullname'];
 		$category = $_POST['category'];
 		$i_status = $_POST['r_status'];
-		$processName_can = $_POST['processName_can'];
+		// $processName_can = $_POST['processName_can'];
 		$date_authorized_can = $_POST['date_authorized_can'];
 		$query = "SELECT  COUNT(DISTINCT a.auth_no) as total";
 
@@ -191,8 +191,8 @@ if ($method == 'fetch_status_can') {
 				echo '<td>' . $j['up_date_time'] . '</td>';
 				echo '<td>' . $j['r_review_by'] . '</td>';
 				echo '<td>' . $j['r_approve_by'] . '</td>';
-				echo '<td>' . $j['dept'] . '</td>';
 				echo '<td>' . $j['r_status'] . '</td>';
+				echo '<td>' . $j['dept'] . '</td>';
 				echo '<td>' . $j['remarks'] . '</td>';
 				echo '</tr>';
 			}
