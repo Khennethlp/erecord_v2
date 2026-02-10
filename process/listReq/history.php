@@ -45,8 +45,8 @@ function count_history_admin_r($search_arr, $conn)
 			$query = $query . " AND c.process LIKE'" . $search_arr['processName_h'] . "%'";
 		}
 		if (!empty($search_arr['review_date_f']) && !empty($search_arr['review_date_t'])) {
-			$query .= " AND CONVERT(DATE, SUBSTRING(a.i_review_by, CHARINDEX('/', a.i_review_by) + 1, LEN(a.i_review_by) - CHARINDEX('/', a.i_review_by))) 
-						BETWEEN '$review_date_f' AND '$review_date_t'";
+			$query .= " AND TRY_CONVERT(DATE, LTRIM(SUBSTRING(a.i_review_by, CHARINDEX('/', a.i_review_by) + 1, LEN(a.i_review_by))))
+BETWEEN '$review_date_f' AND '$review_date_t'";
 		}
 		// $query = $query . "ORDER BY CONVERT(DATE, SUBSTRING(a.i_review_by, CHARINDEX('/', a.i_review_by) + 1, LEN(a.i_review_by) - CHARINDEX('/', a.i_review_by))) DESC ";
 
@@ -173,13 +173,13 @@ if ($method == 'history_admin_r') {
 		}
 		if (!empty($review_date_f) && !empty($review_date_t)) {
 			// $query = $query . " AND DATE(SUBSTRING(a.i_review_by, '/', -1)) BETWEEN '$review_date_f' AND '$review_date_t' ";
-			$query .= " AND CONVERT(DATE, SUBSTRING(a.i_review_by, CHARINDEX('/', a.i_review_by) + 1, LEN(a.i_review_by) - CHARINDEX('/', a.i_review_by))) 
-						BETWEEN '$review_date_f' AND '$review_date_t'";
+			$query .= " AND TRY_CONVERT(DATE, LTRIM(SUBSTRING(a.i_review_by, CHARINDEX('/', a.i_review_by) + 1, LEN(a.i_review_by))))
+BETWEEN '$review_date_f' AND '$review_date_t'";
 		}
 
 		$query = $query . " AND b.fullname LIKE '$fullname%'";
 
-		$query = $query . " ORDER BY a.process ASC, CONVERT(DATETIME, SUBSTRING(a.i_review_by, CHARINDEX('/', a.i_review_by) + 1, LEN(a.i_review_by) - CHARINDEX('/', a.i_review_by))) DESC 
+		$query = $query . " ORDER BY a.process ASC, TRY_CONVERT(DATETIME, LTRIM(SUBSTRING(a.i_review_by, CHARINDEX('/', a.i_review_by) + 1, LEN(a.i_review_by)))) DESC 
 							OFFSET $page_first_result ROWS FETCH NEXT $results_per_page ROWS ONLY";
 
 

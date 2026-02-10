@@ -364,7 +364,7 @@ if ($method == 'admin_update') {
 		} else if ($category == 'Initial') {
 			$query .= "t_i_process";
 		}
-		$query .= " SET remarks = '$remarks', r_of_cancellation = '$r_of_cancellation', d_of_cancellation = '$d_of_cancellation', r_status = 'Pending', dept = '$dept', up_date_time = '" . $_SESSION['fname'] . "/ " . $server_date_time . "' WHERE auth_no = '$auth_no'";
+		$query .= " SET remarks = '$remarks', r_of_cancellation = '$r_of_cancellation', d_of_cancellation = '$d_of_cancellation', r_status = 'Pending', dept = '$dept', auth_no = '$auth_no', up_date_time = '" . $_SESSION['fname'] . "/ " . $server_date_time . "' WHERE auth_no = '$auth_no'";
 	} else {
 
 		$query = "UPDATE ";
@@ -373,7 +373,7 @@ if ($method == 'admin_update') {
 		} else if ($category == 'Initial') {
 			$query .= "t_i_process";
 		}
-		$query .= " SET remarks = '$remarks', auth_year = '$auth_year', date_authorized = '$date_authorized', expire_date = '$expire_date', dept = '$dept', i_status = 'Pending', up_date_time = '" . $_SESSION['fname'] . "/ " . $server_date_time . "' WHERE id = '$id'";
+		$query .= " SET remarks = '$remarks', auth_year = '$auth_year', date_authorized = '$date_authorized', expire_date = '$expire_date', dept = '$dept', i_status = 'Pending', auth_no = '$auth_no', up_date_time = '" . $_SESSION['fname'] . "/ " . $server_date_time . "' WHERE id = '$id'";
 	}
 
 	$stmt = $conn->prepare($query);
@@ -432,7 +432,7 @@ if ($method == 'minor_update') {
 		} else if ($category == 'Initial') {
 			$query .= "t_i_process";
 		}
-		$query .= " SET remarks = '$remarks', r_of_cancellation = '$r_of_cancellation', d_of_cancellation = '$d_of_cancellation', r_status = 'Approved', dept = '$dept' WHERE auth_no = '$auth_no'";
+		$query .= " SET remarks = '$remarks', auth_no = '$auth_no', r_of_cancellation = '$r_of_cancellation', d_of_cancellation = '$d_of_cancellation', r_status = 'Approved', dept = '$dept' WHERE auth_no = '$auth_no'";
 		$stmt = $conn->prepare($query);
 		if (!$stmt->execute()) {
 			$error++;

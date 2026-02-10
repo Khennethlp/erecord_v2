@@ -23,77 +23,96 @@
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
         <li class="nav-item">
-        <?php if ($_SERVER['REQUEST_URI'] == "/erecord_v2/page/admin/dashboard.php") { ?>
-          <a href="dashboard.php" class="nav-link active active-nav">
-          <?php } else { ?>
+          <?php if ($_SERVER['REQUEST_URI'] == "/erecord_v2/page/admin/dashboard.php") { ?>
+            <a href="dashboard.php" class="nav-link active active-nav">
+            <?php } else { ?>
               <a href="dashboard.php" class="nav-link">
               <?php } ?>
-            <img src="../../dist/img/check-list.png" class="icon-image" style="height:25px;">
-            <p class="pl-1 active-p" style="font-size:16px; color:black">
-              Record Status
-            </p>
-          </a>
+              <img src="../../dist/img/check-list.png" class="icon-image" style="height:25px;">
+              <p class="pl-1 active-p" style="font-size:16px; color:black">
+                Record Status
+              </p>
+              </a>
         </li>
         <li class="nav-item">
-        <?php if ($_SERVER['REQUEST_URI'] == "/erecord_v2/page/admin/viewpage.php") { ?>
-          <a href="viewpage.php" class="nav-link active active-nav">
-          <?php } else { ?>
+          <?php if ($_SERVER['REQUEST_URI'] == "/erecord_v2/page/admin/viewpage.php") { ?>
+            <a href="viewpage.php" class="nav-link active active-nav">
+            <?php } else { ?>
               <a href="viewpage.php" class="nav-link">
               <?php } ?>
-            <img src="../../dist/img/view.png" class="icon-image" style="height:25px;">
-            <p class="pl-1 active-p" style="font-size:16px; color:black">
-              View Data
-            </p>
-          </a>
+              <img src="../../dist/img/view.png" class="icon-image" style="height:25px;">
+              <p class="pl-1 active-p" style="font-size:16px; color:black">
+                View Data
+              </p>
+              </a>
         </li>
         <li class="nav-item">
-        <?php if ($_SERVER['REQUEST_URI'] == "/erecord_v2/page/admin/import_exportpage.php") { ?>
-          <a href="import_exportpage.php" class="nav-link active active-nav">
-          <?php } else { ?>
+          <?php if ($_SERVER['REQUEST_URI'] == "/erecord_v2/page/admin/import_exportpage.php") { ?>
+            <a href="import_exportpage.php" class="nav-link active active-nav">
+            <?php } else { ?>
               <a href="import_exportpage.php" class="nav-link">
               <?php } ?>
-            <img src="../../dist/img/add-user.png" class="icon-image" style="height:25px;">
-            <p class="pl-1 active-p" style="font-size:16px; color:black">
-              Add Record
-            </p>
-          </a>
+              <img src="../../dist/img/add-user.png" class="icon-image" style="height:25px;">
+              <p class="pl-1 active-p" style="font-size:16px; color:black">
+                Add Record
+              </p>
+              </a>
         </li>
         <li class="nav-item">
-        <?php if ($_SERVER['REQUEST_URI'] == "/erecord_v2/page/admin/updatepage.php") { ?>
-          <a href="updatepage.php" class="nav-link active active-nav">
-          <?php } else { ?>
+          <?php if ($_SERVER['REQUEST_URI'] == "/erecord_v2/page/admin/updatepage.php") { ?>
+            <a href="updatepage.php" class="nav-link active active-nav">
+            <?php } else { ?>
               <a href="updatepage.php" class="nav-link">
               <?php } ?>
-            <img src="../../dist/img/backup.png" class="icon-image" style="height:25px;">
-            <p class="pl-1 active-p" style="font-size:16px; color:black">
-              Update Data
-            </p>
-          </a>
+              <img src="../../dist/img/backup.png" class="icon-image" style="height:25px;">
+              <p class="pl-1 active-p" style="font-size:16px; color:black">
+                Update Data
+              </p>
+              </a>
         </li>
         <li class="nav-item">
-        <?php if ($_SERVER['REQUEST_URI'] == "/erecord_v2/page/admin/manpowerpage.php") { ?>
-          <a href="manpowerpage.php" class="nav-link active active-nav">
-          <?php } else { ?>
+          <?php if ($_SERVER['REQUEST_URI'] == "/erecord_v2/page/admin/manpowerpage.php") { ?>
+            <a href="manpowerpage.php" class="nav-link active active-nav">
+            <?php } else { ?>
               <a href="manpowerpage.php" class="nav-link">
               <?php } ?>
-            <img src="../../dist/img/group.png" class="icon-image" style="height:25px;">
-            <p class="pl-1 active-p" style="font-size:16px; color:black">
-              Masterlist 
-            </p>
-          </a>
+              <img src="../../dist/img/group.png" class="icon-image" style="height:25px;">
+              <p class="pl-1 active-p" style="font-size:16px; color:black">
+                Masterlist
+              </p>
+              </a>
         </li>
         <li class="nav-item">
-        <?php if ($_SERVER['REQUEST_URI'] == "/erecord_v2/page/admin/accountpage.php") { ?>
-          <a href="accountpage.php" class="nav-link active active-nav">
-          <?php } else { ?>
+          <?php if ($_SERVER['REQUEST_URI'] == "/erecord_v2/page/admin/accountpage.php") { ?>
+            <a href="accountpage.php" class="nav-link active active-nav">
+            <?php } else { ?>
               <a href="accountpage.php" class="nav-link">
               <?php } ?>
-            <img src="../../dist/img/account.png" class="icon-image" style="height:25px;">
-            <p class="pl-1 active-p" style="font-size:16px; color:black">
-              Account Management
-            </p>
-          </a>
+              <img src="../../dist/img/account.png" class="icon-image" style="height:25px;">
+              <p class="pl-1 active-p" style="font-size:16px; color:black">
+                Account Management
+              </p>
+              </a>
         </li>
+        <?php
+
+          if($_SESSION['role'] == 'admin' && $_SESSION['fname'] == 'IT Personnel'){
+            ?>
+            <li class="nav-item">
+              <?php if ($_SERVER['REQUEST_URI'] == "/erecord_v2/page/admin/admin_viewer.php") { ?>
+                <a href="admin_viewer.php" class="nav-link active active-nav">
+                <?php } else { ?>
+                  <a href="admin_viewer.php" class="nav-link">
+                  <?php } ?>
+                  <img src="../../dist/img/account.png" class="icon-image" style="height:25px;">
+                  <p class="pl-1 active-p" style="font-size:16px; color:black">
+                    Admin Viewer
+                  </p>
+                  </a>
+            </li>
+            <?php
+          }
+        ?>
         <?php include 'logout.php'; ?>
       </ul>
     </nav>

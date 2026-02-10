@@ -24,6 +24,8 @@ include '../../modals/qc_disapproved.php';
 include '../../modals/timeout.php';
 include '../../modals/add_new_autho.php';
 include '../../modals/add_autho.php';
+
+include '../../modals/admin_viewer.php';
 ?>
 <!-- jQuery -->
 <!-- <script src="../../plugins/jquery/jquery.min.js"></script> -->
